@@ -1,1 +1,1 @@
-# dialouge
+# Dialogue - Android XMPP client application
