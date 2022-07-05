@@ -14,4 +14,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "dialogue"
-include ':app'
+include(":app")
