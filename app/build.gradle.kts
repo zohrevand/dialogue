@@ -18,6 +18,7 @@ android {
         }
     }
 
+    @Suppress("UNUSED_VARIABLE")
     buildTypes {
         val debug by getting {
             applicationIdSuffix = ".debug"
@@ -43,9 +44,9 @@ android {
     buildFeatures {
         compose = true
     }
-    
+
     composeOptions {
-        kotlinCompilerExtensionVersion = rootProject.extra["compose_compiler_version"] as String
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
 
     packagingOptions {
