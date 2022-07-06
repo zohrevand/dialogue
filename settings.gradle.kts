@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "dialogue"
 include(":app")
+include(":core-model")
