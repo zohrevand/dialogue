@@ -3,6 +3,8 @@ import io.github.zohrevand.dialogue.Flavor
 
 plugins {
     id("dialogue.android.application")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
     id("dialogue.spotless")
 }
 
@@ -62,6 +64,10 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui.tooling.preview)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    kaptAndroidTest(libs.hilt.compiler)
 
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.ext)
