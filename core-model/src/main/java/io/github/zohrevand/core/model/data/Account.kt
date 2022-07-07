@@ -11,14 +11,14 @@ data class Account(
 ) {
     enum class Status {
         Registering,
-        InLogin,
+        LoggingIn,
         Disabled,
         Offline,
-        Connecting,
         Online,
         Unauthorized,
         ServerNotFound,
         RegistrationSuccessful,
-        RegistrationFailed
+        RegistrationFailed,
+        RegistrationAlreadyExist
     }
 }

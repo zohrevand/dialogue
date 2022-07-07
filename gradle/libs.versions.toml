@@ -11,6 +11,7 @@ androidxLifecycle = "2.5.0-rc02"
 androidxTestExt = "1.1.3"
 junit4 = "4.13.2"
 kotlin = "1.7.0"
+kotlinxCoroutines = "1.6.3"
 spotless = "6.7.2"
 
 [libraries]
@@ -35,4 +36,6 @@ androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espres
 androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestExt" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 spotless-gradlePlugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
