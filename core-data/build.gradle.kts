@@ -6,6 +6,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":core-database"))
     implementation(project(":core-model"))
 
     implementation(libs.kotlinx.coroutines.android)
