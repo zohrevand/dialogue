@@ -6,12 +6,14 @@ import androidx.room.PrimaryKey
 import io.github.zohrevand.core.model.data.Account
 import io.github.zohrevand.core.model.data.AccountStatus
 
+const val NOT_INSERTED_ENTITY_ID = 0L
+
 @Entity(
     tableName = "accounts"
 )
 data class AccountEntity(
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long,
     val username: String,
     val domain: String,
     val password: String,

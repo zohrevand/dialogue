@@ -19,7 +19,7 @@ interface AccountDao {
         WHERE id = :accountId
     """
     )
-    fun getAccountEntity(accountId: String): Flow<AccountEntity>
+    fun getAccountEntity(accountId: Long): Flow<AccountEntity>
 
     @Query(value = "SELECT * FROM accounts")
     fun getAccountEntitiesStream(): Flow<List<AccountEntity>>
@@ -28,7 +28,7 @@ interface AccountDao {
      * Inserts [entity] into the db if it doesn't exist, and ignores entity that do
      */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertOrIgnoreAccount(entity: AccountEntity): Long
+    suspend fun insertOrIgnoreAccount(entity: AccountEntity)
 
     /**
      * Updates [entity] in the db that match the primary key, and no-ops if they don't
@@ -45,5 +45,5 @@ interface AccountDao {
             WHERE id = :id
         """
     )
-    suspend fun deleteAccount(id: String)
+    suspend fun deleteAccount(id: Long)
 }
