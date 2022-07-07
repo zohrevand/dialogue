@@ -5,6 +5,8 @@ import io.github.zohrevand.dialogue.core.database.dao.AccountDao
 import io.github.zohrevand.dialogue.core.database.model.AccountEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.update
 
 /**
  * Test double for [AccountDao]
@@ -13,7 +15,7 @@ class TestAccountDao : AccountDao {
     private var entitiesStateFlow = MutableStateFlow(
         listOf(
             AccountEntity(
-                id = "1",
+                id = 1L,
                 username = "hasan",
                 domain = "server.com",
                 password = "1234",
@@ -24,23 +26,27 @@ class TestAccountDao : AccountDao {
         )
     )
 
-    override fun getAccountEntity(accountId: String): Flow<AccountEntity> {
-        TODO("Not yet implemented")
-    }
+    override fun getAccountEntity(accountId: Long): Flow<AccountEntity> =
+        entitiesStateFlow.mapNotNull { accounts -> accounts.firstOrNull { it.id == accountId } }
 
-    override fun getAccountEntitiesStream(): Flow<List<AccountEntity>> {
-        TODO("Not yet implemented")
-    }
+    override fun getAccountEntitiesStream(): Flow<List<AccountEntity>> =
+        entitiesStateFlow
 
-    override suspend fun insertOrIgnoreAccount(entity: AccountEntity): Long {
-        TODO("Not yet implemented")
+    override suspend fun insertOrIgnoreAccount(entity: AccountEntity) {
+        entitiesStateFlow.value = entitiesStateFlow.value + entity
     }
 
     override suspend fun updateAccount(entity: AccountEntity) {
-        TODO("Not yet implemented")
+        entitiesStateFlow.update { entities ->
+            entities.map {
+                if (it.id == entity.id) entity else it
+            }
+        }
     }
 
-    override suspend fun deleteAccount(id: String) {
-        TODO("Not yet implemented")
+    override suspend fun deleteAccount(id: Long) {
+        entitiesStateFlow.update { entities ->
+            entities.filterNot { it.id == id }
+        }
     }
 }
