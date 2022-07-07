@@ -7,18 +7,5 @@ data class Account(
     val password: String,
     val displayName: String,
     val resource: String,
-    val status: Status
-) {
-    enum class Status {
-        Registering,
-        LoggingIn,
-        Disabled,
-        Offline,
-        Online,
-        Unauthorized,
-        ServerNotFound,
-        RegistrationSuccessful,
-        RegistrationFailed,
-        RegistrationAlreadyExist
-    }
-}
+    val status: AccountStatus
+)

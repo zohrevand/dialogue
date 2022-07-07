@@ -1,7 +1,6 @@
 package io.github.zohrevand.dialogue.core.data.repository
 
 import io.github.zohrevand.core.model.data.Account
-import io.github.zohrevand.core.model.data.Account.Status
 import kotlinx.coroutines.flow.Flow
 
 class OfflineFirstAccountsRepository(
@@ -19,7 +18,7 @@ class OfflineFirstAccountsRepository(
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateAccountStatus(id: String, status: Status) {
+    override suspend fun updateAccount(account: Account) {
         TODO("Not yet implemented")
     }
 }

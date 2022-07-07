@@ -20,7 +20,7 @@ interface AccountsRepository {
     suspend fun addAccount(account: Account)
 
     /*
-    * updates status of the account with the provided id
+    * updates the provided account
     * */
-    suspend fun updateAccountStatus(id: String, status: Account.Status)
+    suspend fun updateAccount(account: Account)
 }
