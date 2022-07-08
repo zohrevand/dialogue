@@ -12,7 +12,7 @@ interface AccountsRepository {
     /**
      * Gets the specific account by id
      * */
-    fun getAccount(id: String): Flow<Account>
+    fun getAccount(id: Long): Flow<Account>
 
     /*
     * adds the provided account
