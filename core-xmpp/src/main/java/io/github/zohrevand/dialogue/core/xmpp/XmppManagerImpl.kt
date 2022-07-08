@@ -13,6 +13,13 @@ class XmppManagerImpl @Inject constructor() : XmppManager {
 
     override suspend fun getConnection(): XMPPTCPConnection =
         xmppConnection ?: throw NoSuchElementException("Connection is not established.")
+
+    override suspend fun login(account: Account) {
+        xmppConnection = account.login(
+            configurationBuilder = ::getConfiguration,
+            connectionBuilder = ::XMPPTCPConnection
+        )
+    }
 }
 
 private suspend fun Account.login(
