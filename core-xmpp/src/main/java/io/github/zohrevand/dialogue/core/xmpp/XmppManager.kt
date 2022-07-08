@@ -5,7 +5,7 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnection
 
 interface XmppManager {
 
-    suspend fun getConnection(): XMPPTCPConnection
+    fun getConnection(): XMPPTCPConnection
 
     suspend fun login(account: Account)
 }
