@@ -12,7 +12,7 @@ import io.github.zohrevand.dialogue.core.data.repository.OfflineFirstAccountsRep
 interface DataModule {
 
     @Binds
-    fun bindAccountRepository(
+    fun bindsAccountRepository(
         accountsRepository: OfflineFirstAccountsRepository
     ): AccountsRepository
 }
