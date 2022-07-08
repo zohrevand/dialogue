@@ -18,3 +18,12 @@ private fun getConfiguration(account: Account): XMPPTCPConnectionConfiguration =
         .setUsernameAndPassword(account.username, account.password)
         .setXmppDomain(account.domain)
         .build()
+
+/**
+* This call blocks
+* */
+private fun XMPPTCPConnection.connectAndLogin(): XMPPTCPConnection {
+    connect()
+    login()
+    return this
+}
