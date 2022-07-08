@@ -29,9 +29,6 @@ private suspend fun Account.login(
     val configuration = configurationBuilder(this)
     val connection = connectionBuilder(configuration)
 
-    val list = listOf<String>()
-    list.first()
-
     return withContext(Dispatchers.IO) {
         return@withContext connection.connectAndLogin()
     }
