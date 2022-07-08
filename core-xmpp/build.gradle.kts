@@ -8,6 +8,9 @@ plugins {
 dependencies {
     implementation(project(":core-data"))
 
+    implementation(libs.smack.tcp)
+    api(libs.smack.android.extensions)
+
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.hilt.android)
