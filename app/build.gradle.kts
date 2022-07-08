@@ -59,6 +59,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core-xmpp"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
