@@ -1,7 +1,6 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
 import io.github.zohrevand.core.model.data.Account
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
@@ -29,9 +28,7 @@ class XmppManagerImpl @Inject constructor() : XmppManager {
         val configuration = configurationBuilder(this)
         val connection = connectionBuilder(configuration)
 
-        return withContext(Dispatchers.IO) {
-            return@withContext connection.connectAndLogin()
-        }
+        return connection.connectAndLogin()
     }
 
     private fun getConfiguration(account: Account): XMPPTCPConnectionConfiguration =
@@ -40,12 +37,12 @@ class XmppManagerImpl @Inject constructor() : XmppManager {
             .setXmppDomain(account.domain)
             .build()
 
-    /**
-     * This call blocks
-     * */
-    private fun XMPPTCPConnection.connectAndLogin(): XMPPTCPConnection {
-        connect()
-        login()
-        return this
-    }
+    // TODO: this warning is fixed as of IntelliJ 2022.1
+    @Suppress("BlockingMethodInNonBlockingContext")
+    private suspend fun XMPPTCPConnection.connectAndLogin(): XMPPTCPConnection =
+        withContext(Dispatchers.IO) {
+            connect()
+            login()
+            this@connectAndLogin
+        }
 }
