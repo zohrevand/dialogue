@@ -33,6 +33,7 @@ class XmppService : Service() {
         scope.launch {
             accountsCollector.collectAccounts(
                 onNewLogin = { scope.launch { xmppManager.login(it) } },
+                onNewRegister = { scope.launch { xmppManager.register(it) } },
             )
         }
     }
