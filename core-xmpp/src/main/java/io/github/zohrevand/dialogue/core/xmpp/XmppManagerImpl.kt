@@ -23,6 +23,10 @@ class XmppManagerImpl @Inject constructor(
         )
     }
 
+    override suspend fun register(account: Account) {
+        TODO("Not yet implemented")
+    }
+
     private suspend fun Account.login(
         configurationBuilder: (Account) -> XMPPTCPConnectionConfiguration,
         connectionBuilder: (XMPPTCPConnectionConfiguration) -> XMPPTCPConnection,

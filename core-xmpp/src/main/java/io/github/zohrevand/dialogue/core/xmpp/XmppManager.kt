@@ -8,4 +8,6 @@ interface XmppManager {
     fun getConnection(): XMPPTCPConnection
 
     suspend fun login(account: Account)
+
+    suspend fun register(account: Account)
 }
