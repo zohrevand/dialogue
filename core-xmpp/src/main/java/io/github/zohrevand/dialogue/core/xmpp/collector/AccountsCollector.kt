@@ -8,5 +8,6 @@ interface AccountsCollector {
     * */
     suspend fun collectAccounts(
         onNewLogin: (Account) -> Unit,
+        onNewRegister: (Account) -> Unit
     )
 }
