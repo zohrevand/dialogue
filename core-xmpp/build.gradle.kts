@@ -8,6 +8,7 @@ plugins {
 dependencies {
     implementation(project(":core-model"))
     implementation(project(":core-data"))
+    implementation(project(":core-common"))
 
     implementation(libs.smack.tcp)
     api(libs.smack.android.extensions)
