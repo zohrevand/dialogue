@@ -1,13 +1,15 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
 import io.github.zohrevand.core.model.data.Account
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
 import javax.inject.Inject
 
-class XmppManagerImpl @Inject constructor() : XmppManager {
+class XmppManagerImpl @Inject constructor(
+    private val ioDispatcher: CoroutineDispatcher
+) : XmppManager {
 
     private var xmppConnection: XMPPTCPConnection? = null
 
@@ -40,7 +42,7 @@ class XmppManagerImpl @Inject constructor() : XmppManager {
     // TODO: this warning is fixed as of IntelliJ 2022.1
     @Suppress("BlockingMethodInNonBlockingContext")
     private suspend fun XMPPTCPConnection.connectAndLogin(): XMPPTCPConnection =
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             connect()
             login()
             this@connectAndLogin

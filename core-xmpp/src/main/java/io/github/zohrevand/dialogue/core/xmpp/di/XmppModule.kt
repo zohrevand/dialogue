@@ -1,18 +1,25 @@
 package io.github.zohrevand.dialogue.core.xmpp.di
 
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.github.zohrevand.dialogue.core.common.coroutines.DialogueDispatchers.IO
+import io.github.zohrevand.dialogue.core.common.coroutines.Dispatcher
 import io.github.zohrevand.dialogue.core.xmpp.XmppManager
 import io.github.zohrevand.dialogue.core.xmpp.XmppManagerImpl
+import kotlinx.coroutines.CoroutineDispatcher
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface XmppModule {
+class XmppModule {
 
-    @Binds
-    fun bindsXmppManager(
-        xmppManager: XmppManagerImpl
-    ): XmppManager
+    @Provides
+    @Singleton
+    fun providesXmppManager(
+        @Dispatcher(IO) ioDispatcher: CoroutineDispatcher
+    ): XmppManager {
+        return XmppManagerImpl(ioDispatcher)
+    }
 }
