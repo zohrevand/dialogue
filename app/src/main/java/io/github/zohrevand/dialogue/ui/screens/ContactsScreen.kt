@@ -9,9 +9,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun ContactsScreen() {
+fun ContactsRoute(
+    modifier: Modifier = Modifier
+) {
+    ContactsScreen(
+        modifier = modifier
+    )
+}
+
+@Composable
+fun ContactsScreen(
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color.Cyan)
     ) {
