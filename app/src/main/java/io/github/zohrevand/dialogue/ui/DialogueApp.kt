@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.ui
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -21,7 +22,9 @@ fun DialogueApp() {
         ) { padding ->
             DialogueNavHost(
                 navController = navController,
-                modifier = Modifier.padding(padding)
+                modifier = Modifier
+                    .padding(padding)
+                    .statusBarsPadding()
             )
         }
     }
