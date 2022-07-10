@@ -37,6 +37,8 @@ class XmppManagerImpl @Inject constructor(
         val configuration = configurationBuilder(this)
         val connection = connectionBuilder(configuration)
 
+        reconnectionManager(connection)
+
         return connection.connectAndLogin()
     }
 
