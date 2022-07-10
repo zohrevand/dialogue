@@ -20,7 +20,6 @@ fun ChatRoute(
     )
 }
 
-
 @Composable
 fun ChatScreen(
     onBackClick: () -> Unit,

@@ -1,7 +1,6 @@
 package io.github.zohrevand.dialogue.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
@@ -11,11 +10,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
+fun AuthRoute(
+    navigateToConversations: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    AuthScreen(
+        navigateToConversations = navigateToConversations,
+        modifier = modifier
+    )
+}
+
+@Composable
 fun AuthScreen(
-    navigateToConversations: () -> Unit
+    navigateToConversations: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color.Red),
     ) {
