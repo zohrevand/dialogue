@@ -12,6 +12,6 @@ import io.github.zohrevand.dialogue.core.database.model.AccountEntity
     version = 1,
     exportSchema = true
 )
-abstract class DialogDatabase : RoomDatabase() {
+abstract class DialogueDatabase : RoomDatabase() {
     abstract fun accountDao(): AccountDao
 }

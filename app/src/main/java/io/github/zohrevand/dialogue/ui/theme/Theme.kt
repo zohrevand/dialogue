@@ -48,7 +48,7 @@ val ColorScheme.custom: Color
     @Composable get() = if (MaterialTheme.colorScheme.isLight) Color.Red else Color.Blue
 
 @Composable
-fun DialogTheme(
+fun DialogueTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

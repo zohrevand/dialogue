@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.zohrevand.dialogue.core.xmpp.XmppService
-import io.github.zohrevand.dialogue.ui.theme.DialogTheme
+import io.github.zohrevand.dialogue.ui.theme.DialogueTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -24,12 +24,12 @@ class MainActivity : ComponentActivity() {
         startService(Intent(this, XmppService::class.java))
 
         setContent {
-            DialogTheme {
+            DialogueTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DialogApp()
+                    DlgApp()
                 }
             }
         }
@@ -37,14 +37,14 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun DialogApp() {
+fun DlgApp() {
     Text(text = "This is the Dialogue app")
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    DialogTheme {
-        DialogApp()
+    DialogueTheme {
+        DialogueApp()
     }
 }

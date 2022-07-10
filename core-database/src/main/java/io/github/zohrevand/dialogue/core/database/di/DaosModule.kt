@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.zohrevand.dialogue.core.database.DialogDatabase
+import io.github.zohrevand.dialogue.core.database.DialogueDatabase
 import io.github.zohrevand.dialogue.core.database.dao.AccountDao
 
 @Module
@@ -12,6 +12,6 @@ import io.github.zohrevand.dialogue.core.database.dao.AccountDao
 object DaosModule {
     @Provides
     fun providesAccountDao(
-        database: DialogDatabase,
+        database: DialogueDatabase,
     ): AccountDao = database.accountDao()
 }

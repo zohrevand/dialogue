@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.github.zohrevand.dialogue.core.database.DialogDatabase
+import io.github.zohrevand.dialogue.core.database.DialogueDatabase
 import javax.inject.Singleton
 
 @Module
@@ -17,9 +17,9 @@ object DatabaseModule {
     @Singleton
     fun providesDialogDatabase(
         @ApplicationContext context: Context,
-    ): DialogDatabase = Room.databaseBuilder(
+    ): DialogueDatabase = Room.databaseBuilder(
         context,
-        DialogDatabase::class.java,
+        DialogueDatabase::class.java,
         "dialogue-database"
     ).build()
 }
