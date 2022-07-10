@@ -11,8 +11,8 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun ConversationsRoute(
-    modifier: Modifier = Modifier,
     navigateToChat: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     ConversationsScreen(
         navigateToChat = navigateToChat,
@@ -22,8 +22,8 @@ fun ConversationsRoute(
 
 @Composable
 fun ConversationsScreen(
-    modifier: Modifier = Modifier,
-    navigateToChat: (String) -> Unit
+    navigateToChat: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier

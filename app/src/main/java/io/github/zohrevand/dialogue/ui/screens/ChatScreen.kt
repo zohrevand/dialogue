@@ -10,11 +10,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
+fun ChatRoute(
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    ChatScreen(
+        onBackClick = onBackClick,
+        modifier = modifier
+    )
+}
+
+
+@Composable
 fun ChatScreen(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color.Yellow)
     ) {

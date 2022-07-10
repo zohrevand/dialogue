@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.github.zohrevand.dialogue.ui.screens.AuthScreen
-import io.github.zohrevand.dialogue.ui.screens.ChatScreen
 import io.github.zohrevand.dialogue.ui.screens.ContactsScreen
 
 @Composable
@@ -33,11 +32,7 @@ fun DialogueNavHost(
         conversationsGraph(
             navigateToChat = { navController.navigate("chat_route") },
             nestedGraphs = {
-                composable(route = "chat_route") {
-                    ChatScreen(
-                        onBackClick = { navController.popBackStack() }
-                    )
-                }
+                chatGraph(onBackClick = { navController.popBackStack() })
             }
         )
 
