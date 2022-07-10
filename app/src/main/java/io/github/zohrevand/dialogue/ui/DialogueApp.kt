@@ -1,7 +1,12 @@
 package io.github.zohrevand.dialogue.ui
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Call
@@ -66,7 +71,11 @@ private fun DialogueBottomBar(
     currentDestination: NavDestination?
 ) {
     NavigationBar(
-        modifier = Modifier,
+        modifier = Modifier.windowInsetsPadding(
+            WindowInsets.safeDrawing.only(
+                WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
+            )
+        ),
         containerColor = Color.Magenta,
         contentColor = Color.Black,
         tonalElevation = 0.dp,
