@@ -4,16 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.zohrevand.dialogue.core.xmpp.XmppService
-import io.github.zohrevand.dialogue.ui.theme.DialogueTheme
+import io.github.zohrevand.dialogue.ui.DialogueApp
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -23,28 +16,6 @@ class MainActivity : ComponentActivity() {
 
         startService(Intent(this, XmppService::class.java))
 
-        setContent {
-            DialogueTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    DlgApp()
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun DlgApp() {
-    Text(text = "This is the Dialogue app")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    DialogueTheme {
-        DialogueApp()
+        setContent { DialogueApp() }
     }
 }
