@@ -2,7 +2,6 @@ package io.github.zohrevand.dialogue.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,21 +22,14 @@ fun DialogueNavHost(
         startDestination = "auth_route",
         modifier = modifier,
     ) {
-        navigation(
-            route = "auth_route",
-            startDestination = "auth_destination",
-        ) {
-            composable(route = "auth_destination") {
-                AuthScreen(
-                    navigateToConversations = { navController.navigate("conversations_route") {
-                        popUpTo("auth_route") {
-                            inclusive = true
-                        }
-                        navController.clearBackStack("auth_route")
-                    } }
-                )
-            }
-
+        composable(route = "auth_route") {
+            AuthScreen(
+                navigateToConversations = { navController.navigate("conversations_route") {
+                    popUpTo("auth_route") {
+                        inclusive = true
+                    }
+                } }
+            )
         }
 
         navigation(
