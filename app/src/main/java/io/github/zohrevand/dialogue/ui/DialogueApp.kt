@@ -7,9 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -18,15 +15,19 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
+import io.github.zohrevand.dialogue.navigation.DialogueTopLevelNavigation
+import io.github.zohrevand.dialogue.navigation.TOP_LEVEL_DESTINATIONS
+import io.github.zohrevand.dialogue.navigation.TopLevelDestination
 import io.github.zohrevand.dialogue.ui.theme.DialogueTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,6 +35,9 @@ import io.github.zohrevand.dialogue.ui.theme.DialogueTheme
 fun DialogueApp() {
     DialogueTheme {
         val navController = rememberNavController()
+        val dialogueTopLevelNavigation = remember(navController) {
+            DialogueTopLevelNavigation(navController)
+        }
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
@@ -41,17 +45,9 @@ fun DialogueApp() {
         Scaffold(
             containerColor = Color.Transparent,
             bottomBar = {
-                if (currentDestination?.hierarchy?.any { it.route == "auth_route" } == false) {
+                if (currentDestination?.route != "auth_route") {
                     DialogueBottomBar(
-                        onNavigateToTopLevelDestination = {
-                            navController.navigate(it) {
-                                popUpTo("conversations_destination") {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
+                        onNavigateToTopLevelDestination = dialogueTopLevelNavigation::navigateTo,
                         currentDestination = currentDestination
                     )
                 }
@@ -69,7 +65,7 @@ fun DialogueApp() {
 
 @Composable
 private fun DialogueBottomBar(
-    onNavigateToTopLevelDestination: (String) -> Unit,
+    onNavigateToTopLevelDestination: (TopLevelDestination) -> Unit,
     currentDestination: NavDestination?
 ) {
     NavigationBar(
@@ -83,25 +79,16 @@ private fun DialogueBottomBar(
         tonalElevation = 0.dp,
     ) {
 
-        topLevelDestinations.forEach { destination ->
+        TOP_LEVEL_DESTINATIONS.forEach { destination ->
             val selected =
-                currentDestination?.hierarchy?.any { it.route == destination } == true
+                currentDestination?.hierarchy?.any { it.route == destination.route } == true
             NavigationBarItem(
                 selected = selected,
                 onClick = { onNavigateToTopLevelDestination(destination) },
-                label = { Text(destination) },
+                label = { Text(stringResource(destination.iconTextId)) },
                 alwaysShowLabel = true,
-                icon = {
-                    val imageVector: ImageVector = if (destination == "conversations_route") {
-                        Icons.Filled.Call
-                    } else {
-                        Icons.Filled.Email
-                    }
-                    Icon(imageVector = imageVector, contentDescription = null)
-                }
+                icon = { Icon(imageVector = destination.icon, contentDescription = null) }
             )
         }
     }
 }
-
-private val topLevelDestinations = listOf("conversations_route", "contacts_route")

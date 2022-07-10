@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Dialogue</string>
+    <string name="conversations">Conversations</string>
+    <string name="contacts">Contacts</string>
 </resources>
