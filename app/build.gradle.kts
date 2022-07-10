@@ -66,6 +66,9 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui.tooling.preview)
 
+    api(libs.androidx.hilt.navigation.compose)
+    api(libs.androidx.navigation.compose)
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     kaptAndroidTest(libs.hilt.compiler)
