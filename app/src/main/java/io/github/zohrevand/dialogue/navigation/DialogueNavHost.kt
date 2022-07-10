@@ -6,11 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
 import io.github.zohrevand.dialogue.ui.screens.AuthScreen
 import io.github.zohrevand.dialogue.ui.screens.ChatScreen
 import io.github.zohrevand.dialogue.ui.screens.ContactsScreen
-import io.github.zohrevand.dialogue.ui.screens.ConversationsScreen
 
 @Composable
 fun DialogueNavHost(
@@ -32,21 +30,16 @@ fun DialogueNavHost(
             )
         }
 
-        navigation(
-            route = "conversations_route",
-            startDestination = "conversations_destination",
-        ) {
-            composable(route = "conversations_destination") {
-                ConversationsScreen(
-                    navigateToChat = { navController.navigate("chat_route") }
-                )
+        conversationsGraph(
+            navigateToChat = { navController.navigate("chat_route") },
+            nestedGraphs = {
+                composable(route = "chat_route") {
+                    ChatScreen(
+                        onBackClick = { navController.popBackStack() }
+                    )
+                }
             }
-            composable(route = "chat_route") {
-                ChatScreen(
-                    onBackClick = { navController.popBackStack() }
-                )
-            }
-        }
+        )
 
         composable(route = "contacts_route") {
             ContactsScreen()
