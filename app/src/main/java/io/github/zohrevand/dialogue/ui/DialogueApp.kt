@@ -48,7 +48,13 @@ fun DialogueApp() {
                 if (currentDestination?.hierarchy?.any { it.route == "auth_route" } == false) {
                     DialogueBottomBar(
                         onNavigateToTopLevelDestination = {
-                            navController.navigate(it)
+                            navController.navigate(it) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         },
                         currentDestination = currentDestination
                     )
