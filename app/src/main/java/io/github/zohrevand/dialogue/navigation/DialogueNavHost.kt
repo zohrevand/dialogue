@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
 import io.github.zohrevand.dialogue.feature.auth.navigation.authGraph
+import io.github.zohrevand.dialogue.feature.conversations.navigation.ConversationsDestination
+import io.github.zohrevand.dialogue.feature.conversations.navigation.conversationsGraph
 
 @Composable
 fun DialogueNavHost(

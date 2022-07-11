@@ -1,10 +1,10 @@
-package io.github.zohrevand.dialogue.navigation
+package io.github.zohrevand.dialogue.feature.conversations.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import io.github.zohrevand.dialogue.core.navigation.DialogueNavigationDestination
-import io.github.zohrevand.dialogue.ui.screens.ConversationsRoute
+import io.github.zohrevand.dialogue.feature.conversations.ConversationsRoute
 
 object ConversationsDestination : DialogueNavigationDestination {
     override val route = "conversations_route"
