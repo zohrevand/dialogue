@@ -55,6 +55,7 @@ dependencies {
     implementation(project(":feature-auth"))
     implementation(project(":feature-conversations"))
     implementation(project(":feature-chat"))
+    implementation(project(":feature-contacts"))
 
     implementation(project(":core-xmpp"))
     implementation(project(":core-navigation"))
