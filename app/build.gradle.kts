@@ -3,6 +3,7 @@ import io.github.zohrevand.dialogue.Flavor
 
 plugins {
     id("dialogue.android.application")
+    id("dialogue.android.application.compose")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
     id("dialogue.spotless")
@@ -43,14 +44,6 @@ android {
         }
     }
 
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
-    }
-
     packagingOptions {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
@@ -59,6 +52,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature-auth"))
     implementation(project(":core-xmpp"))
 
     implementation(libs.androidx.core.ktx)
