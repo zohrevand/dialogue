@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.github.zohrevand.dialogue">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".DialogueApp"
         android:allowBackup="true"
@@ -24,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".core.xmpp.XmppService"
+            android:exported="false" />
+
     </application>
 
 </manifest>
