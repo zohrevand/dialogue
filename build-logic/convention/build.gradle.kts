@@ -33,6 +33,10 @@ gradlePlugin {
             id = "dialogue.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
+        register("androidFeature") {
+            id = "dialogue.android.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
         register("spotless") {
             id = "dialogue.spotless"
             implementationClass = "SpotlessConventionPlugin"
