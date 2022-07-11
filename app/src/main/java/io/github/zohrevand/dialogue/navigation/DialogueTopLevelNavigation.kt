@@ -17,7 +17,7 @@ class DialogueTopLevelNavigation(private val navController: NavHostController) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items
-            popUpTo("conversations_destination") {
+            popUpTo(ConversationsDestination.destination) {
                 saveState = true
             }
             // Avoid multiple copies of the same destination when
@@ -37,12 +37,12 @@ data class TopLevelDestination(
 
 val TOP_LEVEL_DESTINATIONS = listOf(
     TopLevelDestination(
-        route = "conversations_route",
+        route = ConversationsDestination.route,
         icon = Icons.Filled.Star,
         iconTextId = R.string.conversations
     ),
     TopLevelDestination(
-        route = "contacts_route",
+        route = ContactsDestination.route,
         icon = Icons.Filled.Person,
         iconTextId = R.string.contacts
     )
