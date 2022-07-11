@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
+import io.github.zohrevand.dialogue.feature.auth.navigation.authGraph
 
 @Composable
 fun DialogueNavHost(
