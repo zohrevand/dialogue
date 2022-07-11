@@ -54,6 +54,7 @@ android {
 dependencies {
     implementation(project(":feature-auth"))
     implementation(project(":core-xmpp"))
+    implementation(project(":core-navigation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
