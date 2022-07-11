@@ -1,4 +1,4 @@
-package io.github.zohrevand.dialogue.navigation
+package io.github.zohrevand.dialogue.core.navigation
 
 /**
  * Interface for describing the Dialogue navigation destinations
