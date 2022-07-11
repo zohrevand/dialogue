@@ -1,4 +1,4 @@
-package io.github.zohrevand.dialogue.ui.screens
+package io.github.zohrevand.dialogue.feature.chat
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
