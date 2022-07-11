@@ -45,7 +45,7 @@ fun DialogueApp() {
         Scaffold(
             containerColor = Color.Transparent,
             bottomBar = {
-                if (currentDestination?.route != "auth_route") {
+                if (currentDestination?.route != null && currentDestination.route != "auth_route") {
                     DialogueBottomBar(
                         onNavigateToTopLevelDestination = dialogueTopLevelNavigation::navigateTo,
                         currentDestination = currentDestination
