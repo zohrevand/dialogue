@@ -1,9 +1,9 @@
-package io.github.zohrevand.dialogue.navigation
+package io.github.zohrevand.dialogue.feature.contacts.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import io.github.zohrevand.dialogue.core.navigation.DialogueNavigationDestination
-import io.github.zohrevand.dialogue.ui.screens.ContactsRoute
+import io.github.zohrevand.dialogue.feature.contacts.ContactsRoute
 
 object ContactsDestination : DialogueNavigationDestination {
     override val route = "contacts_route"

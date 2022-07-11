@@ -9,6 +9,7 @@ import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
 import io.github.zohrevand.dialogue.feature.auth.navigation.authGraph
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
 import io.github.zohrevand.dialogue.feature.chat.navigation.chatGraph
+import io.github.zohrevand.dialogue.feature.contacts.navigation.contactsGraph
 import io.github.zohrevand.dialogue.feature.conversations.navigation.ConversationsDestination
 import io.github.zohrevand.dialogue.feature.conversations.navigation.conversationsGraph
 

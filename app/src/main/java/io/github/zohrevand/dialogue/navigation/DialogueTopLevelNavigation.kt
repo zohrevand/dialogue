@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import io.github.zohrevand.dialogue.R
+import io.github.zohrevand.dialogue.feature.contacts.navigation.ContactsDestination
 import io.github.zohrevand.dialogue.feature.conversations.navigation.ConversationsDestination
 
 /**
