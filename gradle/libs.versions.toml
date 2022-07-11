@@ -6,6 +6,7 @@ androidxCompose = "1.2.0-rc03"
 androidxComposeCompiler = "1.2.0"
 androidxComposeMaterial3 = "1.0.0-alpha14"
 androidxCore = "1.8.0"
+androidxCustomView = "1.0.0-rc01"
 androidxEspresso = "3.4.0"
 androidxHiltNavigationCompose = "1.0.0"
 androidxLifecycle = "2.5.0-rc02"
@@ -38,6 +39,7 @@ androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidxCompose" }
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util", version.ref = "androidxCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidx-customview-poolingcontainer = { group = "androidx.customview", name = "customview-poolingcontainer", version.ref = "androidxCustomView"}
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
