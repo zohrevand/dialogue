@@ -28,4 +28,8 @@ class OfflineFirstAccountsRepository @Inject constructor(
     override suspend fun updateAccount(account: Account) {
         accountDao.updateAccount(account.asEntity())
     }
+
+    override suspend fun deleteAllAccounts() {
+        accountDao.deleteAllAccounts()
+    }
 }

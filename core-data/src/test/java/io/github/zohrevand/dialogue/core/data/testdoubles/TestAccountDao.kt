@@ -49,4 +49,8 @@ class TestAccountDao : AccountDao {
             entities.filterNot { it.id == id }
         }
     }
+
+    override suspend fun deleteAllAccounts() {
+        TODO("Not yet implemented")
+    }
 }

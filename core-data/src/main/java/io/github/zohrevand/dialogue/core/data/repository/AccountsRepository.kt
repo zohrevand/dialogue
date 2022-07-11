@@ -23,4 +23,6 @@ interface AccountsRepository {
     * updates the provided account
     * */
     suspend fun updateAccount(account: Account)
+
+    suspend fun deleteAllAccounts()
 }
