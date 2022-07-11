@@ -1,12 +1,18 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
+import android.util.Log
 import io.github.zohrevand.core.model.data.Account
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import org.jivesoftware.smack.ConnectionListener
 import org.jivesoftware.smack.ReconnectionManager
+import org.jivesoftware.smack.XMPPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
+import java.lang.Exception
 import javax.inject.Inject
+
+private const val TAG = "XmppManagerImpl"
 
 class XmppManagerImpl @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher
@@ -54,6 +60,29 @@ class XmppManagerImpl @Inject constructor(
         withContext(ioDispatcher) {
             connect()
             login()
+            Log.d(TAG, "isConnected: ${this@connectAndLogin.isConnected}")
+            Log.d(TAG, "isAuthenticated: ${this@connectAndLogin.isAuthenticated}")
+            this@connectAndLogin.addConnectionListener(object : ConnectionListener {
+                override fun connecting(connection: XMPPConnection?) {
+                    Log.d(TAG, "connecting...")
+                }
+
+                override fun connected(connection: XMPPConnection?) {
+                    Log.d(TAG, "connected from listener")
+                }
+
+                override fun authenticated(connection: XMPPConnection?, resumed: Boolean) {
+                    Log.d(TAG, "authenticated from listener, resumed: $resumed")
+                }
+
+                override fun connectionClosed() {
+                    Log.d(TAG, "connectionClosed")
+                }
+
+                override fun connectionClosedOnError(e: Exception?) {
+                    Log.d(TAG, "connectionClosedOnError")
+                }
+            })
             this@connectAndLogin
         }
 
