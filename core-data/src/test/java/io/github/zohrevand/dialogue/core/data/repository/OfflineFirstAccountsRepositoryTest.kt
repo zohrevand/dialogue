@@ -4,12 +4,14 @@ import io.github.zohrevand.dialogue.core.data.testdoubles.TestAccountDao
 import io.github.zohrevand.dialogue.core.database.dao.AccountDao
 import io.github.zohrevand.dialogue.core.database.model.AccountEntity
 import io.github.zohrevand.dialogue.core.database.model.asExternalModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class OfflineFirstAccountsRepositoryTest {
 
     private lateinit var subject: OfflineFirstAccountsRepository
