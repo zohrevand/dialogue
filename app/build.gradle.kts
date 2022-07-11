@@ -54,6 +54,7 @@ android {
 dependencies {
     implementation(project(":feature-auth"))
     implementation(project(":feature-conversations"))
+    implementation(project(":feature-chat"))
 
     implementation(project(":core-xmpp"))
     implementation(project(":core-navigation"))
