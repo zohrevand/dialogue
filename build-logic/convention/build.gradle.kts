@@ -25,6 +25,14 @@ gradlePlugin {
             id = "dialogue.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
+        register("androidApplicationCompose") {
+            id = "dialogue.android.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+        register("androidLibraryCompose") {
+            id = "dialogue.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
         register("spotless") {
             id = "dialogue.spotless"
             implementationClass = "SpotlessConventionPlugin"
