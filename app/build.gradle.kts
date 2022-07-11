@@ -32,18 +32,6 @@ android {
         }
     }
 
-    flavorDimensions += FlavorDimension.contentType.name
-    productFlavors {
-        Flavor.values().forEach {
-            create(it.name) {
-                dimension = it.dimension.name
-                if (it.applicationIdSuffix != null) {
-                    applicationIdSuffix = it.applicationIdSuffix
-                }
-            }
-        }
-    }
-
     packagingOptions {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
