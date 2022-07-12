@@ -3,6 +3,7 @@ package io.github.zohrevand.dialogue.core.xmpp
 import android.util.Log
 import io.github.zohrevand.core.model.data.Account
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.ConnectionListener
 import org.jivesoftware.smack.ReconnectionManager
@@ -22,6 +23,10 @@ class XmppManagerImpl @Inject constructor(
 
     override fun getConnection(): XMPPTCPConnection =
         xmppConnection ?: throw NoSuchElementException("Connection is not established.")
+
+    override fun getAuthenticatedStream(): Flow<Boolean> {
+        TODO("Not yet implemented")
+    }
 
     override suspend fun login(account: Account) {
         xmppConnection = account.login(
