@@ -24,6 +24,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
 import io.github.zohrevand.dialogue.navigation.DialogueTopLevelNavigation
 import io.github.zohrevand.dialogue.navigation.TOP_LEVEL_DESTINATIONS
@@ -45,7 +46,9 @@ fun DialogueApp() {
         Scaffold(
             containerColor = Color.Transparent,
             bottomBar = {
-                if (currentDestination?.route != null && currentDestination.route != "auth_route") {
+                if (currentDestination?.route != null &&
+                    currentDestination.route != AuthDestination.route
+                ) {
                     DialogueBottomBar(
                         onNavigateToTopLevelDestination = dialogueTopLevelNavigation::navigateTo,
                         currentDestination = currentDestination
