@@ -24,6 +24,8 @@ class XmppManagerImpl @Inject constructor(
     private val _isAuthenticatedState: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isAuthenticatedState: StateFlow<Boolean> = _isAuthenticatedState
 
+    private val connectionListener = SimpleConnectionListener()
+
     override fun getConnection(): XMPPTCPConnection =
         xmppConnection ?: throw NoSuchElementException("Connection is not established.")
 
@@ -31,7 +33,8 @@ class XmppManagerImpl @Inject constructor(
         xmppConnection = account.login(
             configurationBuilder = ::getConfiguration,
             connectionBuilder = ::XMPPTCPConnection,
-            reconnectionManager = ::configureReconnectionManager
+            reconnectionManager = ::configureReconnectionManager,
+            connectionListener = ::addConnectionListener
         )
     }
 
@@ -42,12 +45,14 @@ class XmppManagerImpl @Inject constructor(
     private suspend fun Account.login(
         configurationBuilder: (Account) -> XMPPTCPConnectionConfiguration,
         connectionBuilder: (XMPPTCPConnectionConfiguration) -> XMPPTCPConnection,
-        reconnectionManager: (XMPPTCPConnection) -> Unit
+        reconnectionManager: (XMPPTCPConnection) -> Unit,
+        connectionListener: (XMPPTCPConnection) -> Unit,
     ): XMPPTCPConnection {
         val configuration = configurationBuilder(this)
         val connection = connectionBuilder(configuration)
 
         reconnectionManager(connection)
+        connectionListener(connection)
 
         return connection.connectAndLogin()
     }
@@ -64,30 +69,12 @@ class XmppManagerImpl @Inject constructor(
         withContext(ioDispatcher) {
             connect()
             login()
+
             _isAuthenticatedState.value = isAuthenticated
+
             Log.d(TAG, "isConnected: $isConnected")
             Log.d(TAG, "isAuthenticated: $isAuthenticated")
-            this@connectAndLogin.addConnectionListener(object : ConnectionListener {
-                override fun connecting(connection: XMPPConnection?) {
-                    Log.d(TAG, "connecting...")
-                }
 
-                override fun connected(connection: XMPPConnection?) {
-                    Log.d(TAG, "connected from listener")
-                }
-
-                override fun authenticated(connection: XMPPConnection?, resumed: Boolean) {
-                    Log.d(TAG, "authenticated from listener, resumed: $resumed")
-                }
-
-                override fun connectionClosed() {
-                    Log.d(TAG, "connectionClosed")
-                }
-
-                override fun connectionClosedOnError(e: Exception?) {
-                    Log.d(TAG, "connectionClosedOnError")
-                }
-            })
             this@connectAndLogin
         }
 
@@ -96,7 +83,11 @@ class XmppManagerImpl @Inject constructor(
             .enableAutomaticReconnection()
     }
 
+    private fun addConnectionListener(connection: XMPPTCPConnection) {
+        connection.addConnectionListener(connectionListener)
+    }
+
     override fun onCleared() {
-        TODO("Not yet implemented")
+        xmppConnection?.removeConnectionListener(connectionListener)
     }
 }
