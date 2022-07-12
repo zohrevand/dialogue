@@ -29,7 +29,7 @@ data class Account(
 }
 
 // TODO(): consider jid comprises only local part and domain part for now
-private val String.usernameDomain: Pair<String, String>
+val String.usernameDomain: Pair<String, String>
     get() {
         val (username, domain) = this.split("@")
         return Pair(username, domain)
