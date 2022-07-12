@@ -3,6 +3,8 @@ package io.github.zohrevand.dialogue.core.xmpp
 import android.util.Log
 import io.github.zohrevand.core.model.data.Account
 import io.github.zohrevand.core.model.data.AccountStatus.Online
+import io.github.zohrevand.core.model.data.AccountStatus.ServerNotFound
+import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
 import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,6 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.ReconnectionManager
+import org.jivesoftware.smack.SmackException
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
 import javax.inject.Inject
@@ -71,6 +74,15 @@ class XmppManagerImpl @Inject constructor(
 
             result.getOrThrow()
         } else {
+            when (result.exceptionOrNull()) {
+                is SmackException.EndpointConnectionException -> {
+                    accountsRepository.updateAccount(this.copy(status = ServerNotFound))
+                }
+                // TODO: jix.im server authentication failure result to this exception
+                is SmackException.NoResponseException -> {
+                    accountsRepository.updateAccount(this.copy(status = Unauthorized))
+                }
+            }
             null
         }
     }
