@@ -29,6 +29,12 @@ class XmppService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
+        scope.launch {
+            xmppManager.getAuthenticatedStream().collectLatest { isAuthenticated ->
+
+            }
+        }
+
         observeAccountsStream()
 
         return super.onStartCommand(intent, flags, startId)
