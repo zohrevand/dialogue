@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_name">XMPP service channel</string>
+    <string name="channel_description">This is the channel for XMPP foreground notification</string>
+</resources>
