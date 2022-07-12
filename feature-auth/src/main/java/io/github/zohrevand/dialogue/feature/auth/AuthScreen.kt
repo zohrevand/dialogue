@@ -20,9 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.github.zohrevand.dialogue.feature.auth.R.string
 
 @Composable
 fun AuthRoute(
@@ -65,12 +67,12 @@ fun AuthScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
     ) {
-        Text(text = "Enter your login information")
+        Text(text = stringResource(string.login_title))
 
         OutlinedTextField(
             value = jid,
             onValueChange = setJid,
-            label = { Text(text = "Jabber ID") },
+            label = { Text(text = stringResource(string.jabber_id)) },
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onNext = { focusManager.moveFocus(FocusDirection.Down) }
@@ -82,7 +84,7 @@ fun AuthScreen(
         OutlinedTextField(
             value = password,
             onValueChange = setPassword,
-            label = { Text(text = "Password") },
+            label = { Text(text = stringResource(string.password)) },
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onDone = { focusManager.clearFocus() }
@@ -98,7 +100,7 @@ fun AuthScreen(
             },
             modifier = modifier.fillMaxWidth()
         ) {
-            Text(text = "Login")
+            Text(text = stringResource(string.login))
         }
     }
 }

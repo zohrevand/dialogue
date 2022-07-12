@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="jabber_id">Jabber ID</string>
+    <string name="login_title">Enter your login information</string>
+</resources>
