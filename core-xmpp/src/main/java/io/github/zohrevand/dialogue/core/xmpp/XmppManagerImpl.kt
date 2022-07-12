@@ -5,6 +5,7 @@ import io.github.zohrevand.core.model.data.Account
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.ConnectionListener
 import org.jivesoftware.smack.ReconnectionManager
@@ -70,7 +71,7 @@ class XmppManagerImpl @Inject constructor(
             connect()
             login()
 
-            _isAuthenticatedState.value = isAuthenticated
+            _isAuthenticatedState.update { isAuthenticated }
 
             Log.d(TAG, "isConnected: $isConnected")
             Log.d(TAG, "isAuthenticated: $isAuthenticated")
