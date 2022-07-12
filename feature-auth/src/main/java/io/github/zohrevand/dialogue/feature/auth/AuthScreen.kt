@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +35,7 @@ fun AuthRoute(
     AuthScreen(
         uiState = uiState,
         onLoginClick = viewModel::login,
+        navigateToConversations = navigateToConversations,
         modifier = modifier
     )
 }
@@ -42,12 +44,19 @@ fun AuthRoute(
 fun AuthScreen(
     uiState: AuthUiState,
     onLoginClick: (String, String) -> Unit,
+    navigateToConversations: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val (jid, setJid) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
 
     val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(uiState) {
+        if (uiState is AuthUiState.Success) {
+            navigateToConversations()
+        }
+    }
 
     Column(
         modifier = modifier
