@@ -14,4 +14,6 @@ interface XmppManager {
     suspend fun login(account: Account)
 
     suspend fun register(account: Account)
+
+    fun onCleared()
 }

@@ -95,4 +95,8 @@ class XmppManagerImpl @Inject constructor(
         ReconnectionManager.getInstanceFor(connection)
             .enableAutomaticReconnection()
     }
+
+    override fun onCleared() {
+        TODO("Not yet implemented")
+    }
 }
