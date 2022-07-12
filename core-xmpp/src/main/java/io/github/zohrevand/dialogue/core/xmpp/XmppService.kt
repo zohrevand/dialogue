@@ -57,6 +57,7 @@ class XmppService : Service() {
 
     override fun onDestroy() {
         scope.cancel()
+        xmppManager.onCleared()
         super.onDestroy()
     }
 }
