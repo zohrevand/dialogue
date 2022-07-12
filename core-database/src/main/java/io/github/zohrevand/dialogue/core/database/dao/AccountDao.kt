@@ -21,6 +21,15 @@ interface AccountDao {
     )
     fun getAccountEntity(accountId: Long): Flow<AccountEntity>
 
+    @Query(
+        value = """
+        SELECT * FROM accounts
+        WHERE username = :username
+        AND domain = :domain
+    """
+    )
+    fun getAccountEntity(username: String, domain: String): Flow<AccountEntity>
+
     @Query(value = "SELECT * FROM accounts")
     fun getAccountEntitiesStream(): Flow<List<AccountEntity>>
 
