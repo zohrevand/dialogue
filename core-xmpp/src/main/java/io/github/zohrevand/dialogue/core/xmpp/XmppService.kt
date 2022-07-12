@@ -31,7 +31,11 @@ class XmppService : Service() {
 
         scope.launch {
             xmppManager.getAuthenticatedStream().collectLatest { isAuthenticated ->
-
+                if (isAuthenticated) {
+                    startForeground(1000, notificationManager.getNotification(
+                        title = "Dialogue Xmpp Service", text = "You are connected"
+                    ))
+                }
             }
         }
 
