@@ -11,6 +11,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,7 +29,10 @@ fun AuthRoute(
     modifier: Modifier = Modifier,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     AuthScreen(
+        uiState = uiState,
         onLoginClick = viewModel::login,
         modifier = modifier
     )
@@ -35,6 +40,7 @@ fun AuthRoute(
 
 @Composable
 fun AuthScreen(
+    uiState: AuthUiState,
     onLoginClick: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
