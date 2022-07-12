@@ -2,15 +2,14 @@ package io.github.zohrevand.dialogue.core.xmpp
 
 import android.util.Log
 import io.github.zohrevand.core.model.data.Account
+import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
-import org.jivesoftware.smack.ConnectionListener
 import org.jivesoftware.smack.ReconnectionManager
-import org.jivesoftware.smack.XMPPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
 import javax.inject.Inject
@@ -18,6 +17,7 @@ import javax.inject.Inject
 private const val TAG = "XmppManagerImpl"
 
 class XmppManagerImpl @Inject constructor(
+    private val accountsRepository: AccountsRepository,
     private val ioDispatcher: CoroutineDispatcher
 ) : XmppManager {
 
