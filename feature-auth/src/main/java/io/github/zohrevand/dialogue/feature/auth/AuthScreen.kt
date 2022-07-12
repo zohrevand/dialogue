@@ -2,12 +2,15 @@ package io.github.zohrevand.dialogue.feature.auth
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Loading
 import io.github.zohrevand.dialogue.feature.auth.R.string
 
 @Composable
@@ -98,9 +102,14 @@ fun AuthScreen(
                 onLoginClick(jid, password)
                 focusManager.clearFocus()
             },
+            enabled = uiState != Loading,
             modifier = modifier.fillMaxWidth()
         ) {
             Text(text = stringResource(string.login))
+            if (uiState == Loading) {
+                Spacer(modifier = Modifier.width(16.dp))
+                CircularProgressIndicator()
+            }
         }
     }
 }
