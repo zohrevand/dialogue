@@ -92,7 +92,10 @@ fun AuthScreen(
         )
 
         Button(
-            onClick = { onLoginClick(jid, password) },
+            onClick = {
+                onLoginClick(jid, password)
+                focusManager.clearFocus()
+            },
             modifier = modifier.fillMaxWidth()
         ) {
             Text(text = "Login")
