@@ -53,14 +53,26 @@ class XmppManagerImpl @Inject constructor(
         connectionBuilder: (XMPPTCPConnectionConfiguration) -> XMPPTCPConnection,
         reconnectionManager: (XMPPTCPConnection) -> Unit,
         connectionListener: (XMPPTCPConnection) -> Unit,
-    ): XMPPTCPConnection {
+    ): XMPPTCPConnection? {
         val configuration = configurationBuilder(this)
         val connection = connectionBuilder(configuration)
 
         reconnectionManager(connection)
         connectionListener(connection)
 
-        return connection.connectAndLogin()
+        val result = connection.connectAndLogin()
+
+        return if (result.isSuccess) {
+            accountsRepository.updateAccount(this.copy(status = Online))
+            _isAuthenticatedState.update { connection.isAuthenticated }
+
+            Log.d(TAG, "isConnected: ${connection.isConnected}")
+            Log.d(TAG, "isAuthenticated: ${connection.isAuthenticated}")
+
+            result.getOrThrow()
+        } else {
+            null
+        }
     }
 
     private fun getConfiguration(account: Account): XMPPTCPConnectionConfiguration =
@@ -71,18 +83,13 @@ class XmppManagerImpl @Inject constructor(
 
     // TODO: this warning is fixed as of IntelliJ 2022.1
     @Suppress("BlockingMethodInNonBlockingContext")
-    private suspend fun XMPPTCPConnection.connectAndLogin(): XMPPTCPConnection =
-        withContext(ioDispatcher) {
-            connect()
-            login()
-
-            account?.let { accountsRepository.updateAccount(it.copy(status = Online)) }
-            _isAuthenticatedState.update { isAuthenticated }
-
-            Log.d(TAG, "isConnected: $isConnected")
-            Log.d(TAG, "isAuthenticated: $isAuthenticated")
-
-            this@connectAndLogin
+    private suspend fun XMPPTCPConnection.connectAndLogin(): Result<XMPPTCPConnection> =
+        runCatching {
+            withContext(ioDispatcher) {
+                connect()
+                login()
+                this@connectAndLogin
+            }
         }
 
     private fun configureReconnectionManager(connection: XMPPTCPConnection) {
