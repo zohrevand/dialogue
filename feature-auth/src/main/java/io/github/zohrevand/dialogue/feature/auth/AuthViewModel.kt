@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.zohrevand.core.model.data.Account
-import io.github.zohrevand.core.model.data.AccountStatus.LoggingIn
 import io.github.zohrevand.core.model.data.AccountStatus.Online
 import io.github.zohrevand.core.model.data.AccountStatus.ServerNotFound
 import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
@@ -32,7 +31,6 @@ class AuthViewModel @Inject constructor(
         val account = Account.create(jid, password)
         _uiState.update { AuthUiState.Loading }
         viewModelScope.launch {
-            accountsRepository.deleteAllAccounts()
             accountsRepository.addAccount(account)
 
             checkForAccountStatusChanges(jid)
