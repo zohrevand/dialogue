@@ -30,7 +30,7 @@ class XmppService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         scope.launch {
-            xmppManager.getAuthenticatedStream().collectLatest { isAuthenticated ->
+            xmppManager.isAuthenticatedState.collectLatest { isAuthenticated ->
                 if (isAuthenticated) {
                     startForeground(1000, notificationManager.getNotification(
                         title = "Dialogue Xmpp Service", text = "You are connected"

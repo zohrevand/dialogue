@@ -4,13 +4,14 @@ import android.util.Log
 import io.github.zohrevand.core.model.data.Account
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.ConnectionListener
 import org.jivesoftware.smack.ReconnectionManager
 import org.jivesoftware.smack.XMPPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
-import java.lang.Exception
 import javax.inject.Inject
 
 private const val TAG = "XmppManagerImpl"
@@ -21,12 +22,11 @@ class XmppManagerImpl @Inject constructor(
 
     private var xmppConnection: XMPPTCPConnection? = null
 
+    private val _isAuthenticatedState: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    override val isAuthenticatedState: StateFlow<Boolean> = _isAuthenticatedState
+
     override fun getConnection(): XMPPTCPConnection =
         xmppConnection ?: throw NoSuchElementException("Connection is not established.")
-
-    override fun getAuthenticatedStream(): Flow<Boolean> {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun login(account: Account) {
         xmppConnection = account.login(
