@@ -5,6 +5,7 @@ import io.github.zohrevand.core.model.data.Account
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.ConnectionListener
@@ -23,7 +24,7 @@ class XmppManagerImpl @Inject constructor(
     private var xmppConnection: XMPPTCPConnection? = null
 
     private val _isAuthenticatedState: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    override val isAuthenticatedState: StateFlow<Boolean> = _isAuthenticatedState
+    override val isAuthenticatedState: StateFlow<Boolean> = _isAuthenticatedState.asStateFlow()
 
     private val connectionListener = SimpleConnectionListener()
 
