@@ -3,7 +3,6 @@ package io.github.zohrevand.dialogue.core.xmpp
 import android.util.Log
 import io.github.zohrevand.core.model.data.Account
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
@@ -65,8 +64,9 @@ class XmppManagerImpl @Inject constructor(
         withContext(ioDispatcher) {
             connect()
             login()
-            Log.d(TAG, "isConnected: ${this@connectAndLogin.isConnected}")
-            Log.d(TAG, "isAuthenticated: ${this@connectAndLogin.isAuthenticated}")
+            _isAuthenticatedState.value = isAuthenticated
+            Log.d(TAG, "isConnected: $isConnected")
+            Log.d(TAG, "isAuthenticated: $isAuthenticated")
             this@connectAndLogin.addConnectionListener(object : ConnectionListener {
                 override fun connecting(connection: XMPPConnection?) {
                     Log.d(TAG, "connecting...")
