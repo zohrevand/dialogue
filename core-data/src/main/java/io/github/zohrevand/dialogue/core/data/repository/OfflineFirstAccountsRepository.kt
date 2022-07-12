@@ -21,6 +21,10 @@ class OfflineFirstAccountsRepository @Inject constructor(
         accountDao.getAccountEntity(id)
             .map(AccountEntity::asExternalModel)
 
+    override fun getAccount(username: String, domain: String): Flow<Account> =
+        accountDao.getAccountEntity(username, domain)
+            .map(AccountEntity::asExternalModel)
+
     override suspend fun addAccount(account: Account) {
         accountDao.insertOrIgnoreAccount(account.asEntity())
     }

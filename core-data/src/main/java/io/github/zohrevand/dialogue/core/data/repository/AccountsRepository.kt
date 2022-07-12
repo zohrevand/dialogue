@@ -14,6 +14,11 @@ interface AccountsRepository {
      * */
     fun getAccount(id: Long): Flow<Account>
 
+    /**
+     * Gets the specific account by username and domain
+     * */
+    fun getAccount(username: String, domain: String): Flow<Account>
+
     /*
     * adds the provided account
     * */

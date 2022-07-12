@@ -29,6 +29,10 @@ class TestAccountDao : AccountDao {
     override fun getAccountEntity(accountId: Long): Flow<AccountEntity> =
         entitiesStateFlow.mapNotNull { accounts -> accounts.firstOrNull { it.id == accountId } }
 
+    override fun getAccountEntity(username: String, domain: String): Flow<AccountEntity> {
+        throw NotImplementedError("Unused in tests")
+    }
+
     override fun getAccountEntitiesStream(): Flow<List<AccountEntity>> =
         entitiesStateFlow
 
@@ -51,6 +55,6 @@ class TestAccountDao : AccountDao {
     }
 
     override suspend fun deleteAllAccounts() {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 }
