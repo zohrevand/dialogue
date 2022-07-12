@@ -2,6 +2,7 @@ package io.github.zohrevand.dialogue.core.xmpp
 
 import android.util.Log
 import io.github.zohrevand.core.model.data.Account
+import io.github.zohrevand.core.model.data.AccountStatus.Online
 import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -74,7 +75,8 @@ class XmppManagerImpl @Inject constructor(
         withContext(ioDispatcher) {
             connect()
             login()
-            
+
+            account?.let { accountsRepository.updateAccount(it.copy(status = Online)) }
             _isAuthenticatedState.update { isAuthenticated }
 
             Log.d(TAG, "isConnected: $isConnected")
