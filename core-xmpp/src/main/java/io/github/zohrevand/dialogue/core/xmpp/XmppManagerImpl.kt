@@ -23,6 +23,8 @@ class XmppManagerImpl @Inject constructor(
 
     private var xmppConnection: XMPPTCPConnection? = null
 
+    private var account: Account? = null
+
     private val _isAuthenticatedState: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isAuthenticatedState: StateFlow<Boolean> = _isAuthenticatedState.asStateFlow()
 
@@ -32,6 +34,7 @@ class XmppManagerImpl @Inject constructor(
         xmppConnection ?: throw NoSuchElementException("Connection is not established.")
 
     override suspend fun login(account: Account) {
+        this.account = account
         xmppConnection = account.login(
             configurationBuilder = ::getConfiguration,
             connectionBuilder = ::XMPPTCPConnection,
@@ -71,7 +74,7 @@ class XmppManagerImpl @Inject constructor(
         withContext(ioDispatcher) {
             connect()
             login()
-
+            
             _isAuthenticatedState.update { isAuthenticated }
 
             Log.d(TAG, "isConnected: $isConnected")
