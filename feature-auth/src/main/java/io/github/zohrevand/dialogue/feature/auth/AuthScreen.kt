@@ -88,7 +88,10 @@ fun AuthScreen(
         Column {
             OutlinedTextField(
                 value = jid,
-                onValueChange = setJid,
+                onValueChange = {
+                    setJid(it)
+                    jidError = false
+                },
                 label = { Text(text = stringResource(string.jabber_id)) },
                 singleLine = true,
                 keyboardActions = KeyboardActions(
@@ -111,7 +114,10 @@ fun AuthScreen(
         Column {
             OutlinedTextField(
                 value = password,
-                onValueChange = setPassword,
+                onValueChange = {
+                    setPassword(it)
+                    passwordError = false
+                },
                 label = { Text(text = stringResource(string.password)) },
                 singleLine = true,
                 keyboardActions = KeyboardActions(
