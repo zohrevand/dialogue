@@ -4,4 +4,6 @@
     <string name="password">Password</string>
     <string name="jabber_id">Jabber ID</string>
     <string name="login_title">Enter your login information</string>
+    <string name="error_jabber_id_not_valid">Jabber ID is not valid</string>
+    <string name="error_password_not_valid">Password is not valid</string>
 </resources>

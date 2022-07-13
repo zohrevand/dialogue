@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -94,8 +94,16 @@ fun AuthScreen(
                 onNext = { focusManager.moveFocus(FocusDirection.Down) }
             ),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            isError = jidError,
             modifier = modifier.fillMaxWidth()
         )
+        if (jidError) {
+            Text(
+                text = stringResource(string.error_jabber_id_not_valid),
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.labelSmall
+            )
+        }
 
         OutlinedTextField(
             value = password,
@@ -106,8 +114,16 @@ fun AuthScreen(
                 onDone = { focusManager.clearFocus() }
             ),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            isError = passwordError,
             modifier = modifier.fillMaxWidth()
         )
+        if (passwordError) {
+            Text(
+                text = stringResource(string.error_password_not_valid),
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.labelSmall
+            )
+        }
 
         Button(
             onClick = {
