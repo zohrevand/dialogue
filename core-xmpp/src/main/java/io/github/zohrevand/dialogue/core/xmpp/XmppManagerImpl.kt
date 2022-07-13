@@ -78,7 +78,7 @@ class XmppManagerImpl @Inject constructor(
                 is SmackException.EndpointConnectionException -> {
                     accountsRepository.updateAccount(this.copy(status = ServerNotFound))
                 }
-                // TODO: jix.im server authentication failure result to different exceptions
+                // TODO: for now considering other exceptions as authentication failure
                 else -> {
                     accountsRepository.updateAccount(this.copy(status = Unauthorized))
                 }
