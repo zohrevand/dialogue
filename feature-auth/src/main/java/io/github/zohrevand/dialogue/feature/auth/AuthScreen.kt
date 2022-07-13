@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
@@ -76,7 +77,6 @@ fun AuthScreen(
         modifier = modifier
             .fillMaxSize()
             .safeContentPadding(),
-        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
     ) {
         Text(text = stringResource(string.login_title))
@@ -85,44 +85,50 @@ fun AuthScreen(
             Text(text = uiState.message, color = Color.Red)
         }
 
-        OutlinedTextField(
-            value = jid,
-            onValueChange = setJid,
-            label = { Text(text = stringResource(string.jabber_id)) },
-            singleLine = true,
-            keyboardActions = KeyboardActions(
-                onNext = { focusManager.moveFocus(FocusDirection.Down) }
-            ),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            isError = jidError,
-            modifier = modifier.fillMaxWidth()
-        )
-        if (jidError) {
-            Text(
-                text = stringResource(string.error_jabber_id_not_valid),
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.labelSmall
+        Column {
+            OutlinedTextField(
+                value = jid,
+                onValueChange = setJid,
+                label = { Text(text = stringResource(string.jabber_id)) },
+                singleLine = true,
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                ),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                isError = jidError,
+                modifier = modifier.fillMaxWidth()
             )
+            if (jidError) {
+                Text(
+                    text = stringResource(string.error_jabber_id_not_valid),
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.labelSmall,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
         }
 
-        OutlinedTextField(
-            value = password,
-            onValueChange = setPassword,
-            label = { Text(text = stringResource(string.password)) },
-            singleLine = true,
-            keyboardActions = KeyboardActions(
-                onDone = { focusManager.clearFocus() }
-            ),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            isError = passwordError,
-            modifier = modifier.fillMaxWidth()
-        )
-        if (passwordError) {
-            Text(
-                text = stringResource(string.error_password_not_valid),
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.labelSmall
+        Column {
+            OutlinedTextField(
+                value = password,
+                onValueChange = setPassword,
+                label = { Text(text = stringResource(string.password)) },
+                singleLine = true,
+                keyboardActions = KeyboardActions(
+                    onDone = { focusManager.clearFocus() }
+                ),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                isError = passwordError,
+                modifier = modifier.fillMaxWidth()
             )
+            if (passwordError) {
+                Text(
+                    text = stringResource(string.error_password_not_valid),
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.labelSmall,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
         }
 
         Button(
