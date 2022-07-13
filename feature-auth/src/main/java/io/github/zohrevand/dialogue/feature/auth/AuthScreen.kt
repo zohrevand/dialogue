@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -32,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Error
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Loading
 import io.github.zohrevand.dialogue.feature.auth.R.string
+import io.github.zohrevand.dialogue.feature.auth.utils.isValidJid
 
 @Composable
 fun AuthRoute(
@@ -58,6 +60,9 @@ fun AuthScreen(
 ) {
     val (jid, setJid) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
+
+    var jidError by remember { mutableStateOf(false) }
+    var passwordError by remember { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
 
@@ -106,8 +111,12 @@ fun AuthScreen(
 
         Button(
             onClick = {
-                onLoginClick(jid, password)
-                focusManager.clearFocus()
+                jidError = !jid.isValidJid
+                passwordError = password.isEmpty()
+                if (!jidError && !passwordError) {
+                    onLoginClick(jid, password)
+                    focusManager.clearFocus()
+                }
             },
             enabled = uiState != Loading,
             modifier = modifier.fillMaxWidth()
