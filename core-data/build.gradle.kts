@@ -8,6 +8,7 @@ plugins {
 dependencies {
     implementation(project(":core-database"))
     implementation(project(":core-model"))
+    implementation(project(":core-datastore"))
 
     implementation(libs.kotlinx.coroutines.android)
 
