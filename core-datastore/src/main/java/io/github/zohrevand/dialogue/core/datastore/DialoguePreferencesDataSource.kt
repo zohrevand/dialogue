@@ -15,7 +15,7 @@ class DialoguePreferencesDataSource @Inject constructor(
         .map {
             ConnectionStatus(
                 availability = it.connectionAvailability,
-                unauthorized = it.connectionAuthorized
+                authorized = it.connectionAuthorized
             )
         }
         .firstOrNull() ?: ConnectionStatus()
@@ -29,13 +29,13 @@ class DialoguePreferencesDataSource @Inject constructor(
                 val updatedConnectionStatus = update(
                     ConnectionStatus(
                         availability = currentPreferences.connectionAvailability,
-                        unauthorized = currentPreferences.connectionAuthorized
+                        authorized = currentPreferences.connectionAuthorized
                     )
                 )
 
                 currentPreferences.copy {
                     connectionAvailability = updatedConnectionStatus.availability
-                    connectionAuthorized = updatedConnectionStatus.unauthorized
+                    connectionAuthorized = updatedConnectionStatus.authorized
                 }
             }
         } catch (ioException: IOException) {
