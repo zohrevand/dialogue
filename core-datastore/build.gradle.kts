@@ -8,6 +8,12 @@ plugins {
     id("dialogue.spotless")
 }
 
+android {
+    defaultConfig {
+        consumerProguardFiles("consumer-proguard-rules.pro")
+    }
+}
+
 dependencies {
     implementation(project(":core-common"))
     implementation(project(":core-model"))
