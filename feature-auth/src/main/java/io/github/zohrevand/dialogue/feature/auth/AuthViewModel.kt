@@ -24,8 +24,9 @@ class AuthViewModel @Inject constructor(
     private val accountsRepository: AccountsRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<AuthUiState> = MutableStateFlow(AuthUiState.Idle)
+    private val _uiState: MutableStateFlow<AuthUiState> = MutableStateFlow(AuthUiState.Checking)
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
+
 
     fun login(jid: String, password: String) {
         val account = Account.create(jid, password)
@@ -63,6 +64,11 @@ class AuthViewModel @Inject constructor(
 }
 
 sealed interface AuthUiState {
+    // State for checking if there is already logged in user
+    object Checking : AuthUiState
+
+    object UserAvailable : AuthUiState
+
     object Idle : AuthUiState
 
     object Loading : AuthUiState
