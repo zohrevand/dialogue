@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.github.zohrevand.dialogue.feature.auth.AuthUiState.AuthRequired
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Error
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Loading
 import io.github.zohrevand.dialogue.feature.auth.R.string
@@ -44,12 +45,20 @@ fun AuthRoute(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    AuthScreen(
-        uiState = uiState,
-        onLoginClick = viewModel::login,
-        navigateToConversations = navigateToConversations,
-        modifier = modifier
-    )
+    LaunchedEffect(uiState) {
+        if (uiState is AuthUiState.UserAvailable) {
+            navigateToConversations()
+        }
+    }
+
+    if (uiState is AuthRequired) {
+        AuthScreen(
+            uiState = uiState,
+            onLoginClick = viewModel::login,
+            navigateToConversations = navigateToConversations,
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
