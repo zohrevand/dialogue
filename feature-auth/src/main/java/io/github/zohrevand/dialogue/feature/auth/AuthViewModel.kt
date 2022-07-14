@@ -9,6 +9,8 @@ import io.github.zohrevand.core.model.data.AccountStatus.ServerNotFound
 import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
 import io.github.zohrevand.core.model.data.usernameDomain
 import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
+import io.github.zohrevand.dialogue.feature.auth.AuthUiState.AuthRequired
+import io.github.zohrevand.dialogue.feature.auth.AuthUiState.UserAvailable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -27,6 +29,20 @@ class AuthViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<AuthUiState> = MutableStateFlow(AuthUiState.Checking)
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            accountsRepository.getAccountsStream()
+                .collectLatest { accounts ->
+                    // TODO: for now check for Online status
+                    val onlineAccount = accounts.firstOrNull { it.status == Online }
+                    if (onlineAccount != null) {
+                        _uiState.update { UserAvailable }
+                    } else {
+                        _uiState.update { AuthRequired }
+                    }
+                }
+        }
+    }
 
     fun login(jid: String, password: String) {
         val account = Account.create(jid, password)
@@ -69,7 +85,7 @@ sealed interface AuthUiState {
 
     object UserAvailable : AuthUiState
 
-    object Idle : AuthUiState
+    object AuthRequired : AuthUiState
 
     object Loading : AuthUiState
 
