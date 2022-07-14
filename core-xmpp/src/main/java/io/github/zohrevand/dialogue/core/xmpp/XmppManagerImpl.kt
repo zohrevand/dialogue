@@ -7,6 +7,7 @@ import io.github.zohrevand.core.model.data.AccountStatus.ServerNotFound
 import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
 import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -94,6 +95,7 @@ class XmppManagerImpl @Inject constructor(
             .build()
 
     // TODO: this warning is fixed as of IntelliJ 2022.1
+    // connect and login are called with Dispatchers.IO context
     @Suppress("BlockingMethodInNonBlockingContext")
     private suspend fun XMPPTCPConnection.connectAndLogin(): Result<XMPPTCPConnection> =
         runCatching {
