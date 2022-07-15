@@ -4,6 +4,26 @@ option java_package = "io.github.zohrevand.dialogue.core.datastore";
 option java_multiple_files = true;
 
 message UserPreferences {
-    bool connectionAvailability = 1;
-    bool connectionAuthorized = 2;
+  bool connectionAvailability = 1;
+  bool connectionAuthorized = 2;
+
+  enum AccountStatus {
+    PreRegistering = 0;
+    Registering = 1;
+    PreLoggingIn = 2;
+    LoggingIn = 3;
+    Disabled = 4;
+    Offline = 5;
+    Online = 6;
+    Unauthorized = 7;
+    ServerNotFound = 8;
+    RegistrationSuccessful = 9;
+    RegistrationFailed = 10;
+    RegistrationAlreadyExist = 11;
+  }
+
+  string accountJid = 3;
+  string accountLocal = 4;
+  string accountDomain = 5;
+  string accountStatus = 6;
 }
