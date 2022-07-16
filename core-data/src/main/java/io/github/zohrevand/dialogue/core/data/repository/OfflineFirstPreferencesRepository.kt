@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.core.data.repository
 
 import io.github.zohrevand.core.model.data.Account
+import io.github.zohrevand.dialogue.core.data.model.asPreferences
 import io.github.zohrevand.dialogue.core.datastore.ConnectionStatus
 import io.github.zohrevand.dialogue.core.datastore.DialoguePreferencesDataSource
 import io.github.zohrevand.dialogue.core.datastore.asExternalModel
@@ -21,7 +22,6 @@ class OfflineFirstPreferencesRepository @Inject constructor(
     override fun getAccount(): Flow<Account> =
         preferencesDataSource.getAccount().map { it.asExternalModel() }
 
-    override suspend fun updateAccount(account: Account) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateAccount(account: Account) =
+        preferencesDataSource.updateAccount(account.asPreferences())
 }
