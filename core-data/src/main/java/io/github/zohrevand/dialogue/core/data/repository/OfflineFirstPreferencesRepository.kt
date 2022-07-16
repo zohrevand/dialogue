@@ -9,9 +9,9 @@ import javax.inject.Inject
 class OfflineFirstPreferencesRepository @Inject constructor(
     private val preferencesDataSource: DialoguePreferencesDataSource,
 ) : PreferencesRepository {
-    override fun getConnectionStatus(): Flow<ConnectionStatus> {
-        TODO("Not yet implemented")
-    }
+
+    override fun getConnectionStatus(): Flow<ConnectionStatus> =
+        preferencesDataSource.getConnectionStatus()
 
     override suspend fun updateConnectionStatus(connectionStatus: ConnectionStatus) {
         TODO("Not yet implemented")
