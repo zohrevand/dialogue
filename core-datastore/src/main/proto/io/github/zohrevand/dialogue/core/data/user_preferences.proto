@@ -8,18 +8,19 @@ message UserPreferences {
   bool connectionAuthorized = 2;
 
   enum AccountStatus {
-    PreRegistering = 0;
-    Registering = 1;
-    PreLoggingIn = 2;
-    LoggingIn = 3;
-    Disabled = 4;
-    Offline = 5;
-    Online = 6;
-    Unauthorized = 7;
-    ServerNotFound = 8;
-    RegistrationSuccessful = 9;
-    RegistrationFailed = 10;
-    RegistrationAlreadyExist = 11;
+    NotSet = 0;
+    PreRegistering = 1;
+    Registering = 2;
+    PreLoggingIn = 3;
+    LoggingIn = 4;
+    Disabled = 5;
+    Offline = 6;
+    Online = 7;
+    Unauthorized = 8;
+    ServerNotFound = 9;
+    RegistrationSuccessful = 10;
+    RegistrationFailed = 11;
+    RegistrationAlreadyExist = 12;
   }
 
   string accountJid = 3;
