@@ -14,8 +14,8 @@ class AccountsCollectorImpl @Inject constructor(
 ) : AccountsCollector {
 
     override suspend fun collectAccounts(
-        onNewLogin: (Account) -> Unit,
-        onNewRegister: (Account) -> Unit
+        onNewLogin: suspend (Account) -> Unit,
+        onNewRegister: suspend (Account) -> Unit
     ) {
         accountsRepository.getAccountsStream().collectLatest { accounts ->
             val preLoggingInAccount = accounts.firstOrNull { it.status == PreLoggingIn }

@@ -52,8 +52,8 @@ class XmppService : Service() {
     private fun observeAccountsStream() {
         scope.launch {
             accountsCollector.collectAccounts(
-                onNewLogin = { scope.launch { xmppManager.login(it) } },
-                onNewRegister = { scope.launch { xmppManager.register(it) } },
+                onNewLogin = { xmppManager.login(it) },
+                onNewRegister = { xmppManager.register(it) },
             )
         }
     }
