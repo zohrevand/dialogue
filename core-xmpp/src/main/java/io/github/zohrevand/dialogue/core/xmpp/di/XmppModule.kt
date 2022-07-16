@@ -7,7 +7,6 @@ import dagger.hilt.components.SingletonComponent
 import io.github.zohrevand.dialogue.core.common.coroutines.DialogueDispatchers.IO
 import io.github.zohrevand.dialogue.core.common.coroutines.Dispatcher
 import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
-import io.github.zohrevand.dialogue.core.datastore.DialoguePreferencesDataSource
 import io.github.zohrevand.dialogue.core.xmpp.XmppManager
 import io.github.zohrevand.dialogue.core.xmpp.XmppManagerImpl
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,9 +20,8 @@ class XmppModule {
     @Singleton
     fun providesXmppManager(
         accountsRepository: AccountsRepository,
-        preferencesDataSource: DialoguePreferencesDataSource,
         @Dispatcher(IO) ioDispatcher: CoroutineDispatcher
     ): XmppManager {
-        return XmppManagerImpl(accountsRepository, preferencesDataSource, ioDispatcher)
+        return XmppManagerImpl(accountsRepository, ioDispatcher)
     }
 }
