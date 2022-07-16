@@ -13,9 +13,8 @@ class OfflineFirstPreferencesRepository @Inject constructor(
     override fun getConnectionStatus(): Flow<ConnectionStatus> =
         preferencesDataSource.getConnectionStatus()
 
-    override suspend fun updateConnectionStatus(connectionStatus: ConnectionStatus) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateConnectionStatus(connectionStatus: ConnectionStatus) =
+        preferencesDataSource.updateConnectionStatus(connectionStatus)
 
     override fun getAccount(): Flow<Account> {
         TODO("Not yet implemented")
