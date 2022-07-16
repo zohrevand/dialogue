@@ -11,14 +11,13 @@ class DialoguePreferencesDataSource @Inject constructor(
     private val userPreferences: DataStore<UserPreferences>
 ) {
 
-    suspend fun getConnectionStatus() = userPreferences.data
+    fun getConnectionStatus() = userPreferences.data
         .map {
             ConnectionStatus(
                 availability = it.connectionAvailability,
                 authorized = it.connectionAuthorized
             )
         }
-        .firstOrNull() ?: ConnectionStatus()
 
     /**
      * Update the [ConnectionStatus] using [update].
