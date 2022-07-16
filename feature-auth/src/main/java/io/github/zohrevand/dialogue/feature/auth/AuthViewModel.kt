@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -33,20 +34,12 @@ class AuthViewModel @Inject constructor(
 
     private fun checkIfUserAlreadyLoggedIn() {
         viewModelScope.launch {
-            preferencesRepository.getAccount()
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5_000),
-                    initialValue = null
-                )
-                .collect { account ->
-                    // TODO: for now check for Online status
-                    if (account?.status == Online) {
-                        _uiState.update { UserAvailable }
-                    } else {
-                        _uiState.update { AuthRequired }
-                    }
-                }
+            val account = preferencesRepository.getAccount().firstOrNull()
+            if (account?.status == Online) {
+                _uiState.update { UserAvailable }
+            } else {
+                _uiState.update { AuthRequired }
+            }
         }
     }
 
