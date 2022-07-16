@@ -1,14 +1,14 @@
 package io.github.zohrevand.dialogue.core.data.repository
 
 import io.github.zohrevand.core.model.data.Account
-import io.github.zohrevand.dialogue.core.datastore.ConnectionStatus
+import io.github.zohrevand.dialogue.core.datastore.PreferencesConnectionStatus
 import kotlinx.coroutines.flow.Flow
 
 interface PreferencesRepository {
 
-    fun getConnectionStatus(): Flow<ConnectionStatus>
+    fun getConnectionStatus(): Flow<PreferencesConnectionStatus>
 
-    suspend fun updateConnectionStatus(connectionStatus: ConnectionStatus)
+    suspend fun updateConnectionStatus(connectionStatus: PreferencesConnectionStatus)
 
     fun getAccount(): Flow<Account>
 

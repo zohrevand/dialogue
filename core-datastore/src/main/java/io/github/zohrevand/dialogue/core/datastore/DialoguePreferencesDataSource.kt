@@ -11,18 +11,18 @@ class DialoguePreferencesDataSource @Inject constructor(
     private val userPreferences: DataStore<UserPreferences>
 ) {
 
-    fun getConnectionStatus(): Flow<ConnectionStatus> = userPreferences.data
+    fun getConnectionStatus(): Flow<PreferencesConnectionStatus> = userPreferences.data
         .map {
-            ConnectionStatus(
+            PreferencesConnectionStatus(
                 availability = it.connectionAvailability,
                 authorized = it.connectionAuthorized
             )
         }
 
     /**
-     * Update the [ConnectionStatus].
+     * Update the [PreferencesConnectionStatus].
      */
-    suspend fun updateConnectionStatus(connectionStatus: ConnectionStatus) {
+    suspend fun updateConnectionStatus(connectionStatus: PreferencesConnectionStatus) {
         try {
             userPreferences.updateData { currentPreferences ->
                 currentPreferences.copy {
