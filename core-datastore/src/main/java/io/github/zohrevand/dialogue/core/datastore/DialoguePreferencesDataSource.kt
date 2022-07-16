@@ -47,27 +47,17 @@ class DialoguePreferencesDataSource @Inject constructor(
         }
 
     /**
-     * Update the [PreferencesAccount] using [update].
+     * Update the [PreferencesAccount].
      */
-    suspend fun updateAccount(update: PreferencesAccount.() -> PreferencesAccount) {
+    suspend fun updateAccount(account: PreferencesAccount) {
         try {
             userPreferences.updateData { currentPreferences ->
-                val updatedAccount = update(
-                    PreferencesAccount(
-                        jid = currentPreferences.accountJid,
-                        localPart = currentPreferences.accountLocalPart,
-                        domainPart = currentPreferences.accountDomainPart,
-                        password = currentPreferences.accountPassword,
-                        status = currentPreferences.accountStatus
-                    )
-                )
-
                 currentPreferences.copy {
-                    accountJid = updatedAccount.jid
-                    accountLocalPart = updatedAccount.localPart
-                    accountDomainPart = updatedAccount.domainPart
-                    accountPassword = updatedAccount.password
-                    accountStatus = updatedAccount.status
+                    accountJid = account.jid
+                    accountLocalPart = account.localPart
+                    accountDomainPart = account.domainPart
+                    accountPassword = account.password
+                    accountStatus = account.status
                 }
             }
         } catch (ioException: IOException) {
