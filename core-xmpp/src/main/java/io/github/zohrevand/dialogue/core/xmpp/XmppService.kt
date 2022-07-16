@@ -33,29 +33,35 @@ class XmppService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         scope.launch {
-            xmppManager.setDefaultConnectionStatus()
-
-            preferencesDataSource.getConnectionStatus().collect { connectionStatus ->
-                if (connectionStatus.availability && connectionStatus.authorized) {
-                    startForeground(1000, notificationManager.getNotification(
-                        title = "Dialogue Xmpp Service", text = "You are connected"
-                    ))
-                }
-            }
+            initializeXmppManager()
+            observeConnectionStatus()
+            observeAccountsStream()
         }
-
-        observeAccountsStream()
 
         return super.onStartCommand(intent, flags, startId)
     }
 
-    private fun observeAccountsStream() {
-        scope.launch {
-            accountsCollector.collectAccounts(
-                onNewLogin = { xmppManager.login(it) },
-                onNewRegister = { xmppManager.register(it) },
-            )
+    private suspend fun initializeXmppManager() {
+        xmppManager.setDefaultConnectionStatus()
+    }
+
+    private suspend fun observeConnectionStatus() {
+        preferencesDataSource.getConnectionStatus().collect { connectionStatus ->
+            if (connectionStatus.availability && connectionStatus.authorized) {
+                val notification = notificationManager.getNotification(
+                    title = "Dialogue Xmpp Service",
+                    text = "You are connected"
+                )
+                startForeground(1000, notification)
+            }
         }
+    }
+
+    private suspend fun observeAccountsStream() {
+        accountsCollector.collectAccounts(
+            onNewLogin = { xmppManager.login(it) },
+            onNewRegister = { xmppManager.register(it) },
+        )
     }
 
     override fun onBind(p0: Intent?): IBinder? = null
