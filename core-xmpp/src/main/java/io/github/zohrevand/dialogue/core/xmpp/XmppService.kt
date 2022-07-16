@@ -4,12 +4,12 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.zohrevand.dialogue.core.datastore.DialoguePreferencesDataSource
 import io.github.zohrevand.dialogue.core.xmpp.collector.AccountsCollector
 import io.github.zohrevand.dialogue.core.xmpp.notification.NotificationManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,6 +22,9 @@ class XmppService : Service() {
     lateinit var xmppManager: XmppManager
 
     @Inject
+    lateinit var preferencesDataSource: DialoguePreferencesDataSource
+
+    @Inject
     lateinit var accountsCollector: AccountsCollector
 
     @Inject
@@ -30,7 +33,9 @@ class XmppService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         scope.launch {
-            xmppManager.isAuthenticatedState.collectLatest { isAuthenticated ->
+            xmppManager.setDefaultConnectionStatus()
+
+            xmppManager.isAuthenticatedState.collect { isAuthenticated ->
                 if (isAuthenticated) {
                     startForeground(1000, notificationManager.getNotification(
                         title = "Dialogue Xmpp Service", text = "You are connected"
