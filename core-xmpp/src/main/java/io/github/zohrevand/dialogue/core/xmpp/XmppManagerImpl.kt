@@ -6,7 +6,6 @@ import io.github.zohrevand.core.model.data.AccountStatus.Online
 import io.github.zohrevand.core.model.data.AccountStatus.ServerNotFound
 import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
 import io.github.zohrevand.core.model.data.ConnectionStatus
-import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -19,7 +18,6 @@ import javax.inject.Inject
 private const val TAG = "XmppManagerImpl"
 
 class XmppManagerImpl @Inject constructor(
-    private val accountsRepository: AccountsRepository,
     private val preferencesRepository: PreferencesRepository,
     private val ioDispatcher: CoroutineDispatcher
 ) : XmppManager {
@@ -101,7 +99,7 @@ class XmppManagerImpl @Inject constructor(
     private suspend fun Account.connectionSuccessHandler(
         connection: XMPPTCPConnection
     ): XMPPTCPConnection {
-        accountsRepository.updateAccount(this.copy(status = Online))
+        preferencesRepository.updateAccount(this.copy(status = Online))
 
         preferencesRepository.updateConnectionStatus(
             ConnectionStatus(
@@ -119,11 +117,11 @@ class XmppManagerImpl @Inject constructor(
     private suspend fun Account.connectionFailureHandler(throwable: Throwable?) {
         when (throwable) {
             is SmackException.EndpointConnectionException -> {
-                accountsRepository.updateAccount(this.copy(status = ServerNotFound))
+                preferencesRepository.updateAccount(this.copy(status = ServerNotFound))
             }
             // TODO: for now considering other exceptions as authentication failure
             else -> {
-                accountsRepository.updateAccount(this.copy(status = Unauthorized))
+                preferencesRepository.updateAccount(this.copy(status = Unauthorized))
             }
         }
     }
