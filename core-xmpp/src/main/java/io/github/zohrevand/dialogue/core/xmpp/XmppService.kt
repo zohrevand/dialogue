@@ -34,7 +34,13 @@ class XmppService : Service() {
 
         scope.launch {
             initializeXmppManager()
+        }
+
+        scope.launch {
             observeConnectionStatus()
+        }
+
+        scope.launch {
             observeAccountsStream()
         }
 
