@@ -31,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.github.zohrevand.dialogue.feature.auth.AuthUiState.AuthRequired
+import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Checking
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Error
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Loading
 import io.github.zohrevand.dialogue.feature.auth.R.string
@@ -51,7 +51,7 @@ fun AuthRoute(
         }
     }
 
-    if (uiState is AuthRequired) {
+    if (uiState !is Checking) {
         AuthScreen(
             uiState = uiState,
             onLoginClick = viewModel::login,
