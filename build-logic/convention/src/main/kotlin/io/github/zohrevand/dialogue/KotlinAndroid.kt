@@ -32,6 +32,14 @@ internal fun Project.configureKotlinAndroid(
             // Treat all Kotlin warnings as errors (disabled by default)
             allWarningsAsErrors = properties["warningsAsErrors"] as? Boolean ?: false
 
+            freeCompilerArgs = freeCompilerArgs + listOf(
+                "-opt-in=kotlin.RequiresOptIn",
+                // Enable experimental coroutines APIs, including Flow
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=kotlinx.coroutines.FlowPreview",
+                "-opt-in=kotlin.Experimental",
+            )
+
             // Set JVM target to 1.8
             jvmTarget = JavaVersion.VERSION_1_8.toString()
         }
