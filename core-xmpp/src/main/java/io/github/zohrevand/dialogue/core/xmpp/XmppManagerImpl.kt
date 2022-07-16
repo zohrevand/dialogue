@@ -78,6 +78,13 @@ class XmppManagerImpl @Inject constructor(
             accountsRepository.updateAccount(this.copy(status = Online))
             _isAuthenticatedState.update { connection.isAuthenticated }
 
+            preferencesDataSource.updateConnectionStatus {
+                ConnectionStatus(
+                    availability = true,
+                    authorized = connection.isAuthenticated
+                )
+            }
+
             Log.d(TAG, "isConnected: ${connection.isConnected}")
             Log.d(TAG, "isAuthenticated: ${connection.isAuthenticated}")
 
