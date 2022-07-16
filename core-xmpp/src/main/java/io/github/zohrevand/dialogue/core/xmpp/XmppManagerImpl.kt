@@ -5,9 +5,9 @@ import io.github.zohrevand.core.model.data.Account
 import io.github.zohrevand.core.model.data.AccountStatus.Online
 import io.github.zohrevand.core.model.data.AccountStatus.ServerNotFound
 import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
+import io.github.zohrevand.core.model.data.ConnectionStatus
 import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
-import io.github.zohrevand.dialogue.core.datastore.ConnectionStatus
-import io.github.zohrevand.dialogue.core.datastore.DialoguePreferencesDataSource
+import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.ReconnectionManager
@@ -20,7 +20,7 @@ private const val TAG = "XmppManagerImpl"
 
 class XmppManagerImpl @Inject constructor(
     private val accountsRepository: AccountsRepository,
-    private val preferencesDataSource: DialoguePreferencesDataSource,
+    private val preferencesRepository: PreferencesRepository,
     private val ioDispatcher: CoroutineDispatcher
 ) : XmppManager {
 
@@ -35,7 +35,7 @@ class XmppManagerImpl @Inject constructor(
 
     override suspend fun setDefaultConnectionStatus() {
         if (xmppConnection == null) {
-            preferencesDataSource.updateConnectionStatus(ConnectionStatus())
+            preferencesRepository.updateConnectionStatus(ConnectionStatus())
         }
     }
 
@@ -82,8 +82,8 @@ class XmppManagerImpl @Inject constructor(
 
     private fun getConfiguration(account: Account): XMPPTCPConnectionConfiguration =
         XMPPTCPConnectionConfiguration.builder()
-            .setUsernameAndPassword(account.username, account.password)
-            .setXmppDomain(account.domain)
+            .setUsernameAndPassword(account.localPart, account.password)
+            .setXmppDomain(account.domainPart)
             .build()
 
     // TODO: this warning is fixed as of IntelliJ 2022.1
@@ -103,7 +103,7 @@ class XmppManagerImpl @Inject constructor(
     ): XMPPTCPConnection {
         accountsRepository.updateAccount(this.copy(status = Online))
 
-        preferencesDataSource.updateConnectionStatus(
+        preferencesRepository.updateConnectionStatus(
             ConnectionStatus(
                 availability = true,
                 authorized = connection.isAuthenticated
