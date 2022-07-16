@@ -28,6 +28,10 @@ class AuthViewModel @Inject constructor(
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
 
     init {
+        checkIfUserAlreadyLoggedIn()
+    }
+
+    private fun checkIfUserAlreadyLoggedIn() {
         viewModelScope.launch {
             preferencesRepository.getAccount()
                 .stateIn(
