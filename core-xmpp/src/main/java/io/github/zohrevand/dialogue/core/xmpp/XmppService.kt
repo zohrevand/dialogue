@@ -35,8 +35,8 @@ class XmppService : Service() {
         scope.launch {
             xmppManager.setDefaultConnectionStatus()
 
-            xmppManager.isAuthenticatedState.collect { isAuthenticated ->
-                if (isAuthenticated) {
+            preferencesDataSource.getConnectionStatus().collect { connectionStatus ->
+                if (connectionStatus.availability && connectionStatus.authorized) {
                     startForeground(1000, notificationManager.getNotification(
                         title = "Dialogue Xmpp Service", text = "You are connected"
                     ))

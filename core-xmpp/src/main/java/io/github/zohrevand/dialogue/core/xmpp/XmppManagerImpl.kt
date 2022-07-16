@@ -9,10 +9,6 @@ import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
 import io.github.zohrevand.dialogue.core.datastore.ConnectionStatus
 import io.github.zohrevand.dialogue.core.datastore.DialoguePreferencesDataSource
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.ReconnectionManager
 import org.jivesoftware.smack.SmackException
@@ -31,9 +27,6 @@ class XmppManagerImpl @Inject constructor(
     private var xmppConnection: XMPPTCPConnection? = null
 
     private var account: Account? = null
-
-    private val _isAuthenticatedState: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    override val isAuthenticatedState: StateFlow<Boolean> = _isAuthenticatedState.asStateFlow()
 
     private val connectionListener = SimpleConnectionListener()
 
@@ -76,7 +69,6 @@ class XmppManagerImpl @Inject constructor(
 
         return if (result.isSuccess) {
             accountsRepository.updateAccount(this.copy(status = Online))
-            _isAuthenticatedState.update { connection.isAuthenticated }
 
             preferencesDataSource.updateConnectionStatus {
                 ConnectionStatus(
