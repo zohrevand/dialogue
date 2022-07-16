@@ -6,8 +6,9 @@ import io.github.zohrevand.core.model.data.AccountStatus.Online
 import io.github.zohrevand.core.model.data.AccountStatus.ServerNotFound
 import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
 import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
+import io.github.zohrevand.dialogue.core.datastore.ConnectionStatus
+import io.github.zohrevand.dialogue.core.datastore.DialoguePreferencesDataSource
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,6 +24,7 @@ private const val TAG = "XmppManagerImpl"
 
 class XmppManagerImpl @Inject constructor(
     private val accountsRepository: AccountsRepository,
+    private val preferencesDataSource: DialoguePreferencesDataSource,
     private val ioDispatcher: CoroutineDispatcher
 ) : XmppManager {
 
@@ -37,6 +39,12 @@ class XmppManagerImpl @Inject constructor(
 
     override fun getConnection(): XMPPTCPConnection =
         xmppConnection ?: throw NoSuchElementException("Connection is not established.")
+
+    override suspend fun setDefaultConnectionStatus() {
+        if (xmppConnection == null) {
+            preferencesDataSource.updateConnectionStatus { ConnectionStatus() }
+        }
+    }
 
     override suspend fun login(account: Account) {
         this.account = account
