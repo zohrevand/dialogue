@@ -7,15 +7,13 @@ import io.github.zohrevand.core.model.data.Account
 import io.github.zohrevand.core.model.data.AccountStatus.Online
 import io.github.zohrevand.core.model.data.AccountStatus.ServerNotFound
 import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
-import io.github.zohrevand.core.model.data.usernameDomain
-import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
+import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.AuthRequired
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.UserAvailable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -23,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val accountsRepository: AccountsRepository
+    private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<AuthUiState> = MutableStateFlow(AuthUiState.Checking)
@@ -31,11 +29,15 @@ class AuthViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            accountsRepository.getAccountsStream()
-                .collectLatest { accounts ->
+            preferencesRepository.getAccount()
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000),
+                    initialValue = null
+                )
+                .collect { account ->
                     // TODO: for now check for Online status
-                    val onlineAccount = accounts.firstOrNull { it.status == Online }
-                    if (onlineAccount != null) {
+                    if (account?.status == Online) {
                         _uiState.update { UserAvailable }
                     } else {
                         _uiState.update { AuthRequired }
@@ -48,26 +50,19 @@ class AuthViewModel @Inject constructor(
         val account = Account.create(jid, password)
         _uiState.update { AuthUiState.Loading }
         viewModelScope.launch {
-            accountsRepository.addAccount(account)
+            preferencesRepository.updateAccount(account)
 
-            checkForAccountStatusChanges(jid)
+            checkForAccountStatusChanges()
         }
     }
 
-    private suspend fun checkForAccountStatusChanges(jid: String) {
-        val usernameDomain = jid.usernameDomain
-        val username = usernameDomain.first
-        val domain = usernameDomain.second
-
-        accountsRepository.getAccount(
-            username = username,
-            domain = domain
-        )
+    private suspend fun checkForAccountStatusChanges() {
+        preferencesRepository.getAccount()
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = null
-            ).collectLatest { account ->
+            ).collect { account ->
                 when (account?.status) {
                     Online -> _uiState.update { AuthUiState.Success }
                     ServerNotFound -> _uiState.update { AuthUiState.Error("Server not available") }
