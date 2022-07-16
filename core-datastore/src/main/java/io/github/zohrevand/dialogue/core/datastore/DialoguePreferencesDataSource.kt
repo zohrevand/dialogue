@@ -39,7 +39,19 @@ class DialoguePreferencesDataSource @Inject constructor(
                 }
             }
         } catch (ioException: IOException) {
-            Log.e("NiaPreferences", "Failed to update user preferences", ioException)
+            Log.e("DialoguePreferences", "Failed to update user preferences", ioException)
         }
     }
+
+    suspend fun getAccount() = userPreferences.data
+        .map {
+            PreferencesAccount(
+                jid = it.accountJid,
+                localPart = it.accountLocalPart,
+                domainPart = it.accountDomainPart,
+                password = it.accountPassword,
+                status = it.accountStatus
+            )
+        }
+        .firstOrNull()
 }
