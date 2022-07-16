@@ -38,6 +38,12 @@ protobuf {
     }
 }
 
+// TODO: Check if there is a better solution
+// This configuration is for fixing Hilt error.NonExistentClass
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
     implementation(project(":core-common"))
     implementation(project(":core-model"))
@@ -49,5 +55,4 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-    kaptAndroidTest(libs.hilt.compiler)
 }
