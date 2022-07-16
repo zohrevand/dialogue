@@ -3,7 +3,6 @@ package io.github.zohrevand.dialogue.core.datastore
 import android.util.Log
 import androidx.datastore.core.DataStore
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 import javax.inject.Inject
@@ -36,7 +35,7 @@ class DialoguePreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun getAccount() = userPreferences.data
+    fun getAccount(): Flow<PreferencesAccount> = userPreferences.data
         .map {
             PreferencesAccount(
                 jid = it.accountJid,
@@ -46,7 +45,6 @@ class DialoguePreferencesDataSource @Inject constructor(
                 status = it.accountStatus
             )
         }
-        .firstOrNull()
 
     /**
      * Update the [PreferencesAccount] using [update].
