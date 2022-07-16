@@ -2,6 +2,7 @@ package io.github.zohrevand.dialogue.core.datastore
 
 import android.util.Log
 import androidx.datastore.core.DataStore
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import java.io.IOException
@@ -11,7 +12,7 @@ class DialoguePreferencesDataSource @Inject constructor(
     private val userPreferences: DataStore<UserPreferences>
 ) {
 
-    fun getConnectionStatus() = userPreferences.data
+    fun getConnectionStatus(): Flow<ConnectionStatus> = userPreferences.data
         .map {
             ConnectionStatus(
                 availability = it.connectionAvailability,
@@ -20,21 +21,14 @@ class DialoguePreferencesDataSource @Inject constructor(
         }
 
     /**
-     * Update the [ConnectionStatus] using [update].
+     * Update the [ConnectionStatus].
      */
-    suspend fun updateConnectionStatus(update: ConnectionStatus.() -> ConnectionStatus) {
+    suspend fun updateConnectionStatus(connectionStatus: ConnectionStatus) {
         try {
             userPreferences.updateData { currentPreferences ->
-                val updatedConnectionStatus = update(
-                    ConnectionStatus(
-                        availability = currentPreferences.connectionAvailability,
-                        authorized = currentPreferences.connectionAuthorized
-                    )
-                )
-
                 currentPreferences.copy {
-                    connectionAvailability = updatedConnectionStatus.availability
-                    connectionAuthorized = updatedConnectionStatus.authorized
+                    connectionAvailability = connectionStatus.availability
+                    connectionAuthorized = connectionStatus.authorized
                 }
             }
         } catch (ioException: IOException) {

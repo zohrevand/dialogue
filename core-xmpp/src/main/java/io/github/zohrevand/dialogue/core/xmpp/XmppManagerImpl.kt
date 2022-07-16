@@ -35,7 +35,7 @@ class XmppManagerImpl @Inject constructor(
 
     override suspend fun setDefaultConnectionStatus() {
         if (xmppConnection == null) {
-            preferencesDataSource.updateConnectionStatus { ConnectionStatus() }
+            preferencesDataSource.updateConnectionStatus(ConnectionStatus())
         }
     }
 
@@ -63,7 +63,7 @@ class XmppManagerImpl @Inject constructor(
         successHandler: suspend Account.(XMPPTCPConnection) -> XMPPTCPConnection,
         failureHandler: suspend Account.(Throwable?) -> Unit
     ): XMPPTCPConnection? {
-        
+
         val configuration = configurationBuilder(this)
         val connection = connectionBuilder(configuration)
 
@@ -103,12 +103,12 @@ class XmppManagerImpl @Inject constructor(
     ): XMPPTCPConnection {
         accountsRepository.updateAccount(this.copy(status = Online))
 
-        preferencesDataSource.updateConnectionStatus {
+        preferencesDataSource.updateConnectionStatus(
             ConnectionStatus(
                 availability = true,
                 authorized = connection.isAuthenticated
             )
-        }
+        )
 
         Log.d(TAG, "isConnected: ${connection.isConnected}")
         Log.d(TAG, "isAuthenticated: ${connection.isAuthenticated}")
