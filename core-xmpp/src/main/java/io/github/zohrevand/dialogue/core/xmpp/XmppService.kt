@@ -48,11 +48,7 @@ class XmppService : Service() {
     private suspend fun observeConnectionStatus() {
         preferencesDataSource.getConnectionStatus().collect { connectionStatus ->
             if (connectionStatus.availability && connectionStatus.authorized) {
-                val notification = notificationManager.getNotification(
-                    title = "Dialogue Xmpp Service",
-                    text = "You are connected"
-                )
-                startForeground(1000, notification)
+                startForeground()
             }
         }
     }
@@ -62,6 +58,14 @@ class XmppService : Service() {
             onNewLogin = { xmppManager.login(it) },
             onNewRegister = { xmppManager.register(it) },
         )
+    }
+
+    private fun startForeground() {
+        val notification = notificationManager.getNotification(
+            title = "Dialogue Xmpp Service",
+            text = "You are connected"
+        )
+        startForeground(1000, notification)
     }
 
     override fun onBind(p0: Intent?): IBinder? = null
