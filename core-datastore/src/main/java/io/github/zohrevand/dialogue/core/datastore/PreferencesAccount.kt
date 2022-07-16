@@ -1,12 +1,12 @@
 package io.github.zohrevand.dialogue.core.datastore
 
-import io.github.zohrevand.core.model.data.AccountStatus
-import io.github.zohrevand.core.model.data.AccountStatus.Disabled
+import io.github.zohrevand.dialogue.core.datastore.UserPreferences.AccountStatus
+import io.github.zohrevand.dialogue.core.datastore.UserPreferences.AccountStatus.Disabled
 
 data class PreferencesAccount(
     val jid: String = "",
-    val username: String = "",
-    val domain: String = "",
+    val localPart: String = "",
+    val domainPart: String = "",
     val password: String = "",
     val status: AccountStatus = Disabled
 )
