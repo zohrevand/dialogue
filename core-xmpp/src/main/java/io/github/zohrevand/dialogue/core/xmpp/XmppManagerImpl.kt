@@ -45,7 +45,9 @@ class XmppManagerImpl @Inject constructor(
             configurationBuilder = ::getConfiguration,
             connectionBuilder = ::XMPPTCPConnection,
             reconnectionManager = ::configureReconnectionManager,
-            connectionListener = ::addConnectionListener
+            connectionListener = ::addConnectionListener,
+            successHandler = { account.connectionSuccessHandler(it) },
+            failureHandler = { account.connectionFailureHandler(it) }
         )
     }
 
@@ -58,7 +60,10 @@ class XmppManagerImpl @Inject constructor(
         connectionBuilder: (XMPPTCPConnectionConfiguration) -> XMPPTCPConnection,
         reconnectionManager: (XMPPTCPConnection) -> Unit,
         connectionListener: (XMPPTCPConnection) -> Unit,
+        successHandler: suspend Account.(XMPPTCPConnection) -> XMPPTCPConnection,
+        failureHandler: suspend Account.(Throwable?) -> Unit
     ): XMPPTCPConnection? {
+        
         val configuration = configurationBuilder(this)
         val connection = connectionBuilder(configuration)
 
@@ -68,29 +73,9 @@ class XmppManagerImpl @Inject constructor(
         val result = connection.connectAndLogin()
 
         return if (result.isSuccess) {
-            accountsRepository.updateAccount(this.copy(status = Online))
-
-            preferencesDataSource.updateConnectionStatus {
-                ConnectionStatus(
-                    availability = true,
-                    authorized = connection.isAuthenticated
-                )
-            }
-
-            Log.d(TAG, "isConnected: ${connection.isConnected}")
-            Log.d(TAG, "isAuthenticated: ${connection.isAuthenticated}")
-
-            result.getOrThrow()
+            successHandler(result.getOrThrow())
         } else {
-            when (result.exceptionOrNull()) {
-                is SmackException.EndpointConnectionException -> {
-                    accountsRepository.updateAccount(this.copy(status = ServerNotFound))
-                }
-                // TODO: for now considering other exceptions as authentication failure
-                else -> {
-                    accountsRepository.updateAccount(this.copy(status = Unauthorized))
-                }
-            }
+            failureHandler(result.exceptionOrNull())
             null
         }
     }
@@ -112,6 +97,36 @@ class XmppManagerImpl @Inject constructor(
                 this@connectAndLogin
             }
         }
+
+    private suspend fun Account.connectionSuccessHandler(
+        connection: XMPPTCPConnection
+    ): XMPPTCPConnection {
+        accountsRepository.updateAccount(this.copy(status = Online))
+
+        preferencesDataSource.updateConnectionStatus {
+            ConnectionStatus(
+                availability = true,
+                authorized = connection.isAuthenticated
+            )
+        }
+
+        Log.d(TAG, "isConnected: ${connection.isConnected}")
+        Log.d(TAG, "isAuthenticated: ${connection.isAuthenticated}")
+
+        return connection
+    }
+
+    private suspend fun Account.connectionFailureHandler(throwable: Throwable?) {
+        when (throwable) {
+            is SmackException.EndpointConnectionException -> {
+                accountsRepository.updateAccount(this.copy(status = ServerNotFound))
+            }
+            // TODO: for now considering other exceptions as authentication failure
+            else -> {
+                accountsRepository.updateAccount(this.copy(status = Unauthorized))
+            }
+        }
+    }
 
     private fun configureReconnectionManager(connection: XMPPTCPConnection) {
         ReconnectionManager.getInstanceFor(connection)
