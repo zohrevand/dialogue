@@ -23,7 +23,8 @@ message UserPreferences {
   }
 
   string accountJid = 3;
-  string accountLocal = 4;
-  string accountDomain = 5;
-  string accountStatus = 6;
+  string accountLocalPart = 4;
+  string accountDomainPart = 5;
+  string accountPassword = 6;
+  AccountStatus accountStatus = 7;
 }
