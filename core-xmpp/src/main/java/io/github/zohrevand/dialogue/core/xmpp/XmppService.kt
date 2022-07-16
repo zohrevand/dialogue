@@ -4,7 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
-import io.github.zohrevand.dialogue.core.datastore.DialoguePreferencesDataSource
+import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import io.github.zohrevand.dialogue.core.xmpp.collector.AccountsCollector
 import io.github.zohrevand.dialogue.core.xmpp.notification.NotificationManager
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +22,7 @@ class XmppService : Service() {
     lateinit var xmppManager: XmppManager
 
     @Inject
-    lateinit var preferencesDataSource: DialoguePreferencesDataSource
+    lateinit var preferencesRepository: PreferencesRepository
 
     @Inject
     lateinit var accountsCollector: AccountsCollector
@@ -46,7 +46,7 @@ class XmppService : Service() {
     }
 
     private suspend fun observeConnectionStatus() {
-        preferencesDataSource.getConnectionStatus().collect { connectionStatus ->
+        preferencesRepository.getConnectionStatus().collect { connectionStatus ->
             if (connectionStatus.availability && connectionStatus.authorized) {
                 startForeground()
             }
