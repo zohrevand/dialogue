@@ -1,6 +1,10 @@
 package io.github.zohrevand.dialogue.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -86,7 +90,11 @@ fun DialogueApp(
 
 @Composable
 private fun Connecting(isConnecting: Boolean) {
-    AnimatedVisibility(visible = isConnecting) {
+    AnimatedVisibility(
+        visible = isConnecting,
+        enter = fadeIn() + slideInVertically(),
+        exit = slideOutVertically() + fadeOut(),
+    ) {
         Surface(color = Color(0xFFE4E4E4)) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
