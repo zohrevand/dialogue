@@ -23,7 +23,7 @@ data class Account(
     }
 }
 
-// TODO(): consider jid comprises only local part and domain part for now
+// TODO: consider jid comprises only local part and domain part for now
 private val String.localPartDomainPart: Pair<String, String>
     get() {
         val (localPart, domainPart) = this.split("@")
