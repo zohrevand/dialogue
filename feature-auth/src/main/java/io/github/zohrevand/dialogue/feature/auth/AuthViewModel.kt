@@ -8,13 +8,10 @@ import io.github.zohrevand.core.model.data.AccountStatus.Online
 import io.github.zohrevand.core.model.data.AccountStatus.ServerNotFound
 import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
-import io.github.zohrevand.dialogue.feature.auth.AuthUiState.AuthRequired
-import io.github.zohrevand.dialogue.feature.auth.AuthUiState.UserAvailable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -25,23 +22,8 @@ class AuthViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<AuthUiState> = MutableStateFlow(AuthUiState.Checking)
+    private val _uiState: MutableStateFlow<AuthUiState> = MutableStateFlow(AuthUiState.Idle)
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
-
-    init {
-        checkIfUserAlreadyLoggedIn()
-    }
-
-    private fun checkIfUserAlreadyLoggedIn() {
-        viewModelScope.launch {
-            val account = preferencesRepository.getAccount().firstOrNull()
-            if (account?.status == Online) {
-                _uiState.update { UserAvailable }
-            } else {
-                _uiState.update { AuthRequired }
-            }
-        }
-    }
 
     fun login(jid: String, password: String) {
         val account = Account.create(jid, password)
@@ -72,12 +54,7 @@ class AuthViewModel @Inject constructor(
 }
 
 sealed interface AuthUiState {
-    // State for checking if there is already logged in user
-    object Checking : AuthUiState
-
-    object UserAvailable : AuthUiState
-
-    object AuthRequired : AuthUiState
+    object Idle : AuthUiState
 
     object Loading : AuthUiState
 
