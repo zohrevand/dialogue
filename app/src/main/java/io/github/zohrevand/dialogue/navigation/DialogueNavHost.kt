@@ -12,6 +12,8 @@ import io.github.zohrevand.dialogue.feature.chat.navigation.chatGraph
 import io.github.zohrevand.dialogue.feature.contacts.navigation.contactsGraph
 import io.github.zohrevand.dialogue.feature.conversations.navigation.ConversationsDestination
 import io.github.zohrevand.dialogue.feature.conversations.navigation.conversationsGraph
+import io.github.zohrevand.dialogue.feature.router.navigation.RouterDestination
+import io.github.zohrevand.dialogue.feature.router.navigation.routerGraph
 
 @Composable
 fun DialogueNavHost(
@@ -20,9 +22,13 @@ fun DialogueNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AuthDestination.route,
+        startDestination = RouterDestination.route,
         modifier = modifier,
     ) {
+        routerGraph(
+            navigateToAuth = {},
+            navigateToConversations = {}
+        )
         authGraph(
             navigateToConversations = {
                 navController.navigate(ConversationsDestination.route) {
