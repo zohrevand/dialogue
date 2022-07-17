@@ -1,5 +1,6 @@
 package io.github.zohrevand.dialogue.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -76,26 +77,27 @@ fun DialogueApp(
                     navController = navController
                 )
 
-                if (isMainScreen(currentDestination) && uiState is Connecting) {
-                    Connecting()
-                }
+                val isConnecting = isMainScreen(currentDestination) && uiState is Connecting
+                Connecting(isConnecting)
             }
         }
     }
 }
 
 @Composable
-private fun Connecting() {
-    Surface(color = Color(0xFFE4E4E4)) {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            Text(
-                text = "Connecting...",
-                color = Color(0xFF009688),
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier
-                    .padding(vertical = 4.dp)
-                    .align(Alignment.Center)
-            )
+private fun Connecting(isConnecting: Boolean) {
+    AnimatedVisibility(visible = isConnecting) {
+        Surface(color = Color(0xFFE4E4E4)) {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = "Connecting...",
+                    color = Color(0xFF009688),
+                    style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier
+                        .padding(vertical = 4.dp)
+                        .align(Alignment.Center)
+                )
+            }
         }
     }
 }
