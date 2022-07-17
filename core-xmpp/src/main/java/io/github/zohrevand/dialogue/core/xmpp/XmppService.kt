@@ -55,6 +55,8 @@ class XmppService : Service() {
         preferencesRepository.getConnectionStatus().collect { connectionStatus ->
             if (connectionStatus.availability && connectionStatus.authorized) {
                 startForeground()
+            } else {
+                stopForeground(true)
             }
         }
     }
