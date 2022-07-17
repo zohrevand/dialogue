@@ -77,20 +77,25 @@ fun DialogueApp(
                 )
 
                 if (isMainScreen(currentDestination) && uiState is Connecting) {
-                    Surface(color = Color(0xFFE4E4E4)) {
-                        Box(modifier = Modifier.fillMaxWidth()) {
-                            Text(
-                                text = "Connecting...",
-                                color = Color(0xFF009688),
-                                style = MaterialTheme.typography.titleSmall,
-                                modifier = Modifier
-                                    .padding(vertical = 4.dp)
-                                    .align(Alignment.Center)
-                            )
-                        }
-                    }
+                    Connecting()
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun Connecting() {
+    Surface(color = Color(0xFFE4E4E4)) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = "Connecting...",
+                color = Color(0xFF009688),
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier
+                    .padding(vertical = 4.dp)
+                    .align(Alignment.Center)
+            )
         }
     }
 }
