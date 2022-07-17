@@ -10,4 +10,8 @@ interface XmppManager {
     suspend fun login(account: Account)
 
     suspend fun register(account: Account)
+
+    suspend fun setDefaultConnectionStatus()
+
+    fun onCleared()
 }

@@ -5,29 +5,25 @@ import io.github.zohrevand.core.model.data.AccountStatus.LoggingIn
 import io.github.zohrevand.core.model.data.AccountStatus.PreLoggingIn
 import io.github.zohrevand.core.model.data.AccountStatus.PreRegistering
 import io.github.zohrevand.core.model.data.AccountStatus.Registering
-import io.github.zohrevand.dialogue.core.data.repository.AccountsRepository
-import kotlinx.coroutines.flow.collectLatest
+import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import javax.inject.Inject
 
 class AccountsCollectorImpl @Inject constructor(
-    private val accountsRepository: AccountsRepository
+    private val preferencesRepository: PreferencesRepository
 ) : AccountsCollector {
 
     override suspend fun collectAccounts(
-        onNewLogin: (Account) -> Unit,
-        onNewRegister: (Account) -> Unit
+        onNewLogin: suspend (Account) -> Unit,
+        onNewRegister: suspend (Account) -> Unit
     ) {
-        accountsRepository.getAccountsStream().collectLatest { accounts ->
-            val preLoggingInAccount = accounts.firstOrNull { it.status == PreLoggingIn }
-            preLoggingInAccount?.let {
-                onNewLogin(it)
-                accountsRepository.updateAccount(it.copy(status = LoggingIn))
+        preferencesRepository.getAccount().collect { account ->
+            if (account.status == PreLoggingIn) {
+                onNewLogin(account)
+                preferencesRepository.updateAccount(account.copy(status = LoggingIn))
             }
-
-            val preRegisteringAccount = accounts.firstOrNull { it.status == PreRegistering }
-            preRegisteringAccount?.let {
-                onNewRegister(it)
-                accountsRepository.updateAccount(it.copy(status = Registering))
+            if (account.status == PreRegistering) {
+                onNewRegister(account)
+                preferencesRepository.updateAccount(account.copy(status = Registering))
             }
         }
     }
