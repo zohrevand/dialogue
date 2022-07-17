@@ -26,8 +26,16 @@ fun DialogueNavHost(
         modifier = modifier,
     ) {
         routerGraph(
-            navigateToAuth = {},
-            navigateToConversations = {}
+            navigateToAuth = {
+                navController.navigate(AuthDestination.route) {
+                    popUpTo(RouterDestination.route) { inclusive = true }
+                }
+            },
+            navigateToConversations = {
+                navController.navigate(ConversationsDestination.route) {
+                    popUpTo(RouterDestination.route) { inclusive = true }
+                }
+            }
         )
         authGraph(
             navigateToConversations = {
