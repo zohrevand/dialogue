@@ -28,14 +28,14 @@ class XmppManagerImpl @Inject constructor(
 
     private val connectionListener = SimpleConnectionListener()
 
-    override fun getConnection(): XMPPTCPConnection =
-        xmppConnection ?: throw NoSuchElementException("Connection is not established.")
-
-    override suspend fun setDefaultConnectionStatus() {
+    override suspend fun initialize() {
         if (xmppConnection == null) {
             preferencesRepository.updateConnectionStatus(ConnectionStatus())
         }
     }
+
+    override fun getConnection(): XMPPTCPConnection =
+        xmppConnection ?: throw NoSuchElementException("Connection is not established.")
 
     override suspend fun login(account: Account) {
         this.account = account

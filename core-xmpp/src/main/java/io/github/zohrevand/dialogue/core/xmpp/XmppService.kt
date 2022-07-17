@@ -33,7 +33,7 @@ class XmppService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         scope.launch {
-            initializeXmppManager()
+            xmppManager.initialize()
         }
 
         scope.launch {
@@ -45,10 +45,6 @@ class XmppService : Service() {
         }
 
         return super.onStartCommand(intent, flags, startId)
-    }
-
-    private suspend fun initializeXmppManager() {
-        xmppManager.setDefaultConnectionStatus()
     }
 
     private suspend fun observeConnectionStatus() {
