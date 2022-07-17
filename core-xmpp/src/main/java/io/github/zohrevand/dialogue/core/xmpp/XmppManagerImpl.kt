@@ -8,6 +8,7 @@ import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
 import io.github.zohrevand.core.model.data.ConnectionStatus
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.ReconnectionManager
 import org.jivesoftware.smack.SmackException
@@ -32,6 +33,9 @@ class XmppManagerImpl @Inject constructor(
         if (xmppConnection == null) {
             preferencesRepository.updateConnectionStatus(ConnectionStatus())
         }
+
+        val existedAccount = preferencesRepository.getAccount().firstOrNull()
+        existedAccount?.let { login(it) }
     }
 
     override fun getConnection(): XMPPTCPConnection =
