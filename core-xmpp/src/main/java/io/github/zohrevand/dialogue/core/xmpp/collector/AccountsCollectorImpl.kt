@@ -18,12 +18,12 @@ class AccountsCollectorImpl @Inject constructor(
     ) {
         preferencesRepository.getAccount().collect { account ->
             if (account.status == PreLoggingIn) {
-                onNewLogin(account)
                 preferencesRepository.updateAccount(account.copy(status = LoggingIn))
+                onNewLogin(account)
             }
             if (account.status == PreRegistering) {
-                onNewRegister(account)
                 preferencesRepository.updateAccount(account.copy(status = Registering))
+                onNewRegister(account)
             }
         }
     }
