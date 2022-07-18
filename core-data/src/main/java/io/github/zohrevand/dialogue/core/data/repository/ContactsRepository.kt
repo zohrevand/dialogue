@@ -5,7 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface ContactsRepository {
 
+    fun getContact(jid: String): Flow<Contact>
+
     fun getContactsStream(): Flow<List<Contact>>
 
-    fun getContact(jid: String): Flow<Contact>
+    fun getContactsStream(jids: Set<String>): Flow<List<Contact>>
 }
