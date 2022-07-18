@@ -36,4 +36,15 @@ interface ContactDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(contactEntities: List<ContactEntity>): List<Long>
+
+    /**
+     * Deletes rows in the db matching the specified [jids]
+     */
+    @Query(
+        value = """
+            DELETE FROM contacts
+            WHERE jid in (:jids)
+        """
+    )
+    suspend fun deleteContacts(jids: List<String>)
 }
