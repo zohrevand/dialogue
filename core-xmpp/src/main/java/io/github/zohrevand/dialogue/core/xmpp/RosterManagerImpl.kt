@@ -1,10 +1,13 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
 import org.jivesoftware.smack.packet.Presence
+import org.jivesoftware.smack.roster.PresenceEventListener
 import org.jivesoftware.smack.roster.Roster
 import org.jivesoftware.smack.roster.Roster.SubscriptionMode.accept_all
 import org.jivesoftware.smack.roster.RosterListener
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
+import org.jxmpp.jid.BareJid
+import org.jxmpp.jid.FullJid
 import org.jxmpp.jid.Jid
 import javax.inject.Inject
 
@@ -13,6 +16,8 @@ class RosterManagerImpl @Inject constructor() : RosterManager {
     private lateinit var roster: Roster
 
     private var rosterListener: RosterListener? = null
+
+    private var presenceEventListener: PresenceEventListener? = null
 
     init {
         Roster.setDefaultSubscriptionMode(accept_all)
@@ -23,6 +28,8 @@ class RosterManagerImpl @Inject constructor() : RosterManager {
         roster = Roster.getInstanceFor(connection)
 
         roster.addRosterListener()
+
+        roster.addPresenceEventListener()
     }
 
     private fun Roster.addRosterListener() {
@@ -47,7 +54,34 @@ class RosterManagerImpl @Inject constructor() : RosterManager {
         addRosterListener(rosterListener)
     }
 
+    private fun Roster.addPresenceEventListener() {
+        presenceEventListener = object : PresenceEventListener {
+            override fun presenceAvailable(address: FullJid?, availablePresence: Presence?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun presenceUnavailable(address: FullJid?, presence: Presence?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun presenceError(address: Jid?, errorPresence: Presence?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun presenceSubscribed(address: BareJid?, subscribedPresence: Presence?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun presenceUnsubscribed(address: BareJid?, unsubscribedPresence: Presence?) {
+                TODO("Not yet implemented")
+            }
+        }
+
+        addPresenceEventListener(presenceEventListener)
+    }
+
     override fun onCleared() {
         roster.removeRosterListener(rosterListener)
+        roster.removePresenceEventListener(presenceEventListener)
     }
 }
