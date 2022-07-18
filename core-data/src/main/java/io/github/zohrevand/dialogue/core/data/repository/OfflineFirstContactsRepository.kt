@@ -15,4 +15,7 @@ class OfflineFirstContactsRepository @Inject constructor(
     override fun getContactsStream(): Flow<List<Contact>> =
         contactDao.getContactEntitiesStream()
             .map { it.map(ContactEntity::asExternalModel) }
+
+    override fun getContact(jid: String): Flow<Contact> =
+        contactDao.getContactEntity(jid).map { it.asExternalModel() }
 }
