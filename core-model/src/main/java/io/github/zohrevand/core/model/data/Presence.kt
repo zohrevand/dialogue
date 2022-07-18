@@ -1,10 +1,8 @@
 package io.github.zohrevand.core.model.data
 
-import io.github.zohrevand.core.model.data.Presence.Type.Available
-
 data class Presence(
-    val type: Type = Available,
-    val mode: Mode,
+    val type: Type = Type.Available,
+    val mode: Mode = Mode.Available,
     val status: String = "",
     val priority: Int = 0
 ) {
@@ -51,6 +49,29 @@ data class Presence(
     }
 
     enum class Mode {
+        /**
+         * Free to chat.
+         */
+        Chat,
 
+        /**
+         * Available (the default).
+         */
+        Available,
+
+        /**
+         * Away.
+         */
+        Away,
+
+        /**
+         * Away for an extended period of time.
+         */
+        Xa,
+
+        /**
+         * Do not disturb.
+         */
+        Dnd
     }
 }
