@@ -17,4 +17,7 @@ interface ContactDao {
     """
     )
     fun getContactEntity(jid: String): Flow<ContactEntity>
+
+    @Query(value = "SELECT * FROM contacts")
+    fun getContactEntitiesStream(): Flow<List<ContactEntity>>
 }
