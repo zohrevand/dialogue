@@ -6,12 +6,13 @@ import org.jivesoftware.smack.roster.Roster.SubscriptionMode.accept_all
 import org.jivesoftware.smack.roster.RosterListener
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jxmpp.jid.Jid
-import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class RosterManagerImpl @Inject constructor() : RosterManager {
 
     private lateinit var roster: Roster
+
+    private var rosterListener: RosterListener? = null
 
     init {
         Roster.setDefaultSubscriptionMode(accept_all)
@@ -25,7 +26,7 @@ class RosterManagerImpl @Inject constructor() : RosterManager {
     }
 
     private fun Roster.addRosterListener() {
-        addRosterListener(object : RosterListener {
+        rosterListener = object : RosterListener {
             override fun entriesAdded(addresses: MutableCollection<Jid>?) {
                 TODO("Not yet implemented")
             }
@@ -41,8 +42,12 @@ class RosterManagerImpl @Inject constructor() : RosterManager {
             override fun presenceChanged(presence: Presence?) {
                 TODO("Not yet implemented")
             }
-        })
+        }
+
+        addRosterListener(rosterListener)
     }
 
-
+    override fun onCleared() {
+        roster.removeRosterListener(rosterListener)
+    }
 }
