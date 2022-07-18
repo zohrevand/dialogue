@@ -111,8 +111,6 @@ class XmppManagerImpl @Inject constructor(
             )
         )
 
-
-
         Log.d(TAG, "isConnected: ${connection.isConnected}")
         Log.d(TAG, "isAuthenticated: ${connection.isAuthenticated}")
 
