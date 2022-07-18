@@ -35,7 +35,7 @@ interface ContactDao {
      * Inserts [contactEntities] into the db if they don't exist, and update those that do
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(contactEntities: List<ContactEntity>): List<Long>
+    suspend fun upsert(contactEntities: List<ContactEntity>)
 
     /**
      * Deletes rows in the db matching the specified [jids]
