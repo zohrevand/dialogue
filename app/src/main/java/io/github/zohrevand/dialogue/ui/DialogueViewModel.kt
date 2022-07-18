@@ -38,10 +38,10 @@ class DialogueViewModel @Inject constructor(
                 initialValue = null
             )
             .collect { connectionStatus ->
-                if (connectionStatus?.availability == true && connectionStatus.authorized) {
+                if (connectionStatus?.availability == true && connectionStatus.authenticated) {
                     _uiState.update { Connected }
                 } else {
-                    // TODO: navigate to auth screen if connection available but not authorized
+                    // TODO: navigate to auth screen if connection available but not authenticated
                     _uiState.update { Connecting }
                 }
             }

@@ -49,7 +49,7 @@ class XmppService : Service() {
 
     private suspend fun observeConnectionStatus() {
         preferencesRepository.getConnectionStatus().collect { connectionStatus ->
-            if (connectionStatus.availability && connectionStatus.authorized) {
+            if (connectionStatus.availability && connectionStatus.authenticated) {
                 startForeground()
             } else {
                 stopForeground(true)

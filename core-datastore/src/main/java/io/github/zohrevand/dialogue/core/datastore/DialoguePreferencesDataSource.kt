@@ -15,7 +15,7 @@ class DialoguePreferencesDataSource @Inject constructor(
         .map {
             PreferencesConnectionStatus(
                 availability = it.connectionAvailability,
-                authorized = it.connectionAuthorized
+                authenticated = it.connectionAuthenticated
             )
         }
 
@@ -27,7 +27,7 @@ class DialoguePreferencesDataSource @Inject constructor(
             userPreferences.updateData { currentPreferences ->
                 currentPreferences.copy {
                     connectionAvailability = connectionStatus.availability
-                    connectionAuthorized = connectionStatus.authorized
+                    connectionAuthenticated = connectionStatus.authenticated
                 }
             }
         } catch (ioException: IOException) {

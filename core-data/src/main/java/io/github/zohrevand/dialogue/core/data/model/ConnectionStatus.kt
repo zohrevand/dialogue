@@ -5,5 +5,5 @@ import io.github.zohrevand.dialogue.core.datastore.PreferencesConnectionStatus
 
 fun ConnectionStatus.asPreferences() = PreferencesConnectionStatus(
     availability = availability,
-    authorized = authorized
+    authenticated = authenticated
 )

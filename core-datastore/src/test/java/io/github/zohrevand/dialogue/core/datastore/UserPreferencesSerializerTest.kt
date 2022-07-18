@@ -25,7 +25,7 @@ class UserPreferencesSerializerTest {
     fun writingAndReadingUserPreferences_outputsCorrectValue() = runTest {
         val expectedUserPreferences = userPreferences {
             connectionAvailability = true
-            connectionAuthorized = true
+            connectionAuthenticated = true
         }
 
         val outputStream = ByteArrayOutputStream()

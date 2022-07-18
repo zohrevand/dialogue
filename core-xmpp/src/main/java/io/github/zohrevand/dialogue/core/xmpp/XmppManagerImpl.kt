@@ -88,7 +88,6 @@ class XmppManagerImpl @Inject constructor(
             .setXmppDomain(account.domainPart)
             .build()
 
-    // TODO: this warning is fixed as of IntelliJ 2022.1
     // connect and login are called with Dispatchers.IO context
     @Suppress("BlockingMethodInNonBlockingContext")
     private suspend fun XMPPTCPConnection.connectAndLogin(): Result<XMPPTCPConnection> =
@@ -108,9 +107,11 @@ class XmppManagerImpl @Inject constructor(
         preferencesRepository.updateConnectionStatus(
             ConnectionStatus(
                 availability = true,
-                authorized = connection.isAuthenticated
+                authenticated = connection.isAuthenticated
             )
         )
+
+
 
         Log.d(TAG, "isConnected: ${connection.isConnected}")
         Log.d(TAG, "isAuthenticated: ${connection.isAuthenticated}")
