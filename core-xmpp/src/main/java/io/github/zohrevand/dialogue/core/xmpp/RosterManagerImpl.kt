@@ -81,7 +81,9 @@ class RosterManagerImpl @Inject constructor() : RosterManager {
     }
 
     override fun onCleared() {
-        roster.removeRosterListener(rosterListener)
-        roster.removePresenceEventListener(presenceEventListener)
+        if (this::roster.isInitialized) {
+            roster.removeRosterListener(rosterListener)
+            roster.removePresenceEventListener(presenceEventListener)
+        }
     }
 }
