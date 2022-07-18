@@ -32,10 +32,10 @@ class XmppManagerImpl @Inject constructor(
     override suspend fun initialize() {
         if (xmppConnection == null) {
             preferencesRepository.updateConnectionStatus(ConnectionStatus())
-        }
 
-        val existedAccount = preferencesRepository.getAccount().firstOrNull()
-        existedAccount?.let { login(it) }
+            val existedAccount = preferencesRepository.getAccount().firstOrNull()
+            existedAccount?.let { login(it) }
+        }
     }
 
     override fun getConnection(): XMPPTCPConnection =
