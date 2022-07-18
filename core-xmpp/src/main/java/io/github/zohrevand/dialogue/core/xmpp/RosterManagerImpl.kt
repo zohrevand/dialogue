@@ -7,8 +7,11 @@ import org.jivesoftware.smack.roster.Roster.SubscriptionMode.accept_all
 import org.jivesoftware.smack.roster.RosterListener
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jxmpp.jid.BareJid
+import org.jxmpp.jid.EntityBareJid
 import org.jxmpp.jid.FullJid
 import org.jxmpp.jid.Jid
+import org.jxmpp.jid.impl.JidCreate
+import org.jxmpp.jid.impl.LocalAndDomainpartJid
 import javax.inject.Inject
 
 class RosterManagerImpl @Inject constructor() : RosterManager {
@@ -78,6 +81,11 @@ class RosterManagerImpl @Inject constructor() : RosterManager {
         }
 
         addPresenceEventListener(presenceEventListener)
+    }
+
+    private fun createEntry(jid: String) {
+        // TODO: check if the nickname (name) is required
+        roster.preApproveAndCreateEntry(JidCreate.bareFrom(jid), null, null);
     }
 
     override fun onCleared() {
