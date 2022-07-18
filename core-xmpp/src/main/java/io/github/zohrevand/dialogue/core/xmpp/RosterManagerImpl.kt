@@ -1,5 +1,7 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
-class RosterManagerImpl : RosterManager {
+import javax.inject.Inject
+
+class RosterManagerImpl @Inject constructor() : RosterManager {
 
 }
