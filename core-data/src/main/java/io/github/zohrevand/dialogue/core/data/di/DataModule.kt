@@ -4,6 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.github.zohrevand.dialogue.core.data.repository.ContactsRepository
+import io.github.zohrevand.dialogue.core.data.repository.OfflineFirstContactsRepository
 import io.github.zohrevand.dialogue.core.data.repository.OfflineFirstPreferencesRepository
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 
@@ -15,4 +17,9 @@ interface DataModule {
     fun bindsPreferencesRepository(
         preferencesRepository: OfflineFirstPreferencesRepository
     ): PreferencesRepository
+
+    @Binds
+    fun bindsContactsRepository(
+        contactsRepository: OfflineFirstContactsRepository
+    ): ContactsRepository
 }

@@ -1,3 +1,7 @@
 package io.github.zohrevand.dialogue.core.data.repository
 
-class OfflineFirstContactsRepository : ContactsRepository
+import javax.inject.Inject
+
+class OfflineFirstContactsRepository @Inject constructor() : ContactsRepository {
+
+}
