@@ -20,4 +20,12 @@ interface ContactDao {
 
     @Query(value = "SELECT * FROM contacts")
     fun getContactEntitiesStream(): Flow<List<ContactEntity>>
+
+    @Query(
+        value = """
+        SELECT * FROM contacts
+        WHERE jid IN (:jids)
+    """
+    )
+    fun getContactEntitiesStream(jids: Set<String>): Flow<List<ContactEntity>>
 }
