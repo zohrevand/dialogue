@@ -12,6 +12,7 @@ class RosterManagerImpl @Inject constructor() : RosterManager {
 
     init {
         Roster.setDefaultSubscriptionMode(accept_all)
+        Roster.setRosterLoadedAtLoginDefault(true)
     }
 
     private fun getRoster(): Roster =
