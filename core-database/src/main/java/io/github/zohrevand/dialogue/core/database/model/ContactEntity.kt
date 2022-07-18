@@ -7,7 +7,9 @@ import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.core.model.data.Presence
 import kotlinx.datetime.Instant
 
-@Entity
+@Entity(
+    tableName = "contacts",
+)
 data class ContactEntity(
     @PrimaryKey
     val jid: String,
