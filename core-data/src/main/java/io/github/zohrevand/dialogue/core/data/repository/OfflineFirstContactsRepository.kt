@@ -1,7 +1,18 @@
 package io.github.zohrevand.dialogue.core.data.repository
 
+import io.github.zohrevand.core.model.data.Contact
+import io.github.zohrevand.dialogue.core.database.dao.ContactDao
+import io.github.zohrevand.dialogue.core.database.model.ContactEntity
+import io.github.zohrevand.dialogue.core.database.model.asExternalModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class OfflineFirstContactsRepository @Inject constructor() : ContactsRepository {
+class OfflineFirstContactsRepository @Inject constructor(
+    private val contactDao: ContactDao
+) : ContactsRepository {
 
+    override fun getContactsStream(): Flow<List<Contact>> =
+        contactDao.getContactEntitiesStream()
+            .map { it.map(ContactEntity::asExternalModel) }
 }
