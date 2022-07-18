@@ -3,6 +3,7 @@ package io.github.zohrevand.dialogue.core.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.core.model.data.Presence
 import kotlinx.datetime.Instant
 
@@ -20,4 +21,15 @@ data class ContactEntity(
     val presencePriority: Int,
     @ColumnInfo(name = "last_time")
     val lastTime: Instant
+)
+
+fun ContactEntity.asExternalModel() = Contact(
+    jid = jid,
+    presence = Presence(
+        type = presenceType,
+        mode = presenceMode,
+        status = presenceStatus,
+        priority = presencePriority
+    ),
+    lastTime = lastTime
 )
