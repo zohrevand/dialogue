@@ -26,4 +26,7 @@ class OfflineFirstContactsRepository @Inject constructor(
 
     override suspend fun updateContacts(contacts: List<Contact>) =
         contactDao.upsert(contacts.map { it.asEntity() })
+
+    override suspend fun deleteContacts(jids: List<String>) =
+        contactDao.deleteContacts(jids)
 }
