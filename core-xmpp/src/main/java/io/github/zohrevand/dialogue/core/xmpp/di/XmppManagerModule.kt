@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class XmppModule {
+class XmppManagerModule {
 
     @Provides
     @Singleton
