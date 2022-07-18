@@ -18,6 +18,7 @@ hiltExt = "1.0.0"
 junit4 = "4.13.2"
 kotlin = "1.7.0"
 kotlinxCoroutines = "1.6.3"
+kotlinxDatetime = "0.4.0"
 ksp = "1.7.0-1.0.6"
 protobuf = "3.21.1"
 protobufPlugin = "0.8.18"
@@ -59,6 +60,7 @@ junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
