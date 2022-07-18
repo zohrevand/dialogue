@@ -21,7 +21,11 @@ class RosterManagerImpl @Inject constructor() : RosterManager {
     override fun initializeRoster(connection: XMPPTCPConnection) {
         roster = Roster.getInstanceFor(connection)
 
-        roster.addRosterListener(object : RosterListener {
+        roster.addRosterListener()
+    }
+
+    private fun Roster.addRosterListener() {
+        addRosterListener(object : RosterListener {
             override fun entriesAdded(addresses: MutableCollection<Jid>?) {
                 TODO("Not yet implemented")
             }
