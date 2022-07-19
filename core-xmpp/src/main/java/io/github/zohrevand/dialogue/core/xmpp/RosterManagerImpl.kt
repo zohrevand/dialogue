@@ -1,5 +1,6 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
+import javax.inject.Inject
 import org.jivesoftware.smack.packet.Presence
 import org.jivesoftware.smack.roster.PresenceEventListener
 import org.jivesoftware.smack.roster.Roster
@@ -10,7 +11,6 @@ import org.jxmpp.jid.BareJid
 import org.jxmpp.jid.FullJid
 import org.jxmpp.jid.Jid
 import org.jxmpp.jid.impl.JidCreate
-import javax.inject.Inject
 
 class RosterManagerImpl @Inject constructor() : RosterManager {
 
