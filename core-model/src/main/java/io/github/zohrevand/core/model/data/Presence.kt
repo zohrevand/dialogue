@@ -8,8 +8,8 @@ data class Presence(
 ) {
     enum class Type {
         /**
-        * The user is available to receive messages (default).
-        */
+         * The user is available to receive messages (default).
+         */
         Available,
 
         /**
