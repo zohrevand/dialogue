@@ -31,7 +31,7 @@ fun ConversationsScreen(
             .background(Color.Blue)
     ) {
         Text(text = "This is Conversations Screen")
-        Button(onClick = { navigateToChat("{chat_id}")}) {
+        Button(onClick = { navigateToChat("{chat_id}") }) {
             Text(text = "Navigate to chat with id {chat_id}")
         }
     }
