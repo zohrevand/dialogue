@@ -11,6 +11,7 @@ dependencies {
     implementation(project(":core-datastore"))
 
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.datetime)
 
     implementation(libs.protobuf.kotlin.lite)
 
