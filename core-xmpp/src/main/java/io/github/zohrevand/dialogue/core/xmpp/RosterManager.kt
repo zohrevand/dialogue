@@ -4,7 +4,7 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnection
 
 interface RosterManager {
 
-    fun initializeRoster(connection: XMPPTCPConnection)
+    suspend fun initializeRoster(connection: XMPPTCPConnection)
 
     fun onCleared()
 }

@@ -1,7 +1,10 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
 import android.util.Log
+import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import org.jivesoftware.smack.packet.Presence
 import org.jivesoftware.smack.roster.PresenceEventListener
@@ -16,6 +19,7 @@ import org.jxmpp.jid.impl.JidCreate
 
 private const val TAG = "RosterManager"
 
+@Suppress("BlockingMethodInNonBlockingContext")
 class RosterManagerImpl @Inject constructor(
     private val contactsCollector: ContactsCollector
 ) : RosterManager {
@@ -31,12 +35,24 @@ class RosterManagerImpl @Inject constructor(
         Roster.setRosterLoadedAtLoginDefault(true)
     }
 
-    override fun initializeRoster(connection: XMPPTCPConnection) {
+    override suspend fun initializeRoster(connection: XMPPTCPConnection) {
         roster = Roster.getInstanceFor(connection)
 
         roster.addRosterListener()
 
         roster.addPresenceEventListener()
+
+        contactsCollector.collectAddToRosterContacts(this::addToRoster)
+    }
+
+    private suspend fun addToRoster(contacts: List<Contact>) {
+        contacts.forEach { createEntry(it.jid) }
+    }
+
+    private suspend fun createEntry(jid: String) = withContext(Dispatchers.IO) {
+        // TODO: check if the nickname (name) is required
+        // TODO: check if preApproveAndCreateEntry is the right way to create entry
+        roster.preApproveAndCreateEntry(JidCreate.bareFrom(jid), null, null)
     }
 
     private fun Roster.addRosterListener() {
@@ -85,12 +101,6 @@ class RosterManagerImpl @Inject constructor(
         }
 
         addPresenceEventListener(presenceEventListener)
-    }
-
-    private fun createEntry(jid: String) {
-        // TODO: check if the nickname (name) is required
-        // TODO: check if preApproveAndCreateEntry is the right way to create entry
-        roster.preApproveAndCreateEntry(JidCreate.bareFrom(jid), null, null)
     }
 
     override fun onCleared() {
