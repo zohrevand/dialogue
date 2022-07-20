@@ -31,6 +31,14 @@ interface ContactDao {
     )
     fun getContactEntitiesStream(jids: Set<String>): Flow<List<ContactEntity>>
 
+    @Query(
+        value = """
+        SELECT * FROM contacts
+        WHERE add_to_roster = 1
+    """
+    )
+    fun getAddToRosterStream(): Flow<List<ContactEntity>>
+
     /**
      * Inserts [contactEntities] into the db if they don't exist, and update those that do
      */
