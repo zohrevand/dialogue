@@ -3,6 +3,10 @@ package io.github.zohrevand.dialogue.core.xmpp
 import android.util.Log
 import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import org.jivesoftware.smack.packet.Presence
 import org.jivesoftware.smack.roster.PresenceEventListener
@@ -22,6 +26,8 @@ class RosterManagerImpl @Inject constructor(
     private val contactsCollector: ContactsCollector
 ) : RosterManager {
 
+    private val scope = CoroutineScope(SupervisorJob())
+
     private lateinit var roster: Roster
 
     private var rosterListener: RosterListener? = null
@@ -40,7 +46,9 @@ class RosterManagerImpl @Inject constructor(
 
         roster.addPresenceEventListener()
 
-        contactsCollector.collectAddToRosterContacts(this::addToRoster)
+        scope.launch {
+            contactsCollector.collectAddToRosterContacts { addToRoster(it) }
+        }
     }
 
     private fun addToRoster(contacts: List<Contact>) {
@@ -102,6 +110,7 @@ class RosterManagerImpl @Inject constructor(
     }
 
     override fun onCleared() {
+        scope.cancel()
         if (this::roster.isInitialized) {
             roster.removeRosterListener(rosterListener)
             roster.removePresenceEventListener(presenceEventListener)
