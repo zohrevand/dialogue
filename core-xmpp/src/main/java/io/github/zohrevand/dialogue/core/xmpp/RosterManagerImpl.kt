@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
 import android.util.Log
+import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
 import javax.inject.Inject
 import org.jivesoftware.smack.packet.Presence
 import org.jivesoftware.smack.roster.PresenceEventListener
@@ -15,7 +16,9 @@ import org.jxmpp.jid.impl.JidCreate
 
 private const val TAG = "RosterManager"
 
-class RosterManagerImpl @Inject constructor() : RosterManager {
+class RosterManagerImpl @Inject constructor(
+    private val contactsCollector: ContactsCollector
+) : RosterManager {
 
     private lateinit var roster: Roster
 
