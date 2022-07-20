@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.zohrevand.dialogue.core.xmpp.collector.AccountsCollector
 import io.github.zohrevand.dialogue.core.xmpp.collector.AccountsCollectorImpl
+import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
+import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollectorImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -15,4 +17,9 @@ interface CollectorModule {
     fun bindsAccountsCollector(
         accountsCollector: AccountsCollectorImpl
     ): AccountsCollector
+
+    @Binds
+    fun bindsContactsCollector(
+        contactsCollector: ContactsCollectorImpl
+    ): ContactsCollector
 }
