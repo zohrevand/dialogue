@@ -24,6 +24,10 @@ class OfflineFirstContactsRepository @Inject constructor(
         contactDao.getContactEntitiesStream(jids)
             .map { it.map(ContactEntity::asExternalModel) }
 
+    override fun getAddToRosterStream(): Flow<List<Contact>> =
+        contactDao.getAddToRosterStream()
+            .map { it.map(ContactEntity::asExternalModel) }
+
     override suspend fun updateContacts(contacts: List<Contact>) =
         contactDao.upsert(contacts.map { it.asEntity() })
 
