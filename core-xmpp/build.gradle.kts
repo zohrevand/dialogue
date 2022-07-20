@@ -14,6 +14,7 @@ dependencies {
     api(libs.smack.android.extensions)
 
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.datetime)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
