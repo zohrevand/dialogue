@@ -9,5 +9,6 @@ fun Contact.asEntity() = ContactEntity(
     presenceMode = presence.mode,
     presenceStatus = presence.status,
     presencePriority = presence.priority,
-    lastTime = lastTime
+    lastTime = lastTime,
+    addToRoster = addToRoster
 )
