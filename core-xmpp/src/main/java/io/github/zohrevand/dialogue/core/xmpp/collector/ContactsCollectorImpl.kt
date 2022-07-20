@@ -11,6 +11,10 @@ class ContactsCollectorImpl @Inject constructor(
     override suspend fun collectAddToRosterContacts(
         addToRoster: suspend (List<Contact>) -> Unit
     ) {
-        TODO("Not yet implemented")
+        contactsRepository.getAddToRosterStream().collect { contacts ->
+            val updatedContacts = contacts.map { it.copy(addToRoster = false) }
+            contactsRepository.updateContacts(updatedContacts)
+            addToRoster(contacts)
+        }
     }
 }
