@@ -6,3 +6,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("dialogue.spotless")
 }
+
+dependencies {
+    implementation(libs.kotlinx.datetime)
+}
