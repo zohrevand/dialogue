@@ -3,8 +3,6 @@ package io.github.zohrevand.dialogue.core.xmpp
 import android.util.Log
 import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import org.jivesoftware.smack.packet.Presence
 import org.jivesoftware.smack.roster.PresenceEventListener
@@ -45,11 +43,11 @@ class RosterManagerImpl @Inject constructor(
         contactsCollector.collectAddToRosterContacts(this::addToRoster)
     }
 
-    private suspend fun addToRoster(contacts: List<Contact>) {
+    private fun addToRoster(contacts: List<Contact>) {
         contacts.forEach { createEntry(it.jid) }
     }
 
-    private suspend fun createEntry(jid: String) = withContext(Dispatchers.IO) {
+    private fun createEntry(jid: String) {
         // TODO: check if the nickname (name) is required
         // TODO: check if preApproveAndCreateEntry is the right way to create entry
         roster.preApproveAndCreateEntry(JidCreate.bareFrom(jid), null, null)

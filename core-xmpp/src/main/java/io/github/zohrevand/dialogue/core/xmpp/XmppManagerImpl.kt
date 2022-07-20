@@ -104,7 +104,9 @@ class XmppManagerImpl @Inject constructor(
         connection: XMPPTCPConnection
     ): XMPPTCPConnection {
         if (connection.isAuthenticated) {
-            rosterManager.initializeRoster(connection)
+            withContext(ioDispatcher) {
+                rosterManager.initializeRoster(connection)
+            }
         }
 
         preferencesRepository.updateAccount(this.copy(status = Online))
