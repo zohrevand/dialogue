@@ -2,6 +2,7 @@ package io.github.zohrevand.dialogue.core.xmpp
 
 import android.util.Log
 import io.github.zohrevand.core.model.data.Account
+import io.github.zohrevand.core.model.data.AccountStatus.NotSet
 import io.github.zohrevand.core.model.data.AccountStatus.Online
 import io.github.zohrevand.core.model.data.AccountStatus.ServerNotFound
 import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
@@ -35,7 +36,11 @@ class XmppManagerImpl @Inject constructor(
             preferencesRepository.updateConnectionStatus(ConnectionStatus())
 
             val existedAccount = preferencesRepository.getAccount().firstOrNull()
-            existedAccount?.let { login(it) }
+            existedAccount?.let {
+                if (it.status != NotSet) {
+                    login(it)
+                }
+            }
         }
     }
 
