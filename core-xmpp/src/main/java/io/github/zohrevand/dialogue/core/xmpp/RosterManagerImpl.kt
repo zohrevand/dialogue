@@ -6,9 +6,11 @@ import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import org.jivesoftware.smack.packet.Presence
+import org.jivesoftware.smack.packet.PresenceBuilder
 import org.jivesoftware.smack.roster.PresenceEventListener
 import org.jivesoftware.smack.roster.Roster
 import org.jivesoftware.smack.roster.Roster.SubscriptionMode.accept_all
@@ -47,6 +49,22 @@ class RosterManagerImpl @Inject constructor(
         roster.addRosterListener()
 
         roster.addPresenceEventListener()
+
+        scope.launch {
+            delay(10000)
+            Log.d(TAG, "Sending Presence unavailable away")
+
+            val presence = PresenceBuilder.buildPresence().ofType(Presence.Type.unavailable)
+                .setMode(Presence.Mode.away).build()
+            connection.sendStanza(presence)
+
+            delay(5000)
+            Log.d(TAG, "Sending Presence available chat")
+
+            val presence2 = PresenceBuilder.buildPresence().ofType(Presence.Type.available)
+                .setMode(Presence.Mode.chat).build()
+            connection.sendStanza(presence2)
+        }
 
         scope.launch {
             contactsCollector.collectAddToRosterContacts { addToRoster(it) }
