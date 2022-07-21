@@ -56,7 +56,6 @@ class RosterManagerImpl @Inject constructor(
     }
 
     private fun createEntry(jid: String) {
-        // TODO: check if the nickname (name) is required
         // TODO: check if preApproveAndCreateEntry is the right way to create entry
         roster.createItemAndRequestSubscription(JidCreate.bareFrom(jid), null, null)
     }
