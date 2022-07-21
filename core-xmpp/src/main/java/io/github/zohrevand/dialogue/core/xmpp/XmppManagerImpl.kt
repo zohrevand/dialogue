@@ -16,6 +16,7 @@ import org.jivesoftware.smack.ReconnectionManager
 import org.jivesoftware.smack.SmackException
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
+import org.jxmpp.jid.parts.Resourcepart
 
 private const val TAG = "XmppManagerImpl"
 
@@ -92,6 +93,7 @@ class XmppManagerImpl @Inject constructor(
         XMPPTCPConnectionConfiguration.builder()
             .setUsernameAndPassword(account.localPart, account.password)
             .setXmppDomain(account.domainPart)
+            .setResource(Resourcepart.from("Android"))
             .build()
 
     // connect and login are called with Dispatchers.IO context
