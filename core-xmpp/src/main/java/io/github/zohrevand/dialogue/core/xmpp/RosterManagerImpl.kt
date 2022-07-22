@@ -2,7 +2,9 @@ package io.github.zohrevand.dialogue.core.xmpp
 
 import android.util.Log
 import io.github.zohrevand.core.model.data.Contact
+import io.github.zohrevand.dialogue.core.data.repository.ContactsRepository
 import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
+import io.github.zohrevand.dialogue.core.xmpp.model.asExternalModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -14,6 +16,7 @@ import org.jivesoftware.smack.packet.PresenceBuilder
 import org.jivesoftware.smack.roster.PresenceEventListener
 import org.jivesoftware.smack.roster.Roster
 import org.jivesoftware.smack.roster.Roster.SubscriptionMode.accept_all
+import org.jivesoftware.smack.roster.RosterEntry
 import org.jivesoftware.smack.roster.RosterListener
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jxmpp.jid.BareJid
@@ -25,7 +28,8 @@ private const val TAG = "RosterManager"
 
 @Suppress("BlockingMethodInNonBlockingContext")
 class RosterManagerImpl @Inject constructor(
-    private val contactsCollector: ContactsCollector
+    private val contactsCollector: ContactsCollector,
+    private val contactsRepository: ContactsRepository
 ) : RosterManager {
 
     private val scope = CoroutineScope(SupervisorJob())
@@ -45,6 +49,8 @@ class RosterManagerImpl @Inject constructor(
         roster = Roster.getInstanceFor(connection)
 
         Log.d(TAG, "Roster entries: ${roster.entries}")
+
+        contactsRepository.updateContacts(roster.entries.map(RosterEntry::asExternalModel))
 
         roster.addRosterListener()
 
