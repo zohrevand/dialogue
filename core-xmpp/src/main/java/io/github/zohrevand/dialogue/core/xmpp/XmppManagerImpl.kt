@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.ReconnectionManager
+import org.jivesoftware.smack.ReconnectionManager.ReconnectionPolicy.FIXED_DELAY
 import org.jivesoftware.smack.SmackException
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
@@ -144,8 +145,11 @@ class XmppManagerImpl @Inject constructor(
     }
 
     private fun configureReconnectionManager(connection: XMPPTCPConnection) {
-        ReconnectionManager.getInstanceFor(connection)
-            .enableAutomaticReconnection()
+        Log.d(TAG, "Configure reconnection manager")
+        val reconnectionManager = ReconnectionManager.getInstanceFor(connection)
+        reconnectionManager.setReconnectionPolicy(FIXED_DELAY)
+        reconnectionManager.setFixedDelay(5)
+        reconnectionManager.enableAutomaticReconnection()
     }
 
     private fun addConnectionListener(connection: XMPPTCPConnection) {
