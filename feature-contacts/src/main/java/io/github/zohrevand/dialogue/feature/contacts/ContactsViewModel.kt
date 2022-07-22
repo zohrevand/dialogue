@@ -6,6 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.core.model.data.Presence
 import io.github.zohrevand.dialogue.core.data.repository.ContactsRepository
+import io.github.zohrevand.dialogue.feature.contacts.ContactsUiState.Loading
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import javax.inject.Inject
@@ -14,6 +18,9 @@ import javax.inject.Inject
 class ContactsViewModel @Inject constructor(
     private val contactsRepository: ContactsRepository
 ) : ViewModel() {
+
+    private val _uiState: MutableStateFlow<ContactsUiState> = MutableStateFlow(Loading)
+    val uiState: StateFlow<ContactsUiState> = _uiState.asStateFlow()
 
     fun addContact() {
         viewModelScope.launch {
@@ -27,4 +34,10 @@ class ContactsViewModel @Inject constructor(
             ))
         }
     }
+}
+
+sealed interface ContactsUiState {
+    object Loading : ContactsUiState
+
+    data class Success(val contacts: List<Contact>) : ContactsUiState
 }
