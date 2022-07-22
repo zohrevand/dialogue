@@ -2,6 +2,7 @@ package io.github.zohrevand.dialogue.feature.contacts
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,7 +13,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.feature.contacts.ContactsUiState.Success
 
 @Composable
@@ -36,9 +39,12 @@ fun ContactsScreen(
     modifier: Modifier = Modifier
 ) {
     if (uiState is Success) {
-        LazyColumn {
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+            modifier = modifier
+        ) {
             items(uiState.contacts) {
-//                ContactItem(it)
+                ContactItem(it)
             }
         }
     }
@@ -53,4 +59,9 @@ fun ContactsScreen(
             Text(text = "Add Contact")
         }
     }*/
+}
+
+@Composable
+fun ContactItem(contact: Contact) {
+    Text(text = contact.jid)
 }
