@@ -76,7 +76,8 @@ class RosterManagerImpl @Inject constructor(
     }
 
     private fun createEntry(jid: String) {
-        // TODO: check if preApproveAndCreateEntry is the right way to create entry
+        // TODO: check if createItemAndRequestSubscription is the right way to create entry
+        // createItemAndRequestSubscription should be supported by XMPP server
         roster.createItemAndRequestSubscription(JidCreate.bareFrom(jid), null, null)
     }
 
