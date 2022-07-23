@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.feature.contacts
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -77,6 +79,7 @@ fun ContactsScreen(
 fun ContactItem(contact: Contact) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.height(80.dp)
     ) {
         Box(
@@ -85,9 +88,11 @@ fun ContactItem(contact: Contact) {
                 .size(56.dp)
                 .clip(CircleShape)
                 .background(Color.Cyan)
-                .padding(end = 16.dp)
         ) {
-            Text(text = contact.jid.take(1).uppercase())
+            Text(
+                text = contact.jid.take(1).uppercase(),
+                style = MaterialTheme.typography.titleMedium
+            )
         }
 
         Text(text = contact.jid)
