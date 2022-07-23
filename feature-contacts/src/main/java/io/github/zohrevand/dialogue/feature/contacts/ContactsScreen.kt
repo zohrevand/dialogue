@@ -3,7 +3,9 @@ package io.github.zohrevand.dialogue.feature.contacts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -63,5 +65,7 @@ fun ContactsScreen(
 
 @Composable
 fun ContactItem(contact: Contact) {
-    Text(text = contact.jid)
+    Row(modifier = Modifier.height(80.dp)) {
+        Text(text = contact.jid)
+    }
 }
