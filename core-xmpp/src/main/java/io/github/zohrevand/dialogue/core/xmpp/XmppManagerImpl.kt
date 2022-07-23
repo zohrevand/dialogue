@@ -115,9 +115,9 @@ class XmppManagerImpl @Inject constructor(
             withContext(ioDispatcher) {
                 rosterManager.initializeRoster(connection)
             }
-        }
 
-        preferencesRepository.updateAccount(this.copy(status = Online))
+            preferencesRepository.updateAccount(this.copy(status = Online))
+        }
 
         preferencesRepository.updateConnectionStatus(
             ConnectionStatus(
