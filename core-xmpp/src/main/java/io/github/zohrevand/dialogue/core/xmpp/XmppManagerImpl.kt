@@ -39,7 +39,7 @@ class XmppManagerImpl @Inject constructor(
 
             val existedAccount = preferencesRepository.getAccount().firstOrNull()
             existedAccount?.let {
-                if (it.status.alreadyLoggedIn) {
+                if (it.alreadyLoggedIn) {
                     login(it)
                 }
             }

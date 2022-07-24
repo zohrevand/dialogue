@@ -31,7 +31,7 @@ class RouterViewModel @Inject constructor(
     private fun checkIfAccountAlreadyExist() {
         viewModelScope.launch {
             val account = preferencesRepository.getAccount().firstOrNull()
-            if (account?.status?.alreadyLoggedIn == true) {
+            if (account?.alreadyLoggedIn == true) {
                 _uiState.update { UserAvailable }
             } else {
                 _uiState.update { AuthRequired }

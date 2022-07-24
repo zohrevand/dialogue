@@ -1,5 +1,8 @@
 package io.github.zohrevand.core.model.data
 
+import io.github.zohrevand.core.model.data.AccountStatus.Disabled
+import io.github.zohrevand.core.model.data.AccountStatus.Offline
+import io.github.zohrevand.core.model.data.AccountStatus.Online
 import io.github.zohrevand.core.model.data.AccountStatus.PreLoggingIn
 
 data class Account(
@@ -22,6 +25,11 @@ data class Account(
         }
     }
 }
+
+val Account.alreadyLoggedIn: Boolean
+    get() = status == Online ||
+        status == Disabled ||
+        status == Offline
 
 // TODO: consider jid comprises only local part and domain part for now
 private val String.localPartDomainPart: Pair<String, String>
