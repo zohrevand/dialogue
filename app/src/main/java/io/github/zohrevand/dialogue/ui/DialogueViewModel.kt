@@ -31,20 +31,14 @@ class DialogueViewModel @Inject constructor(
     }
 
     private suspend fun observeConnectionStatus() {
-        preferencesRepository.getConnectionStatus()
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = null
-            )
-            .collect { connectionStatus ->
-                if (connectionStatus?.availability == true && connectionStatus.authenticated) {
-                    _uiState.update { Connected }
-                } else {
-                    // TODO: navigate to auth screen if connection available but not authenticated
-                    _uiState.update { Connecting }
-                }
+        preferencesRepository.getConnectionStatus().collect { connectionStatus ->
+            if (connectionStatus.availability && connectionStatus.authenticated) {
+                _uiState.update { Connected }
+            } else {
+                // TODO: navigate to auth screen if connection available but not authenticated
+                _uiState.update { Connecting }
             }
+        }
     }
 }
 

@@ -36,20 +36,15 @@ class AuthViewModel @Inject constructor(
     }
 
     private suspend fun checkForAccountStatusChanges() {
-        preferencesRepository.getAccount()
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = null
-            ).collect { account ->
-                when (account?.status) {
-                    Online -> _uiState.update { AuthUiState.Success }
-                    ServerNotFound -> _uiState.update { AuthUiState.Error("Server not available") }
-                    Unauthorized -> _uiState.update { AuthUiState.Error("You are not authorized") }
-                    else -> { /*Not interested*/
-                    }
+        preferencesRepository.getAccount().collect { account ->
+            when (account.status) {
+                Online -> _uiState.update { AuthUiState.Success }
+                ServerNotFound -> _uiState.update { AuthUiState.Error("Server not available") }
+                Unauthorized -> _uiState.update { AuthUiState.Error("You are not authorized") }
+                else -> { /*Not interested*/
                 }
             }
+        }
     }
 }
 
