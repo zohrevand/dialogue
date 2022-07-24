@@ -28,15 +28,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.feature.contacts.ContactsUiState.Success
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ContactsRoute(
     modifier: Modifier = Modifier,
     viewModel: ContactsViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     ContactsScreen(
         uiState = uiState,
