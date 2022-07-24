@@ -20,7 +20,7 @@ enum class AccountStatus {
     RegistrationAlreadyExist
 }
 
-val AccountStatus.alreadyLoggedInStatus: Boolean
+val AccountStatus.alreadyLoggedIn: Boolean
     get() = this == Online ||
         this == Disabled ||
         this == Offline
