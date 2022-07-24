@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.zohrevand.core.model.data.AccountStatus.Online
+import io.github.zohrevand.core.model.data.alreadyLoggedInStatus
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import io.github.zohrevand.dialogue.feature.router.RouterUiState.AuthRequired
 import io.github.zohrevand.dialogue.feature.router.RouterUiState.Loading
@@ -31,7 +32,7 @@ class RouterViewModel @Inject constructor(
     private fun checkIfAccountAlreadyExist() {
         viewModelScope.launch {
             val account = preferencesRepository.getAccount().firstOrNull()
-            if (account?.status == Online) {
+            if (account?.status?.alreadyLoggedInStatus == true) {
                 _uiState.update { UserAvailable }
             } else {
                 _uiState.update { AuthRequired }
