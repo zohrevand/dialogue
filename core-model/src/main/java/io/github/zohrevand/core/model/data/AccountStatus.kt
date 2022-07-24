@@ -1,5 +1,9 @@
 package io.github.zohrevand.core.model.data
 
+import io.github.zohrevand.core.model.data.AccountStatus.Disabled
+import io.github.zohrevand.core.model.data.AccountStatus.Offline
+import io.github.zohrevand.core.model.data.AccountStatus.Online
+
 enum class AccountStatus {
     NotSet,
     PreRegistering,
@@ -15,3 +19,8 @@ enum class AccountStatus {
     RegistrationFailed,
     RegistrationAlreadyExist
 }
+
+val AccountStatus.alreadyLoggedInStatus: Boolean
+    get() = this == Online ||
+        this == Disabled ||
+        this == Offline
