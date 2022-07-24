@@ -10,34 +10,34 @@ import io.github.zohrevand.dialogue.feature.router.RouterUiState.Loading
 import io.github.zohrevand.dialogue.feature.router.RouterUiState.UserAvailable
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.SharingStarted.Companion
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class RouterViewModel @Inject constructor(
-    private val preferencesRepository: PreferencesRepository
+    preferencesRepository: PreferencesRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<RouterUiState> = MutableStateFlow(Loading)
-    val uiState: StateFlow<RouterUiState> = _uiState.asStateFlow()
-
-    init {
-        checkIfAccountAlreadyExist()
-    }
-
-    private fun checkIfAccountAlreadyExist() {
-        viewModelScope.launch {
-            val account = preferencesRepository.getAccount().firstOrNull()
-            if (account?.alreadyLoggedIn == true) {
-                _uiState.update { UserAvailable }
+    val uiState: StateFlow<RouterUiState> = preferencesRepository.getAccount()
+        .map { account ->
+            if (account.alreadyLoggedIn) {
+                UserAvailable
             } else {
-                _uiState.update { AuthRequired }
+                AuthRequired
             }
         }
-    }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = Loading
+        )
 }
 
 sealed interface RouterUiState {
