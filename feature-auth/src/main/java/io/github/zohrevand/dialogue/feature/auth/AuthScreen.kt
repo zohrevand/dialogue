@@ -131,6 +131,7 @@ fun AuthScreen(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
                 ),
+                visualTransformation = PasswordVisualTransformation(),
                 isError = passwordError,
                 modifier = modifier.fillMaxWidth()
             )
