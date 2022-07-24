@@ -2,10 +2,10 @@ package io.github.zohrevand.dialogue.core.datastore
 
 import android.util.Log
 import androidx.datastore.core.DataStore
-import java.io.IOException
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.io.IOException
+import javax.inject.Inject
 
 class DialoguePreferencesDataSource @Inject constructor(
     private val userPreferences: DataStore<UserPreferences>

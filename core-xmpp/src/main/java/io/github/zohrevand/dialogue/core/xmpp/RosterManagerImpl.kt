@@ -10,7 +10,6 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import org.jivesoftware.smack.packet.Presence
 import org.jivesoftware.smack.packet.PresenceBuilder
 import org.jivesoftware.smack.roster.PresenceEventListener
@@ -23,6 +22,7 @@ import org.jxmpp.jid.BareJid
 import org.jxmpp.jid.FullJid
 import org.jxmpp.jid.Jid
 import org.jxmpp.jid.impl.JidCreate
+import javax.inject.Inject
 
 private const val TAG = "RosterManager"
 

@@ -5,9 +5,9 @@ import io.github.zohrevand.core.model.data.ConnectionStatus
 import io.github.zohrevand.dialogue.core.data.model.asPreferences
 import io.github.zohrevand.dialogue.core.datastore.DialoguePreferencesDataSource
 import io.github.zohrevand.dialogue.core.datastore.asExternalModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 class OfflineFirstPreferencesRepository @Inject constructor(
     private val preferencesDataSource: DialoguePreferencesDataSource,

@@ -13,10 +13,10 @@ import io.github.zohrevand.dialogue.core.common.coroutines.DialogueDispatchers.I
 import io.github.zohrevand.dialogue.core.common.coroutines.Dispatcher
 import io.github.zohrevand.dialogue.core.datastore.UserPreferences
 import io.github.zohrevand.dialogue.core.datastore.UserPreferencesSerializer
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

@@ -10,8 +10,8 @@ import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import io.github.zohrevand.dialogue.core.xmpp.RosterManager
 import io.github.zohrevand.dialogue.core.xmpp.XmppManager
 import io.github.zohrevand.dialogue.core.xmpp.XmppManagerImpl
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

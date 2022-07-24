@@ -1,6 +1,3 @@
-import io.github.zohrevand.dialogue.FlavorDimension
-import io.github.zohrevand.dialogue.Flavor
-
 plugins {
     id("dialogue.android.application")
     id("dialogue.android.application.compose")

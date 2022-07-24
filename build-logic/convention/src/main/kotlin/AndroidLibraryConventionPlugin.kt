@@ -1,5 +1,4 @@
 import com.android.build.gradle.LibraryExtension
-import io.github.zohrevand.dialogue.configureFlavors
 import io.github.zohrevand.dialogue.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
