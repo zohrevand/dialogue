@@ -1,5 +1,7 @@
 package io.github.zohrevand.dialogue.feature.auth
 
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -81,6 +83,9 @@ fun AuthScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            // Workaround for safeContentPadding not affecting horizontal paddings
+            // for api lower that 32
+            .padding(if (VERSION.SDK_INT < VERSION_CODES.S_V2) 32.dp else 0.dp)
             .safeContentPadding(),
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
     ) {
