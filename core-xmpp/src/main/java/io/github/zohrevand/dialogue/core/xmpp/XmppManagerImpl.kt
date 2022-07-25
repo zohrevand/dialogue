@@ -111,13 +111,16 @@ class XmppManagerImpl @Inject constructor(
     private suspend fun Account.connectionSuccessHandler(
         connection: XMPPTCPConnection
     ): XMPPTCPConnection {
-        if (connection.isAuthenticated) {
+        val status = if (connection.isAuthenticated) {
             withContext(ioDispatcher) {
                 rosterManager.initializeRoster(connection)
             }
-
-            preferencesRepository.updateAccount(this.copy(status = Online))
+            Online
+        } else {
+            Unauthorized
         }
+
+        preferencesRepository.updateAccount(this.copy(status = status))
 
         preferencesRepository.updateConnectionStatus(
             ConnectionStatus(
