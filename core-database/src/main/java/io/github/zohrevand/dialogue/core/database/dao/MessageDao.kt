@@ -30,4 +30,10 @@ interface MessageDao {
     """
     )
     fun getMessageEntitiesStream(ids: Set<String>): Flow<List<MessageEntity>>
+
+    /**
+     * Inserts [messageEntity] into the db if it doesn't exist, and update if it do
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsert(messageEntity: MessageEntity)
 }
