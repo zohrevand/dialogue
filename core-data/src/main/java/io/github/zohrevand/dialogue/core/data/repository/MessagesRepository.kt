@@ -12,4 +12,6 @@ interface MessagesRepository {
     fun getMessagesStream(ids: Set<String>): Flow<List<Message>>
 
     suspend fun updateMessage(message: Message)
+
+    suspend fun deleteMessage(id: String)
 }
