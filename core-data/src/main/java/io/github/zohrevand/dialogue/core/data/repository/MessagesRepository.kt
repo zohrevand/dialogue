@@ -8,4 +8,6 @@ interface MessagesRepository {
     fun getMessage(id: String): Flow<Message>
 
     fun getMessagesStream(): Flow<List<Message>>
+
+    fun getMessagesStream(ids: Set<String>): Flow<List<Message>>
 }

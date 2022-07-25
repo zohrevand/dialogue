@@ -18,4 +18,8 @@ class OfflineFirstMessagesRepository @Inject constructor(
     override fun getMessagesStream(): Flow<List<Message>> =
         messageDao.getMessageEntitiesStream()
             .map { it.map(MessageEntity::asExternalModel) }
+
+    override fun getMessagesStream(ids: Set<String>): Flow<List<Message>> =
+        messageDao.getMessageEntitiesStream(ids)
+            .map { it.map(MessageEntity::asExternalModel) }
 }
