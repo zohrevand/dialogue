@@ -17,4 +17,7 @@ interface MessageDao {
     """
     )
     fun getMessageEntity(id: String): Flow<MessageEntity>
+
+    @Query(value = "SELECT * FROM messages")
+    fun getMessageEntitiesStream(): Flow<List<MessageEntity>>
 }
