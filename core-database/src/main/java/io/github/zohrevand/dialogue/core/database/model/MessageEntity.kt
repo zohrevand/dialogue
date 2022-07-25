@@ -11,10 +11,10 @@ import kotlinx.datetime.Instant
 data class MessageEntity(
     @PrimaryKey
     val id: String,
-    @ColumnInfo(name = "to_jid")
-    val toJid: String,
     @ColumnInfo(name = "from_jid")
     val fromJid: String,
+    @ColumnInfo(name = "to_jid")
+    val toJid: String,
     val body: String,
     @ColumnInfo(name = "message_time")
     val time: Instant,
