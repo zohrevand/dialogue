@@ -5,11 +5,13 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import io.github.zohrevand.dialogue.core.database.dao.ContactDao
 import io.github.zohrevand.dialogue.core.database.model.ContactEntity
+import io.github.zohrevand.dialogue.core.database.model.MessageEntity
 import io.github.zohrevand.dialogue.core.database.util.InstantConverter
 
 @Database(
     entities = [
-        ContactEntity::class
+        ContactEntity::class,
+        MessageEntity::class
     ],
     version = 1,
     exportSchema = true
