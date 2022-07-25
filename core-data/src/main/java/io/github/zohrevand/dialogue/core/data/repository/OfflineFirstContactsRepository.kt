@@ -14,7 +14,7 @@ class OfflineFirstContactsRepository @Inject constructor(
 ) : ContactsRepository {
 
     override fun getContact(jid: String): Flow<Contact> =
-        contactDao.getContactEntity(jid).map { it.asExternalModel() }
+        contactDao.getContactEntity(jid).map(ContactEntity::asExternalModel)
 
     override fun getContactsStream(): Flow<List<Contact>> =
         contactDao.getContactEntitiesStream()
@@ -29,7 +29,7 @@ class OfflineFirstContactsRepository @Inject constructor(
             .map { it.map(ContactEntity::asExternalModel) }
 
     override suspend fun updateContacts(contacts: List<Contact>) =
-        contactDao.upsert(contacts.map { it.asEntity() })
+        contactDao.upsert(contacts.map(Contact::asEntity))
 
     override suspend fun deleteContacts(jids: List<String>) =
         contactDao.deleteContacts(jids)

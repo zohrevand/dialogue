@@ -4,6 +4,7 @@ import io.github.zohrevand.core.model.data.Account
 import io.github.zohrevand.core.model.data.ConnectionStatus
 import io.github.zohrevand.dialogue.core.data.model.asPreferences
 import io.github.zohrevand.dialogue.core.datastore.DialoguePreferencesDataSource
+import io.github.zohrevand.dialogue.core.datastore.PreferencesAccount
 import io.github.zohrevand.dialogue.core.datastore.asExternalModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,7 +21,7 @@ class OfflineFirstPreferencesRepository @Inject constructor(
         preferencesDataSource.updateConnectionStatus(connectionStatus.asPreferences())
 
     override fun getAccount(): Flow<Account> =
-        preferencesDataSource.getAccount().map { it.asExternalModel() }
+        preferencesDataSource.getAccount().map(PreferencesAccount::asExternalModel)
 
     override suspend fun updateAccount(account: Account) =
         preferencesDataSource.updateAccount(account.asPreferences())
