@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface MessagesRepository {
 
     fun getMessage(id: String): Flow<Message>
+
+    fun getMessagesStream(): Flow<List<Message>>
 }
