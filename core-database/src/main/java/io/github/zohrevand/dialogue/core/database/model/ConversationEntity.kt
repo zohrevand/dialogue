@@ -8,10 +8,10 @@ import io.github.zohrevand.core.model.data.Conversation
 @Entity(tableName = "conversations")
 data class ConversationEntity(
     @PrimaryKey
-    @ColumnInfo(name = "with_jid")
-    val withJid: String
+    @ColumnInfo(name = "peer_jid")
+    val peerJid: String
 )
 
 fun ConversationEntity.asExternalModel() = Conversation(
-    withJid = withJid
+    peerJid = peerJid
 )
