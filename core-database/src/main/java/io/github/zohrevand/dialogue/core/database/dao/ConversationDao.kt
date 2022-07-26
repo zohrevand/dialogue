@@ -28,4 +28,15 @@ interface ConversationDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(conversationEntity: ConversationEntity)
+
+    /**
+     * Deletes row in the db matching the specified [withJid]
+     */
+    @Query(
+        value = """
+            DELETE FROM conversations
+            WHERE with_jid = :withJid
+        """
+    )
+    suspend fun deleteConversation(withJid: String)
 }
