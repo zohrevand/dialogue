@@ -1,5 +1,6 @@
 package io.github.zohrevand.core.model.data
 
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 data class Message(
@@ -8,6 +9,6 @@ data class Message(
     val serverId: String? = null,
     val peerJid: String,
     val body: String,
-    val sendTime: Instant,
+    val sendTime: Instant = Clock.System.now(),
     val status: MessageStatus
 )
