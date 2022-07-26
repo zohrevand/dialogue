@@ -7,6 +7,7 @@ fun Message.asEntity() = MessageEntity(
     id = id,
     clientId = clientId,
     serverId = serverId,
+    peerJid = peerJid,
     body = body,
     sendTime = sendTime
 )
