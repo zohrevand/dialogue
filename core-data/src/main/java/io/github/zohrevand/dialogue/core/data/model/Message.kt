@@ -9,5 +9,6 @@ fun Message.asEntity() = MessageEntity(
     serverId = serverId,
     peerJid = peerJid,
     body = body,
-    sendTime = sendTime
+    sendTime = sendTime,
+    status = status
 )

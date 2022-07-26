@@ -8,5 +8,6 @@ data class Message(
     val serverId: String?,
     val peerJid: String,
     val body: String,
-    val sendTime: Instant
+    val sendTime: Instant,
+    val status: MessageStatus
 )
