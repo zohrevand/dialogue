@@ -12,6 +12,10 @@ import kotlinx.datetime.Instant
 data class MessageEntity(
     @PrimaryKey
     val id: String,
+    @ColumnInfo(name = "client_id")
+    val clientId: String?,
+    @ColumnInfo(name = "server_id")
+    val serverId: String?,
     @ColumnInfo(name = "from_jid")
     val fromJid: String,
     @ColumnInfo(name = "to_jid")
@@ -23,6 +27,8 @@ data class MessageEntity(
 
 fun MessageEntity.asExternalModel() = Message(
     id = id,
+    clientId = clientId,
+    serverId = serverId,
     fromJid = fromJid,
     toJid = toJid,
     body = body,
