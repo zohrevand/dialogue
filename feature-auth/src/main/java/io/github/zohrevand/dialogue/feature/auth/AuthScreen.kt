@@ -3,17 +3,18 @@ package io.github.zohrevand.dialogue.feature.auth
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -161,14 +162,30 @@ fun AuthScreen(
                 }
             },
             enabled = uiState != Loading,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Blue,
+                disabledContainerColor = Color.Blue,
+                contentColor = Color.White,
+                disabledContentColor = Color.White
+            ),
             modifier = modifier
                 .fillMaxWidth()
                 .heightIn(min = 50.dp)
         ) {
-            Text(text = stringResource(string.login))
-            if (uiState == Loading) {
-                Spacer(modifier = Modifier.width(16.dp))
-                CircularProgressIndicator()
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = stringResource(string.login).uppercase(),
+                    modifier = Modifier.align(Alignment.Center)
+                )
+                if (uiState == Loading) {
+                    CircularProgressIndicator(
+                        color = Color.White,
+                        strokeWidth = 2.dp,
+                        modifier = Modifier
+                            .size(24.dp)
+                            .align(Alignment.CenterEnd)
+                    )
+                }
             }
         }
     }
