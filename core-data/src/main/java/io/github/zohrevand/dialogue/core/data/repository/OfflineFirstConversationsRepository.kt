@@ -14,4 +14,8 @@ class OfflineFirstConversationsRepository @Inject constructor(
 
     override fun getConversation(withJid: String): Flow<Conversation> =
         conversationDao.getConversationEntity(withJid).map(ConversationEntity::asExternalModel)
+
+    override fun getConversationsStream(): Flow<List<Conversation>> =
+        conversationDao.getConversationEntitiesStream()
+            .map { it.map(ConversationEntity::asExternalModel) }
 }
