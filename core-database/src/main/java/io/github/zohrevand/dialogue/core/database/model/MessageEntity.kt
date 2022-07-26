@@ -16,10 +16,6 @@ data class MessageEntity(
     val clientId: String?,
     @ColumnInfo(name = "server_id")
     val serverId: String?,
-    @ColumnInfo(name = "from_jid")
-    val fromJid: String,
-    @ColumnInfo(name = "to_jid")
-    val toJid: String,
     val body: String,
     @ColumnInfo(name = "send_time")
     val sendTime: Instant,
@@ -29,8 +25,6 @@ fun MessageEntity.asExternalModel() = Message(
     id = id,
     clientId = clientId,
     serverId = serverId,
-    fromJid = fromJid,
-    toJid = toJid,
     body = body,
     sendTime = sendTime
 )
