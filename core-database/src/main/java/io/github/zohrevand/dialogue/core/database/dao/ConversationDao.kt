@@ -17,4 +17,7 @@ interface ConversationDao {
     """
     )
     fun getConversationEntity(withJid: String): Flow<ConversationEntity>
+
+    @Query(value = "SELECT * FROM conversations")
+    fun getConversationEntitiesStream(): Flow<List<ConversationEntity>>
 }
