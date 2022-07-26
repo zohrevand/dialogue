@@ -8,5 +8,5 @@ fun Message.asEntity() = MessageEntity(
     fromJid = fromJid,
     toJid = toJid,
     body = body,
-    time = time
+    sendTime = sendTime
 )

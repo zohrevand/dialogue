@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import io.github.zohrevand.core.model.data.Message
-import io.github.zohrevand.core.model.data.Presence
 import kotlinx.datetime.Instant
 
 @Entity(
@@ -18,8 +17,8 @@ data class MessageEntity(
     @ColumnInfo(name = "to_jid")
     val toJid: String,
     val body: String,
-    @ColumnInfo(name = "message_time")
-    val time: Instant,
+    @ColumnInfo(name = "send_time")
+    val sendTime: Instant,
 )
 
 fun MessageEntity.asExternalModel() = Message(
@@ -27,5 +26,5 @@ fun MessageEntity.asExternalModel() = Message(
     fromJid = fromJid,
     toJid = toJid,
     body = body,
-    time = time
+    sendTime = sendTime
 )

@@ -7,5 +7,5 @@ data class Message(
     val fromJid: String,
     val toJid: String,
     val body: String,
-    val time: Instant
+    val sendTime: Instant
 )
