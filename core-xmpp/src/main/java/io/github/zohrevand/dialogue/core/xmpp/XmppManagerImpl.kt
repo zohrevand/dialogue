@@ -98,7 +98,6 @@ class XmppManagerImpl @Inject constructor(
             .build()
 
     // connect and login are called with Dispatchers.IO context
-    @Suppress("BlockingMethodInNonBlockingContext")
     private suspend fun XMPPTCPConnection.connectAndLogin(): Result<XMPPTCPConnection> =
         runCatching {
             withContext(ioDispatcher) {
