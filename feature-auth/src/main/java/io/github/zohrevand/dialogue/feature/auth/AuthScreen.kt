@@ -13,9 +13,14 @@ import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -34,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -41,6 +47,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Error
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Loading
 import io.github.zohrevand.dialogue.feature.auth.R.string
+import io.github.zohrevand.dialogue.feature.auth.R.string.hide_password
+import io.github.zohrevand.dialogue.feature.auth.R.string.show_password
 import io.github.zohrevand.dialogue.feature.auth.utils.isValidJid
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -72,6 +80,8 @@ fun AuthScreen(
 
     var jidError by remember { mutableStateOf(false) }
     var passwordError by remember { mutableStateOf(false) }
+
+    var passwordVisible by remember { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
 
@@ -138,8 +148,24 @@ fun AuthScreen(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
                 ),
-                visualTransformation = PasswordVisualTransformation(),
+                visualTransformation = if (passwordVisible)
+                    VisualTransformation.None
+                else PasswordVisualTransformation(),
                 isError = passwordError,
+                trailingIcon = {
+                    val image = if (passwordVisible)
+                        Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff
+
+                    val descriptionResId = if (passwordVisible) hide_password else show_password
+
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            imageVector = image,
+                            contentDescription = stringResource(descriptionResId)
+                        )
+                    }
+                },
                 modifier = modifier.fillMaxWidth()
             )
             if (passwordError) {
