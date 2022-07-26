@@ -22,4 +22,7 @@ class OfflineFirstConversationsRepository @Inject constructor(
 
     override suspend fun updateConversation(conversation: Conversation) =
         conversationDao.upsert(conversation.asEntity())
+
+    override suspend fun deleteConversation(withJid: String) =
+        conversationDao.deleteConversation(withJid)
 }

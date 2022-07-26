@@ -10,4 +10,6 @@ interface ConversationsRepository {
     fun getConversationsStream(): Flow<List<Conversation>>
 
     suspend fun updateConversation(conversation: Conversation)
+
+    suspend fun deleteConversation(withJid: String)
 }
