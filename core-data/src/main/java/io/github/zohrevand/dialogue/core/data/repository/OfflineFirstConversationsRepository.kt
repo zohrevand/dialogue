@@ -13,8 +13,8 @@ class OfflineFirstConversationsRepository @Inject constructor(
     private val conversationDao: ConversationDao
 ) : ConversationsRepository {
 
-    override fun getConversation(withJid: String): Flow<Conversation> =
-        conversationDao.getConversationEntity(withJid).map(ConversationEntity::asExternalModel)
+    override fun getConversation(peerJid: String): Flow<Conversation> =
+        conversationDao.getConversationEntity(peerJid).map(ConversationEntity::asExternalModel)
 
     override fun getConversationsStream(): Flow<List<Conversation>> =
         conversationDao.getConversationEntitiesStream()
@@ -23,6 +23,6 @@ class OfflineFirstConversationsRepository @Inject constructor(
     override suspend fun updateConversation(conversation: Conversation) =
         conversationDao.upsert(conversation.asEntity())
 
-    override suspend fun deleteConversation(withJid: String) =
-        conversationDao.deleteConversation(withJid)
+    override suspend fun deleteConversation(peerJid: String) =
+        conversationDao.deleteConversation(peerJid)
 }

@@ -5,11 +5,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface ConversationsRepository {
 
-    fun getConversation(withJid: String): Flow<Conversation>
+    fun getConversation(peerJid: String): Flow<Conversation>
 
     fun getConversationsStream(): Flow<List<Conversation>>
 
     suspend fun updateConversation(conversation: Conversation)
 
-    suspend fun deleteConversation(withJid: String)
+    suspend fun deleteConversation(peerJid: String)
 }
