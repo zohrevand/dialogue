@@ -3,7 +3,7 @@ package io.github.zohrevand.core.model.data
 import kotlinx.datetime.Instant
 
 data class Message(
-    val id: String,
+    val id: String? = null,
     val clientId : String?,
     val serverId: String?,
     val peerJid: String,

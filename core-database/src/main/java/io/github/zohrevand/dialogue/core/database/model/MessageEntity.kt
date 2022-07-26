@@ -11,8 +11,8 @@ import kotlinx.datetime.Instant
     tableName = "messages",
 )
 data class MessageEntity(
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: String = "",
     @ColumnInfo(name = "client_id")
     val clientId: String?,
     @ColumnInfo(name = "server_id")
