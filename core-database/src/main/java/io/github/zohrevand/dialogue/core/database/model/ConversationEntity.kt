@@ -9,9 +9,12 @@ import io.github.zohrevand.core.model.data.Conversation
 data class ConversationEntity(
     @PrimaryKey
     @ColumnInfo(name = "peer_jid")
-    val peerJid: String
+    val peerJid: String,
+    @ColumnInfo(name = "draft_message")
+    val draftMessage: String?
 )
 
 fun ConversationEntity.asExternalModel() = Conversation(
-    peerJid = peerJid
+    peerJid = peerJid,
+    draftMessage = draftMessage
 )
