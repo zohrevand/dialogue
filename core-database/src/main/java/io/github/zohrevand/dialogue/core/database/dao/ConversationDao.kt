@@ -15,10 +15,10 @@ interface ConversationDao {
     @Query(
         value = """
         SELECT * FROM conversations
-        WHERE with_jid = :withJid
+        WHERE peer_jid = :peerJid
     """
     )
-    fun getConversationEntity(withJid: String): Flow<ConversationEntity>
+    fun getConversationEntity(peerJid: String): Flow<ConversationEntity>
 
     @Query(value = "SELECT * FROM conversations")
     fun getConversationEntitiesStream(): Flow<List<ConversationEntity>>
@@ -30,13 +30,13 @@ interface ConversationDao {
     suspend fun upsert(conversationEntity: ConversationEntity)
 
     /**
-     * Deletes row in the db matching the specified [withJid]
+     * Deletes row in the db matching the specified [peerJid]
      */
     @Query(
         value = """
             DELETE FROM conversations
-            WHERE with_jid = :withJid
+            WHERE peer_jid = :peerJid
         """
     )
-    suspend fun deleteConversation(withJid: String)
+    suspend fun deleteConversation(peerJid: String)
 }
