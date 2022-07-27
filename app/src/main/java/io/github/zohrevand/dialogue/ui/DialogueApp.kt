@@ -38,6 +38,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
+import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
 import io.github.zohrevand.dialogue.feature.router.navigation.RouterDestination
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
 import io.github.zohrevand.dialogue.navigation.DialogueTopLevelNavigation
@@ -144,4 +145,5 @@ private fun DialogueBottomBar(
 private val NavDestination?.isMainScreen
     get() = this?.route != null &&
         route != RouterDestination.route &&
-        route != AuthDestination.route
+        route != AuthDestination.route &&
+        route != ChatDestination.route
