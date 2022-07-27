@@ -50,6 +50,8 @@ fun DialogueNavHost(
                 chatGraph(onBackClick = { navController.popBackStack() })
             }
         )
-        contactsGraph()
+        contactsGraph(
+            navigateToChat = { navController.navigate(ChatDestination.route) }
+        )
     }
 }

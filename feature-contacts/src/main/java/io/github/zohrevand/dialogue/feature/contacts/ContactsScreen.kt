@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.feature.contacts
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,6 +31,7 @@ import io.github.zohrevand.dialogue.feature.contacts.ContactsUiState.Success
 @Composable
 fun ContactsRoute(
     modifier: Modifier = Modifier,
+    navigateToChat: (String) -> Unit,
     viewModel: ContactsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -37,6 +39,7 @@ fun ContactsRoute(
     ContactsScreen(
         uiState = uiState,
         addContact = viewModel::addContact,
+        navigateToChat = navigateToChat,
         modifier = modifier
     )
 }
@@ -45,6 +48,7 @@ fun ContactsRoute(
 fun ContactsScreen(
     uiState: ContactsUiState,
     addContact: () -> Unit,
+    navigateToChat: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (uiState is Success) {
@@ -52,8 +56,8 @@ fun ContactsScreen(
             contentPadding = PaddingValues(16.dp),
             modifier = modifier
         ) {
-            items(uiState.contacts) {
-                ContactItem(it)
+            items(uiState.contacts) { contact ->
+                ContactItem(contact = contact, onContactClick = navigateToChat)
                 Divider(color = Color(0xFFDFDFDF))
             }
         }
@@ -72,11 +76,16 @@ fun ContactsScreen(
 }
 
 @Composable
-fun ContactItem(contact: Contact) {
+fun ContactItem(
+    contact: Contact,
+    onContactClick: (String) -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.height(80.dp)
+        modifier = Modifier
+            .height(80.dp)
+            .clickable { onContactClick(contact.jid) }
     ) {
         Box(
             contentAlignment = Alignment.Center,

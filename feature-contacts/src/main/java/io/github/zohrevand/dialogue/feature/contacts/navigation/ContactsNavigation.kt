@@ -10,10 +10,14 @@ object ContactsDestination : DialogueNavigationDestination {
     override val destination = "contacts_destination"
 }
 
-fun NavGraphBuilder.contactsGraph() {
+fun NavGraphBuilder.contactsGraph(
+    navigateToChat: (String) -> Unit,
+) {
     composable(
         route = ContactsDestination.route,
     ) {
-        ContactsRoute()
+        ContactsRoute(
+            navigateToChat = navigateToChat
+        )
     }
 }
