@@ -12,7 +12,7 @@ import kotlinx.datetime.Instant
 )
 data class MessageEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: String = "",
+    val id: Long = 0,
     @ColumnInfo(name = "client_id")
     val clientId: String?,
     @ColumnInfo(name = "server_id")

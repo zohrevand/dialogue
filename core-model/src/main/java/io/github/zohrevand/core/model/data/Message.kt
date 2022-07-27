@@ -4,7 +4,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 data class Message(
-    val id: String? = null,
+    val id: Long? = null,
     val clientId : String? = null,
     val serverId: String? = null,
     val peerJid: String,
