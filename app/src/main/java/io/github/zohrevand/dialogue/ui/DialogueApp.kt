@@ -66,7 +66,7 @@ fun DialogueApp(
         Scaffold(
             containerColor = Color.Transparent,
             bottomBar = {
-                if (currentDestination.isMainScreen) {
+                if (currentDestination.isBottomBarVisible) {
                     DialogueBottomBar(
                         onNavigateToTopLevelDestination = dialogueTopLevelNavigation::navigateTo,
                         currentDestination = currentDestination
@@ -83,7 +83,7 @@ fun DialogueApp(
                     navController = navController
                 )
 
-                val isConnecting = currentDestination.isMainScreen && uiState is Connecting
+                val isConnecting = currentDestination.isConnectingDisplayable && uiState is Connecting
                 Connecting(isConnecting)
             }
         }
@@ -142,8 +142,13 @@ private fun DialogueBottomBar(
     }
 }
 
-private val NavDestination?.isMainScreen
+private val NavDestination?.isBottomBarVisible
     get() = this?.route != null &&
         route != RouterDestination.route &&
         route != AuthDestination.route &&
         route != ChatDestination.route
+
+private val NavDestination?.isConnectingDisplayable
+    get() = this?.route != null &&
+        route != RouterDestination.route &&
+        route != AuthDestination.route
