@@ -36,7 +36,7 @@ class ContactsViewModel @Inject constructor(
         viewModelScope.launch {
             contactsRepository.updateContacts(listOf(
                 Contact(
-                    jid = "zohrevand@jix.im",
+                    jid = "zohrevand3@conversations.im",
                     presence = Presence(),
                     lastTime = Clock.System.now(),
                     addToRoster = true
