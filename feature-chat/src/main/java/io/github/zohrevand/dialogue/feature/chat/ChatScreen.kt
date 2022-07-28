@@ -42,7 +42,7 @@ fun ChatScreen(
                 .fillMaxSize()
                 .background(Color.Yellow)
         ) {
-            Text(text = "This is Chat Screen for ${uiState.chatId}")
+            Text(text = "This is Chat Screen for ${uiState.contactId}")
             Button(onClick = onBackClick) {
                 Text(text = "Back to conversations")
             }

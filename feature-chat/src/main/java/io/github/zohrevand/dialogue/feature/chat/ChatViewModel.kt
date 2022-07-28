@@ -29,6 +29,6 @@ class ChatViewModel @Inject constructor(
 }
 
 sealed interface ChatUiState {
-    data class Success(val chatId: String) : ChatUiState
+    data class Success(val contactId: String) : ChatUiState
     object Loading : ChatUiState
 }
