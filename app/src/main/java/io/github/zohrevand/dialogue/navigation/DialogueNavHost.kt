@@ -53,7 +53,9 @@ fun DialogueNavHost(
             }
         )
         contactsGraph(
-            navigateToChat = { navController.navigate(ChatDestination.route) }
+            navigateToChat = {
+                navController.navigate(ChatDestination.createNavigationRoute(it))
+            }
         )
     }
 }
