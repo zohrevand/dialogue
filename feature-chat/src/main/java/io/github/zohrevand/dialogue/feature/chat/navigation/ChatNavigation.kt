@@ -18,7 +18,7 @@ object ChatDestination : DialogueNavigationDestination {
      */
     fun createNavigationRoute(contactJidArg: String): String {
         val encodedJid = Uri.encode(contactJidArg)
-        return "topic_route/$encodedJid"
+        return "chat_route/$encodedJid"
     }
 }
 
