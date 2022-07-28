@@ -45,7 +45,9 @@ fun DialogueNavHost(
             }
         )
         conversationsGraph(
-            navigateToChat = { navController.navigate(ChatDestination.route) },
+            navigateToChat = {
+                navController.navigate(ChatDestination.createNavigationRoute(it))
+            },
             nestedGraphs = {
                 chatGraph(onBackClick = { navController.popBackStack() })
             }
