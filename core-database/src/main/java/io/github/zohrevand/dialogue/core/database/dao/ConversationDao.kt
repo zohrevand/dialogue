@@ -30,6 +30,12 @@ interface ConversationDao {
     suspend fun upsert(conversationEntity: ConversationEntity)
 
     /**
+     * Inserts [conversationEntities] into the db if they don't exist, and update those that do
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsert(conversationEntities: List<ConversationEntity>)
+
+    /**
      * Deletes row in the db matching the specified [peerJid]
      */
     @Query(
