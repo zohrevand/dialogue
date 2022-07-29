@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.jivesoftware.smack.packet.Presence
 import org.jivesoftware.smack.packet.PresenceBuilder
@@ -50,7 +51,17 @@ class RosterManagerImpl @Inject constructor(
 
         Log.d(TAG, "Roster entries: ${roster.entries}")
 
-        contactsRepository.updateContacts(roster.entries.map(RosterEntry::asExternalModel))
+        val contacts = contactsRepository.getContactsStream().first()
+
+        val newContacts = roster.entries
+            .filter { entry ->
+                contacts.none {
+                    it.jid == entry.jid.asBareJid().toString()
+                }
+            }
+            .map(RosterEntry::asExternalModel)
+
+        contactsRepository.updateContacts(newContacts)
 
         roster.addRosterListener()
 
