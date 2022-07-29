@@ -23,6 +23,18 @@ interface MessageDao {
     @Query(value = "SELECT * FROM messages")
     fun getMessageEntitiesStream(): Flow<List<MessageEntity>>
 
+    /**
+     * Get messages stream based on peerJid
+     */
+    @Query(
+        value = """
+        SELECT * FROM messages
+        WHERE peer_jid = :peerJid
+        ORDER BY send_time
+    """
+    )
+    fun getMessageEntitiesStream(peerJid: String): Flow<List<MessageEntity>>
+
     @Query(
         value = """
         SELECT * FROM messages
