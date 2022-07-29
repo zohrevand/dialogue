@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.zohrevand.core.model.data.Conversation
+import io.github.zohrevand.core.model.data.ConversationStatus
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.feature.conversations.ConversationsUiState.Loading
 import io.github.zohrevand.dialogue.feature.conversations.ConversationsUiState.Success
@@ -19,7 +20,7 @@ class ConversationsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val uiState: StateFlow<ConversationsUiState> =
-        conversationsRepository.getConversationsStream()
+        conversationsRepository.getConversationsStream(status = ConversationStatus.Started)
             .map { conversations ->
                 Success(conversations)
             }
