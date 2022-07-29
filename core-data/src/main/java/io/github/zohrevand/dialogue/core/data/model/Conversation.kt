@@ -5,5 +5,6 @@ import io.github.zohrevand.dialogue.core.database.model.ConversationEntity
 
 fun Conversation.asEntity() = ConversationEntity(
     peerJid = peerJid,
+    status = status,
     draftMessage = draftMessage
 )
