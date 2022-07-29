@@ -9,6 +9,8 @@ interface MessagesRepository {
 
     fun getMessagesStream(): Flow<List<Message>>
 
+    fun getMessagesStream(peerJid: String): Flow<List<Message>>
+
     fun getMessagesStream(ids: Set<String>): Flow<List<Message>>
 
     suspend fun updateMessage(message: Message)
