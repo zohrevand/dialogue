@@ -6,15 +6,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ConversationsRoute(
     navigateToChat: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: ConversationsViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     ConversationsScreen(
+        uiState = uiState,
         navigateToChat = navigateToChat,
         modifier = modifier
     )
@@ -22,6 +31,7 @@ fun ConversationsRoute(
 
 @Composable
 fun ConversationsScreen(
+    uiState: ConversationsUiState,
     navigateToChat: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
