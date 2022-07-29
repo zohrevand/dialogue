@@ -23,6 +23,9 @@ class OfflineFirstConversationsRepository @Inject constructor(
     override suspend fun updateConversation(conversation: Conversation) =
         conversationDao.upsert(conversation.asEntity())
 
+    override suspend fun updateConversations(conversations: List<Conversation>) =
+        conversationDao.upsert(conversations.map(Conversation::asEntity))
+
     override suspend fun deleteConversation(peerJid: String) =
         conversationDao.deleteConversation(peerJid)
 }

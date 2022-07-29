@@ -11,5 +11,7 @@ interface ConversationsRepository {
 
     suspend fun updateConversation(conversation: Conversation)
 
+    suspend fun updateConversations(conversations: List<Conversation>)
+
     suspend fun deleteConversation(peerJid: String)
 }
