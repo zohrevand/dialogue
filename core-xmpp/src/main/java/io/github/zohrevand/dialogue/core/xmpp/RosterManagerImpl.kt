@@ -3,7 +3,9 @@ package io.github.zohrevand.dialogue.core.xmpp
 import android.util.Log
 import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.data.repository.ContactsRepository
+import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
+import io.github.zohrevand.dialogue.core.xmpp.model.asConversation
 import io.github.zohrevand.dialogue.core.xmpp.model.asExternalModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -30,7 +32,8 @@ private const val TAG = "RosterManager"
 @Suppress("BlockingMethodInNonBlockingContext")
 class RosterManagerImpl @Inject constructor(
     private val contactsCollector: ContactsCollector,
-    private val contactsRepository: ContactsRepository
+    private val contactsRepository: ContactsRepository,
+    private val conversationsRepository: ConversationsRepository
 ) : RosterManager {
 
     private val scope = CoroutineScope(SupervisorJob())
@@ -52,6 +55,7 @@ class RosterManagerImpl @Inject constructor(
         Log.d(TAG, "Roster entries: ${roster.entries}")
 
         val contacts = contactsRepository.getContactsStream().first()
+        val conversations = conversationsRepository.getConversationsStream().first()
 
         val newContacts = roster.entries
             .filter { entry ->
@@ -61,7 +65,16 @@ class RosterManagerImpl @Inject constructor(
             }
             .map(RosterEntry::asExternalModel)
 
+        val newConversations = roster.entries
+            .filter { entry ->
+                conversations.none {
+                    it.peerJid == entry.jid.asBareJid().toString()
+                }
+            }
+            .map(RosterEntry::asConversation)
+
         contactsRepository.updateContacts(newContacts)
+        conversationsRepository.updateConversations(newConversations)
 
         roster.addRosterListener()
 
