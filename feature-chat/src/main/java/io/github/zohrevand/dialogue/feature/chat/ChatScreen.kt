@@ -44,7 +44,7 @@ fun ChatScreen(
         ) {
             Text(text = "This is Chat Screen for ${uiState.conversation.peerJid}")
             Button(onClick = onBackClick) {
-                Text(text = "Back to conversations")
+                Text(text = "Back")
             }
         }
     }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -53,9 +54,11 @@ fun ConversationsScreen(
         LazyColumn(
             contentPadding = PaddingValues(16.dp),
             modifier = modifier
+                .fillMaxSize()
+                .background(Color.Cyan)
         ) {
             items(uiState.conversations) { conversation ->
-                ConversationItem(conversation = conversation)
+                ConversationItem(conversation = conversation, onConversationClick = navigateToChat)
                 Divider(color = Color(0xFFDFDFDF))
             }
         }
@@ -63,19 +66,23 @@ fun ConversationsScreen(
 }
 
 @Composable
-fun ConversationItem(conversation: Conversation) {
+fun ConversationItem(
+    conversation: Conversation,
+    onConversationClick: (String) -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
             .height(80.dp)
+            .clickable { onConversationClick(conversation.peerJid) }
     ) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .size(56.dp)
                 .clip(CircleShape)
-                .background(Color.Cyan)
+                .background(Color.Magenta)
         ) {
             Text(
                 text = conversation.peerJid.take(1).uppercase(),
