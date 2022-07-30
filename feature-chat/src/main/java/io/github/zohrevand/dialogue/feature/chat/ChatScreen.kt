@@ -2,8 +2,12 @@ package io.github.zohrevand.dialogue.feature.chat
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons.Filled
@@ -62,6 +66,8 @@ fun ChatScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
+
         CenterAlignedTopAppBar(
             title = {
                 if (uiState is Success) {
