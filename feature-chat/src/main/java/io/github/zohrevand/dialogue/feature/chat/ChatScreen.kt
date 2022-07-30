@@ -76,7 +76,7 @@ fun ChatScreen(
             TextField(
                 value = messageText,
                 onValueChange = setMessageText,
-                label = { Text(text = stringResource(message_label)) },
+                placeholder = { Text(text = stringResource(message_label)) },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 modifier = modifier.fillMaxWidth().weight(1f)
             )
