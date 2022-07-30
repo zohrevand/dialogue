@@ -6,14 +6,15 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumedWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -48,7 +49,11 @@ import io.github.zohrevand.dialogue.navigation.TopLevelDestination
 import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connecting
 import io.github.zohrevand.dialogue.ui.theme.DialogueTheme
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalLifecycleComposeApi::class,
+    ExperimentalLayoutApi::class
+)
 @Composable
 fun DialogueApp(
     viewModel: DialogueViewModel = hiltViewModel()
@@ -74,18 +79,25 @@ fun DialogueApp(
                     )
                 }
             },
-            modifier = Modifier.navigationBarsPadding()
         ) { padding ->
             Box(
-                modifier = Modifier
-                    .padding(padding)
-                    .statusBarsPadding()
+                Modifier
+                    .fillMaxSize()
+                    .windowInsetsPadding(
+                        WindowInsets.safeDrawing.only(
+                            WindowInsetsSides.Horizontal
+                        )
+                    )
             ) {
                 DialogueNavHost(
-                    navController = navController
+                    navController = navController,
+                    modifier = Modifier
+                        .padding(padding)
+                        .consumedWindowInsets(padding)
                 )
 
-                val isConnecting = currentDestination.isConnectingDisplayable && uiState is Connecting
+                val isConnecting =
+                    currentDestination.isConnectingDisplayable && uiState is Connecting
                 Connecting(isConnecting)
             }
         }
@@ -125,7 +137,7 @@ private fun DialogueBottomBar(
                 WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
             )
         ),
-        containerColor = Color.Magenta,
+        containerColor = Color.White,
         contentColor = Color.Black,
         tonalElevation = 0.dp,
     ) {
