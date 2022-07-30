@@ -1,6 +1,5 @@
 package io.github.zohrevand.dialogue.feature.chat
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,10 +7,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons.Filled
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -28,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Success
+import io.github.zohrevand.dialogue.feature.chat.R.string.back
 import io.github.zohrevand.dialogue.feature.chat.R.string.message_label
 import io.github.zohrevand.dialogue.feature.chat.R.string.send
 
@@ -60,19 +62,29 @@ fun ChatScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        if (uiState is Success) {
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .weight(1f)
-                    .background(Color.Yellow)
-            ) {
-                Text(text = "This is Chat Screen for ${uiState.conversation.peerJid}")
-                Button(onClick = onBackClick) {
-                    Text(text = "Back")
+        CenterAlignedTopAppBar(
+            title = {
+                if (uiState is Success) {
+                    Text(text = uiState.conversation.peerJid)
+                }
+            },
+            navigationIcon = {
+                IconButton(onClick = onBackClick) {
+                    Icon(
+                        imageVector = Filled.ArrowBack,
+                        contentDescription = stringResource(back)
+                    )
                 }
             }
+        )
+        Surface(
+            modifier = modifier
+                .fillMaxSize()
+                .weight(1f)
+        ) {
+            // TODO: list of messages
         }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically

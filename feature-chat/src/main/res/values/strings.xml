@@ -2,4 +2,5 @@
 <resources>
     <string name="message_label">Enter your message…</string>
     <string name="send">Send</string>
+    <string name="back">Back</string>
 </resources>
