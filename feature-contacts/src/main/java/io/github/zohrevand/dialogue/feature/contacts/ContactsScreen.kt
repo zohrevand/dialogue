@@ -65,13 +65,17 @@ fun ContactsScreen(
     modifier: Modifier = Modifier
 ) {
     Box {
-        Column(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = modifier.fillMaxSize()
+        ) {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
             if (uiState is Success) {
                 LazyColumn(
                     contentPadding = PaddingValues(16.dp),
-                    modifier = modifier
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color(0xFFF1FFE1))
                 ) {
                     items(uiState.contacts) { contact ->
                         ContactItem(contact = contact, onContactClick = navigateToChat)

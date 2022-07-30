@@ -4,11 +4,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -50,16 +55,23 @@ fun ConversationsScreen(
     navigateToChat: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (uiState is Success) {
-        LazyColumn(
-            contentPadding = PaddingValues(16.dp),
-            modifier = modifier
-                .fillMaxSize()
-                .background(Color.Cyan)
-        ) {
-            items(uiState.conversations) { conversation ->
-                ConversationItem(conversation = conversation, onConversationClick = navigateToChat)
-                Divider(color = Color(0xFFDFDFDF))
+    Column(modifier = modifier) {
+        Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
+
+        if (uiState is Success) {
+            LazyColumn(
+                contentPadding = PaddingValues(16.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFF1FFE1))
+            ) {
+                items(uiState.conversations) { conversation ->
+                    ConversationItem(
+                        conversation = conversation,
+                        onConversationClick = navigateToChat
+                    )
+                    Divider(color = Color(0xFFDFDFDF))
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 package io.github.zohrevand.dialogue.feature.chat
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -86,7 +87,8 @@ fun ChatScreen(
         Surface(
             modifier = modifier
                 .fillMaxSize()
-                .weight(1f)
+                .weight(1f),
+            color = Color(0xFFF1FFE1)
         ) {
             // TODO: list of messages
         }
