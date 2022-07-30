@@ -75,7 +75,7 @@ fun ContactsScreen(
             CenterAlignedTopAppBar(
                 title = {
                     if (uiState is Success) {
-                        Text(text = stringResource(id = contacts_title))
+                        Text(text = stringResource(contacts_title))
                     }
                 }
             )

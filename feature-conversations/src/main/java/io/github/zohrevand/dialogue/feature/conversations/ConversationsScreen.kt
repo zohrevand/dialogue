@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,12 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.dialogue.feature.conversations.ConversationsUiState.Success
+import io.github.zohrevand.dialogue.feature.conversations.R.string.conversations_title
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -57,6 +60,14 @@ fun ConversationsScreen(
 ) {
     Column(modifier = modifier) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
+
+        CenterAlignedTopAppBar(
+            title = {
+                if (uiState is Success) {
+                    Text(text = stringResource(conversations_title))
+                }
+            }
+        )
 
         if (uiState is Success) {
             LazyColumn(
