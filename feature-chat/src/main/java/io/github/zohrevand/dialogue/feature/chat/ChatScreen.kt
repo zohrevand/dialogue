@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Send
@@ -20,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -53,6 +55,8 @@ fun ChatScreen(
 ) {
     val (messageText, setMessageText) = remember { mutableStateOf("") }
 
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -78,7 +82,10 @@ fun ChatScreen(
                 onValueChange = setMessageText,
                 placeholder = { Text(text = stringResource(message_label)) },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                modifier = modifier.fillMaxWidth().weight(1f),
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 maxLines = 4
             )
             IconButton(onClick = {}) {
