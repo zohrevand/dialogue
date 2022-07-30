@@ -78,7 +78,8 @@ fun ChatScreen(
                 onValueChange = setMessageText,
                 placeholder = { Text(text = stringResource(message_label)) },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                modifier = modifier.fillMaxWidth().weight(1f)
+                modifier = modifier.fillMaxWidth().weight(1f),
+                maxLines = 4
             )
             IconButton(onClick = {}) {
                 Icon(
