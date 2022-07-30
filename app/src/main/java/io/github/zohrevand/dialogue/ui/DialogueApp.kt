@@ -111,11 +111,11 @@ private fun Connecting(isConnecting: Boolean) {
         enter = fadeIn() + slideInVertically(),
         exit = slideOutVertically() + fadeOut(),
     ) {
-        Surface(color = Color(0xFFE4E4E4)) {
+        Surface(color = Color(0xFFB2EBF2)) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = "Connecting...",
-                    color = Color(0xFF009688),
+                    color = Color.White,
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier
                         .padding(vertical = 4.dp)

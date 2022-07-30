@@ -58,7 +58,7 @@ fun ConversationsScreen(
     navigateToChat: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.background(Color(0xFFE0F7FA))) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
         CenterAlignedTopAppBar(
@@ -72,9 +72,7 @@ fun ConversationsScreen(
         if (uiState is Success) {
             LazyColumn(
                 contentPadding = PaddingValues(16.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xFFF1FFE1))
+                modifier = Modifier.fillMaxSize()
             ) {
                 items(uiState.conversations) { conversation ->
                     ConversationItem(

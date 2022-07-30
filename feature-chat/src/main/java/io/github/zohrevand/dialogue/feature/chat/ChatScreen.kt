@@ -64,9 +64,7 @@ fun ChatScreen(
 
     val focusManager = LocalFocusManager.current
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Column(modifier = modifier.background(Color(0xFFE0F7FA))) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
         CenterAlignedTopAppBar(
@@ -85,10 +83,9 @@ fun ChatScreen(
             }
         )
         Surface(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
-                .weight(1f),
-            color = Color(0xFFF1FFE1)
+                .weight(1f)
         ) {
             // TODO: list of messages
         }
@@ -103,7 +100,7 @@ fun ChatScreen(
                 placeholder = { Text(text = stringResource(message_label)) },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
                 maxLines = 4
