@@ -4,12 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -59,15 +64,19 @@ fun ContactsScreen(
     navigateToChat: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
-        if (uiState is Success) {
-            LazyColumn(
-                contentPadding = PaddingValues(16.dp),
-                modifier = modifier
-            ) {
-                items(uiState.contacts) { contact ->
-                    ContactItem(contact = contact, onContactClick = navigateToChat)
-                    Divider(color = Color(0xFFDFDFDF))
+    Box {
+        Column(modifier = modifier.fillMaxSize()) {
+            Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
+
+            if (uiState is Success) {
+                LazyColumn(
+                    contentPadding = PaddingValues(16.dp),
+                    modifier = modifier
+                ) {
+                    items(uiState.contacts) { contact ->
+                        ContactItem(contact = contact, onContactClick = navigateToChat)
+                        Divider(color = Color(0xFFDFDFDF))
+                    }
                 }
             }
         }
