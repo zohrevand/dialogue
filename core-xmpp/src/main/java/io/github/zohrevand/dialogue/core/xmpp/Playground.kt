@@ -3,6 +3,8 @@ package io.github.zohrevand.dialogue.core.xmpp
 import android.util.Log
 import org.jivesoftware.smack.chat2.ChatManager
 import org.jivesoftware.smack.packet.MessageBuilder
+import org.jivesoftware.smack.packet.Presence
+import org.jivesoftware.smack.packet.PresenceBuilder
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smackx.chat_markers.ChatMarkersManager
 import org.jivesoftware.smackx.chatstates.ChatState
@@ -14,6 +16,7 @@ import org.jxmpp.jid.impl.JidCreate
 
 private const val TAG = "Playground"
 
+// Smack usage gist
 class Playground {
 
     fun testFeatures(connection: XMPPTCPConnection) {
@@ -75,5 +78,11 @@ class Playground {
             .addBody(null,"this is the message")
             .build()
         connection.sendStanza(message2)
+
+        // Sending presence stanza, type could be: available unavailable, subscribe, subscribed,
+        // unsubscribe, unsubscribed, probe, error
+        val presence = PresenceBuilder.buildPresence().ofType(Presence.Type.unavailable)
+            .setMode(Presence.Mode.away).build()
+        connection.sendStanza(presence)
     }
 }

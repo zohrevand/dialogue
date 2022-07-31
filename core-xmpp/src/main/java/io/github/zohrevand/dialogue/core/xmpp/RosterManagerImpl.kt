@@ -10,11 +10,9 @@ import io.github.zohrevand.dialogue.core.xmpp.model.asExternalModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.jivesoftware.smack.packet.Presence
-import org.jivesoftware.smack.packet.PresenceBuilder
 import org.jivesoftware.smack.roster.PresenceEventListener
 import org.jivesoftware.smack.roster.Roster
 import org.jivesoftware.smack.roster.Roster.SubscriptionMode.accept_all
@@ -54,51 +52,48 @@ class RosterManagerImpl @Inject constructor(
 
         Log.d(TAG, "Roster entries: ${roster.entries}")
 
-        val contacts = contactsRepository.getContactsStream().first()
-        val conversations = conversationsRepository.getConversationsStream().first()
-
-        val newContacts = roster.entries
-            .filter { entry ->
-                contacts.none {
-                    it.jid == entry.jid.asBareJid().toString()
-                }
-            }
-            .map(RosterEntry::asExternalModel)
-
-        val newConversations = roster.entries
-            .filter { entry ->
-                conversations.none {
-                    it.peerJid == entry.jid.asBareJid().toString()
-                }
-            }
-            .map(RosterEntry::asConversation)
-
-        contactsRepository.updateContacts(newContacts)
-        conversationsRepository.updateConversations(newConversations)
+        updateDatabase(roster.entries)
 
         roster.addRosterListener()
 
         roster.addPresenceEventListener()
 
         scope.launch {
-            delay(10000)
-            Log.d(TAG, "Sending Presence unavailable away")
-
-            val presence = PresenceBuilder.buildPresence().ofType(Presence.Type.unavailable)
-                .setMode(Presence.Mode.away).build()
-            connection.sendStanza(presence)
-
-            delay(5000)
-            Log.d(TAG, "Sending Presence available chat")
-
-            val presence2 = PresenceBuilder.buildPresence().ofType(Presence.Type.available)
-                .setMode(Presence.Mode.chat).build()
-            connection.sendStanza(presence2)
-        }
-
-        scope.launch {
             contactsCollector.collectAddToRosterContacts { addToRoster(it) }
         }
+    }
+
+    private suspend fun updateDatabase(rosterEntries: Set<RosterEntry>) {
+        updateContacts(rosterEntries)
+        updateConversations(rosterEntries)
+    }
+
+    private suspend fun updateContacts(rosterEntries: Set<RosterEntry>) {
+        val contacts = contactsRepository.getContactsStream().first()
+
+        val newContacts = rosterEntries
+            .filter { entry ->
+                contacts.none { contact ->
+                    contact.jid == entry.jid.asBareJid().toString()
+                }
+            }
+            .map(RosterEntry::asExternalModel)
+
+        contactsRepository.updateContacts(newContacts)
+    }
+
+    private suspend fun updateConversations(rosterEntries: Set<RosterEntry>) {
+        val conversations = conversationsRepository.getConversationsStream().first()
+
+        val newConversations = rosterEntries
+            .filter { entry ->
+                conversations.none { conversation ->
+                    conversation.peerJid == entry.jid.asBareJid().toString()
+                }
+            }
+            .map(RosterEntry::asConversation)
+
+        conversationsRepository.updateConversations(newConversations)
     }
 
     private fun addToRoster(contacts: List<Contact>) {
