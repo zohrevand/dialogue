@@ -2,8 +2,8 @@ package io.github.zohrevand.dialogue.core.xmpp.collector
 
 import io.github.zohrevand.core.model.data.Account
 import io.github.zohrevand.core.model.data.AccountStatus.LoggingIn
-import io.github.zohrevand.core.model.data.AccountStatus.PreLoggingIn
-import io.github.zohrevand.core.model.data.AccountStatus.PreRegistering
+import io.github.zohrevand.core.model.data.AccountStatus.ShouldLogin
+import io.github.zohrevand.core.model.data.AccountStatus.ShouldRegister
 import io.github.zohrevand.core.model.data.AccountStatus.Registering
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import javax.inject.Inject
@@ -17,11 +17,11 @@ class AccountsCollectorImpl @Inject constructor(
         onNewRegister: suspend (Account) -> Unit
     ) {
         preferencesRepository.getAccount().collect { account ->
-            if (account.status == PreLoggingIn) {
+            if (account.status == ShouldLogin) {
                 preferencesRepository.updateAccount(account.copy(status = LoggingIn))
                 onNewLogin(account)
             }
-            if (account.status == PreRegistering) {
+            if (account.status == ShouldRegister) {
                 preferencesRepository.updateAccount(account.copy(status = Registering))
                 onNewRegister(account)
             }

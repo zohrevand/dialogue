@@ -2,9 +2,9 @@ package io.github.zohrevand.core.model.data
 
 enum class AccountStatus {
     NotSet,
-    PreRegistering,
+    ShouldRegister,
     Registering,
-    PreLoggingIn,
+    ShouldLogin,
     LoggingIn,
     Disabled,
     Offline,

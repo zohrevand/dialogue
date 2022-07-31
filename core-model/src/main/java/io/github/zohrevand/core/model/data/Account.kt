@@ -3,7 +3,7 @@ package io.github.zohrevand.core.model.data
 import io.github.zohrevand.core.model.data.AccountStatus.Disabled
 import io.github.zohrevand.core.model.data.AccountStatus.Offline
 import io.github.zohrevand.core.model.data.AccountStatus.Online
-import io.github.zohrevand.core.model.data.AccountStatus.PreLoggingIn
+import io.github.zohrevand.core.model.data.AccountStatus.ShouldLogin
 
 data class Account(
     val jid: String,
@@ -20,7 +20,7 @@ data class Account(
                 localPart = localPart,
                 domainPart = domainPart,
                 password = password,
-                status = PreLoggingIn
+                status = ShouldLogin
             )
         }
     }

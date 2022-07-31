@@ -9,9 +9,9 @@ message UserPreferences {
 
   enum AccountStatus {
     NotSet = 0;
-    PreRegistering = 1;
+    ShouldRegister = 1;
     Registering = 2;
-    PreLoggingIn = 3;
+    ShouldLogin = 3;
     LoggingIn = 4;
     Disabled = 5;
     Offline = 6;
