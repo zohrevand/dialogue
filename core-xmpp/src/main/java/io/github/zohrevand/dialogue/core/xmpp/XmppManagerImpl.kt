@@ -114,6 +114,7 @@ class XmppManagerImpl @Inject constructor(
         val status = if (connection.isAuthenticated) {
             withContext(ioDispatcher) {
                 rosterManager.initialize(connection)
+                messageManager.initialize(connection)
             }
             Online
         } else {
