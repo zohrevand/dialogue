@@ -36,6 +36,9 @@ class OfflineFirstMessagesRepository @Inject constructor(
     override suspend fun updateMessage(message: Message) =
         messageDao.upsert(message.asEntity())
 
+    override suspend fun updateMessages(messages: List<Message>) =
+        messageDao.upsert(messages.map(Message::asEntity))
+
     override suspend fun deleteMessage(id: String) =
         messageDao.deleteMessage(id)
 }

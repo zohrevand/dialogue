@@ -18,5 +18,7 @@ interface MessagesRepository {
 
     suspend fun updateMessage(message: Message)
 
+    suspend fun updateMessages(messages: List<Message>)
+
     suspend fun deleteMessage(id: String)
 }
