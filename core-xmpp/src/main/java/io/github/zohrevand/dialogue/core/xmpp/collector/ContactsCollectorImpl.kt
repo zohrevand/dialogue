@@ -12,8 +12,8 @@ class ContactsCollectorImpl @Inject constructor(
         addToRoster: suspend (List<Contact>) -> Unit
     ) {
         contactsRepository.getAddToRosterStream().collect { contacts ->
-            val newContacts = contacts.map { it.copy(addToRoster = false) }
-            contactsRepository.updateContacts(newContacts)
+            val updatedContacts = contacts.map { it.copy(addToRoster = false) }
+            contactsRepository.updateContacts(updatedContacts)
             addToRoster(contacts)
         }
     }
