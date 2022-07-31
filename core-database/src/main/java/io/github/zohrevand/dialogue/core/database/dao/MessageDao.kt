@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import io.github.zohrevand.core.model.data.MessageStatus
 import io.github.zohrevand.dialogue.core.database.model.MessageEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -34,6 +35,17 @@ interface MessageDao {
     """
     )
     fun getMessageEntitiesStream(peerJid: String): Flow<List<MessageEntity>>
+
+    /**
+     * Get messages stream based on message status
+     */
+    @Query(
+        value = """
+        SELECT * FROM messages
+        WHERE status == :status
+    """
+    )
+    fun getMessageEntitiesStream(status: MessageStatus): Flow<List<MessageEntity>>
 
     @Query(
         value = """
