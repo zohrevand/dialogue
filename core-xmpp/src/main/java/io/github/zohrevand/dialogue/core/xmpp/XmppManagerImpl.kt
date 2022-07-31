@@ -23,6 +23,7 @@ private const val TAG = "XmppManagerImpl"
 
 class XmppManagerImpl @Inject constructor(
     private val rosterManager: RosterManager,
+    private val messageManager: MessageManager,
     private val preferencesRepository: PreferencesRepository,
     private val ioDispatcher: CoroutineDispatcher
 ) : XmppManager {
