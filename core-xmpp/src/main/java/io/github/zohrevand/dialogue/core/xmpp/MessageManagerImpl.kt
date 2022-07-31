@@ -5,6 +5,7 @@ import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import org.jivesoftware.smack.chat2.ChatManager
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import javax.inject.Inject
@@ -20,7 +21,9 @@ class MessageManagerImpl @Inject constructor(
     override suspend fun initialize(connection: XMPPTCPConnection) {
         chatManager = ChatManager.getInstanceFor(connection)
 
-        messagesCollector.collectShouldSendMessages(sendMessages = ::sendMessages)
+        scope.launch {
+            messagesCollector.collectShouldSendMessages(sendMessages = ::sendMessages)
+        }
     }
 
     private fun sendMessages(messages: List<Message>) {
