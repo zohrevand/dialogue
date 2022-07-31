@@ -112,7 +112,7 @@ class XmppManagerImpl @Inject constructor(
     ): XMPPTCPConnection {
         val status = if (connection.isAuthenticated) {
             withContext(ioDispatcher) {
-                rosterManager.initializeRoster(connection)
+                rosterManager.initialize(connection)
             }
             Online
         } else {

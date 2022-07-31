@@ -47,7 +47,7 @@ class RosterManagerImpl @Inject constructor(
         Roster.setRosterLoadedAtLoginDefault(true)
     }
 
-    override suspend fun initializeRoster(connection: XMPPTCPConnection) {
+    override suspend fun initialize(connection: XMPPTCPConnection) {
         roster = Roster.getInstanceFor(connection)
 
         Log.d(TAG, "Roster entries: ${roster.entries}")
