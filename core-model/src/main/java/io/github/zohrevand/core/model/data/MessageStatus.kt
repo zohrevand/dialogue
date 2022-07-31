@@ -5,6 +5,6 @@ enum class MessageStatus {
     Received,
     SentFailed,
     SentDelivered,
-    SentRead,
-    ReceivedRead
+    SentDisplayed,
+    ReceivedDisplayed
 }
