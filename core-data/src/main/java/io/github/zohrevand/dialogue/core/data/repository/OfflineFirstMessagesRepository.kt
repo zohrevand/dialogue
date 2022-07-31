@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.core.data.repository
 
 import io.github.zohrevand.core.model.data.Message
+import io.github.zohrevand.core.model.data.MessageStatus
 import io.github.zohrevand.dialogue.core.data.model.asEntity
 import io.github.zohrevand.dialogue.core.database.dao.MessageDao
 import io.github.zohrevand.dialogue.core.database.model.MessageEntity
@@ -26,6 +27,10 @@ class OfflineFirstMessagesRepository @Inject constructor(
 
     override fun getMessagesStream(ids: Set<String>): Flow<List<Message>> =
         messageDao.getMessageEntitiesStream(ids)
+            .map { it.map(MessageEntity::asExternalModel) }
+
+    override fun getMessagesStream(status: MessageStatus): Flow<List<Message>> =
+        messageDao.getMessageEntitiesStream(status)
             .map { it.map(MessageEntity::asExternalModel) }
 
     override suspend fun updateMessage(message: Message) =

@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.core.data.repository
 
 import io.github.zohrevand.core.model.data.Message
+import io.github.zohrevand.core.model.data.MessageStatus
 import kotlinx.coroutines.flow.Flow
 
 interface MessagesRepository {
@@ -12,6 +13,8 @@ interface MessagesRepository {
     fun getMessagesStream(peerJid: String): Flow<List<Message>>
 
     fun getMessagesStream(ids: Set<String>): Flow<List<Message>>
+
+    fun getMessagesStream(status: MessageStatus): Flow<List<Message>>
 
     suspend fun updateMessage(message: Message)
 
