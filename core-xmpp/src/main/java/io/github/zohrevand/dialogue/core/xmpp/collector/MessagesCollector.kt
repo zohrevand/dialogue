@@ -8,6 +8,6 @@ interface MessagesCollector {
      * by XMPP, originated from database
      * */
     suspend fun collectShouldSendMessages(
-        sendMessage: suspend (List<Message>) -> Unit
+        sendMessages: suspend (List<Message>) -> Unit
     )
 }

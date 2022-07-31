@@ -10,12 +10,12 @@ class MessagesCollectorImpl @Inject constructor(
     private val messagesRepository: MessagesRepository
 ) : MessagesCollector {
 
-    override suspend fun collectShouldSendMessages(sendMessage: suspend (List<Message>) -> Unit) {
+    override suspend fun collectShouldSendMessages(sendMessages: suspend (List<Message>) -> Unit) {
         messagesRepository.getMessagesStream(status = MessageStatus.ShouldSend)
             .collect { messages ->
                 val updatedMessages = messages.map { it.copy(status = Sending) }
                 messagesRepository.updateMessages(updatedMessages)
-                sendMessage(updatedMessages)
+                sendMessages(updatedMessages)
             }
     }
 }

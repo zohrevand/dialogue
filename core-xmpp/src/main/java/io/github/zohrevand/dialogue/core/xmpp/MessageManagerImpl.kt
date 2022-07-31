@@ -1,5 +1,6 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
+import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -18,6 +19,12 @@ class MessageManagerImpl @Inject constructor(
 
     override suspend fun initialize(connection: XMPPTCPConnection) {
         chatManager = ChatManager.getInstanceFor(connection)
+
+        messagesCollector.collectShouldSendMessages(sendMessages = ::sendMessages)
+    }
+
+    private fun sendMessages(messages: List<Message>) {
+        // TODO send messages
     }
 
     override fun onCleared() {
