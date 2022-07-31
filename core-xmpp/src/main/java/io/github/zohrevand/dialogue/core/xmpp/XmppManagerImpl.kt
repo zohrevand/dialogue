@@ -163,5 +163,6 @@ class XmppManagerImpl @Inject constructor(
     override fun onCleared() {
         xmppConnection?.removeConnectionListener(connectionListener)
         rosterManager.onCleared()
+        messageManager.onCleared()
     }
 }
