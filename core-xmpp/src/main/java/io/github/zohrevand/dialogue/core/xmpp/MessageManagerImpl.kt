@@ -1,4 +1,9 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
-class MessageManagerImpl : MessageManager {
+import javax.inject.Inject
+
+class MessageManagerImpl @Inject constructor(
+
+) : MessageManager {
+
 }
