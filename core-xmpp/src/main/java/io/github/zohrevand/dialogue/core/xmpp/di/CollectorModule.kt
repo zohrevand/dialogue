@@ -8,6 +8,8 @@ import io.github.zohrevand.dialogue.core.xmpp.collector.AccountsCollector
 import io.github.zohrevand.dialogue.core.xmpp.collector.AccountsCollectorImpl
 import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
 import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollectorImpl
+import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
+import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollectorImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -22,4 +24,9 @@ interface CollectorModule {
     fun bindsContactsCollector(
         contactsCollector: ContactsCollectorImpl
     ): ContactsCollector
+
+    @Binds
+    fun bindsMessagesCollector(
+        messagesCollector: MessagesCollectorImpl
+    ): MessagesCollector
 }

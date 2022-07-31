@@ -1,5 +1,9 @@
 package io.github.zohrevand.dialogue.core.xmpp.collector
 
-class MessagesCollectorImpl : MessagesCollector {
+import javax.inject.Inject
+
+class MessagesCollectorImpl @Inject constructor(
+
+) : MessagesCollector {
 
 }
