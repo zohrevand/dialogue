@@ -1,7 +1,7 @@
 package io.github.zohrevand.core.model.data
 
 enum class MessageStatus {
-    PreSend,
+    ShouldSend,
     Sent,
     Received,
     SentFailed,
