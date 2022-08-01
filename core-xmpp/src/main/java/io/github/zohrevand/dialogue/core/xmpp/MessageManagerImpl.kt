@@ -1,5 +1,6 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
+import android.util.Log
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
 import kotlinx.coroutines.CoroutineScope
@@ -11,6 +12,8 @@ import org.jivesoftware.smack.packet.MessageBuilder
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jxmpp.jid.impl.JidCreate
 import javax.inject.Inject
+
+private const val TAG = "MessagesManagerImpl"
 
 class MessageManagerImpl @Inject constructor(
     private val messagesCollector: MessagesCollector
@@ -25,6 +28,14 @@ class MessageManagerImpl @Inject constructor(
 
         scope.launch {
             messagesCollector.collectShouldSendMessages(sendMessages = ::sendMessages)
+        }
+
+        observeIncomingMessages()
+    }
+
+    private fun observeIncomingMessages() {
+        chatManager.addIncomingListener { from, message, chat ->
+            Log.d(TAG, "addIncomingListener - from: $from, message: $message, chat: $chat")
         }
     }
 
