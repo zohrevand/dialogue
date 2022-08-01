@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":feature-contacts"))
 
     implementation(project(":core-xmpp"))
+    implementation(project(":core-designsystem"))
     implementation(project(":core-navigation"))
     implementation(project(":core-data"))
     implementation(project(":core-model"))
