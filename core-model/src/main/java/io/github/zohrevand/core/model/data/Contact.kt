@@ -1,5 +1,6 @@
 package io.github.zohrevand.core.model.data
 
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 data class Contact(
@@ -10,4 +11,14 @@ data class Contact(
      * To flag the contact to be added to roster entries
      */
     val addToRoster: Boolean
-)
+) {
+    companion object {
+        fun create(jid: String): Contact =
+            Contact(
+                jid = jid,
+                presence = Presence(),
+                lastTime = Clock.System.now(),
+                addToRoster = true
+            )
+    }
+}
