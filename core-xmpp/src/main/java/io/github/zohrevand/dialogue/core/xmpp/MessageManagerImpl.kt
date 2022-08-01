@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import org.jivesoftware.smack.chat2.Chat
 import org.jivesoftware.smack.chat2.ChatManager
 import org.jivesoftware.smack.chat2.IncomingChatMessageListener
 import org.jivesoftware.smack.chat2.OutgoingChatMessageListener
@@ -17,6 +18,7 @@ import org.jivesoftware.smackx.chatstates.ChatStateManager
 import org.jivesoftware.smackx.receipts.DeliveryReceiptManager
 import org.jivesoftware.smackx.receipts.DeliveryReceiptManager.AutoReceiptMode.always
 import org.jivesoftware.smackx.receipts.ReceiptReceivedListener
+import org.jxmpp.jid.EntityBareJid
 import org.jxmpp.jid.impl.JidCreate
 import javax.inject.Inject
 
@@ -102,5 +104,15 @@ class MessageManagerImpl @Inject constructor(
 
     override fun onCleared() {
         scope.cancel()
+        if (this::chatManager.isInitialized) {
+            chatManager.removeIncomingListener(incomingChatMessageListener)
+            chatManager.removeOutgoingListener(outgoingChatMessageListener)
+        }
+        if (this::chatStateManager.isInitialized) {
+            chatStateManager.removeChatStateListener(chatStateListener)
+        }
+        if (this::deliveryReceiptManager.isInitialized) {
+            deliveryReceiptManager.removeReceiptReceivedListener(receiptReceivedListener)
+        }
     }
 }
