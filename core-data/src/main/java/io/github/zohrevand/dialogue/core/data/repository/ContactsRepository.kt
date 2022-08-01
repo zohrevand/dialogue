@@ -11,7 +11,7 @@ interface ContactsRepository {
 
     fun getContactsStream(jids: Set<String>): Flow<List<Contact>>
 
-    fun getAddToRosterStream(): Flow<List<Contact>>
+    fun getShouldAddToRosterStream(): Flow<List<Contact>>
 
     suspend fun updateContacts(contacts: List<Contact>)
 

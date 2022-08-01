@@ -10,5 +10,5 @@ fun Contact.asEntity() = ContactEntity(
     presenceStatus = presence.status,
     presencePriority = presence.priority,
     lastTime = lastTime,
-    addToRoster = addToRoster
+    shouldAddToRoster = shouldAddToRoster
 )

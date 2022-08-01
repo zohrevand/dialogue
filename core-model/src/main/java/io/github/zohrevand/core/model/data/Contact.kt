@@ -10,7 +10,7 @@ data class Contact(
     /**
      * To flag the contact to be added to roster entries
      */
-    val addToRoster: Boolean
+    val shouldAddToRoster: Boolean
 ) {
     companion object {
         fun create(jid: String): Contact =
@@ -18,7 +18,7 @@ data class Contact(
                 jid = jid,
                 presence = Presence(),
                 lastTime = Clock.System.now(),
-                addToRoster = true
+                shouldAddToRoster = true
             )
     }
 }

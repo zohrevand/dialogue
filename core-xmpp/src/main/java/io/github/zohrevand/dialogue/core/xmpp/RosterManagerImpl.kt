@@ -59,7 +59,7 @@ class RosterManagerImpl @Inject constructor(
         roster.addPresenceEventListener()
 
         scope.launch {
-            contactsCollector.collectAddToRosterContacts { addToRoster(it) }
+            contactsCollector.collectShouldAddToRosterContacts { addToRoster(it) }
         }
     }
 

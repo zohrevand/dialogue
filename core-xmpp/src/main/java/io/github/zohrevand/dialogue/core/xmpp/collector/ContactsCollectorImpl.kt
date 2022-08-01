@@ -8,11 +8,11 @@ class ContactsCollectorImpl @Inject constructor(
     private val contactsRepository: ContactsRepository
 ) : ContactsCollector {
 
-    override suspend fun collectAddToRosterContacts(
+    override suspend fun collectShouldAddToRosterContacts(
         addToRoster: suspend (List<Contact>) -> Unit
     ) {
-        contactsRepository.getAddToRosterStream().collect { contacts ->
-            val updatedContacts = contacts.map { it.copy(addToRoster = false) }
+        contactsRepository.getShouldAddToRosterStream().collect { contacts ->
+            val updatedContacts = contacts.map { it.copy(shouldAddToRoster = false) }
             contactsRepository.updateContacts(updatedContacts)
             addToRoster(updatedContacts)
         }

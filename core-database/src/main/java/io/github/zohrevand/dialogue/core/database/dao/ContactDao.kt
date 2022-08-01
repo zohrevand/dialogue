@@ -34,10 +34,10 @@ interface ContactDao {
     @Query(
         value = """
         SELECT * FROM contacts
-        WHERE add_to_roster = 1
+        WHERE should_add_to_roster = 1
     """
     )
-    fun getAddToRosterStream(): Flow<List<ContactEntity>>
+    fun getShouldAddToRosterStream(): Flow<List<ContactEntity>>
 
     /**
      * Inserts [contactEntities] into the db if they don't exist, and update those that do

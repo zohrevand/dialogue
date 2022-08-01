@@ -23,8 +23,8 @@ data class ContactEntity(
     val presencePriority: Int,
     @ColumnInfo(name = "last_time")
     val lastTime: Instant,
-    @ColumnInfo(name = "add_to_roster")
-    val addToRoster: Boolean
+    @ColumnInfo(name = "should_add_to_roster")
+    val shouldAddToRoster: Boolean
 )
 
 fun ContactEntity.asExternalModel() = Contact(
@@ -36,5 +36,5 @@ fun ContactEntity.asExternalModel() = Contact(
         priority = presencePriority
     ),
     lastTime = lastTime,
-    addToRoster = addToRoster
+    shouldAddToRoster = shouldAddToRoster
 )
