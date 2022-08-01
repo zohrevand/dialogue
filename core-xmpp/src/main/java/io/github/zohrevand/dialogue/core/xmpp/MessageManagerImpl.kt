@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import org.jivesoftware.smack.chat2.ChatManager
 import org.jivesoftware.smack.packet.MessageBuilder
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
+import org.jivesoftware.smackx.chatstates.ChatStateManager
 import org.jxmpp.jid.impl.JidCreate
 import javax.inject.Inject
 
@@ -22,9 +23,11 @@ class MessageManagerImpl @Inject constructor(
     private val scope = CoroutineScope(SupervisorJob())
 
     private lateinit var chatManager: ChatManager
+    private lateinit var chatStateManager: ChatStateManager
 
     override suspend fun initialize(connection: XMPPTCPConnection) {
         chatManager = ChatManager.getInstanceFor(connection)
+        chatStateManager = ChatStateManager.getInstance(connection)
 
         scope.launch {
             messagesCollector.collectShouldSendMessages(sendMessages = ::sendMessages)
@@ -33,6 +36,8 @@ class MessageManagerImpl @Inject constructor(
         observeIncomingMessages()
 
         observeOutgoingMessages()
+
+        observeChatState()
     }
 
     private fun observeIncomingMessages() {
@@ -44,6 +49,12 @@ class MessageManagerImpl @Inject constructor(
     private fun observeOutgoingMessages() {
         chatManager.addOutgoingListener { to, messageBuilder, chat ->
             Log.d(TAG, "OutgoingListener - to: $to, messageBuilder: $messageBuilder, chat: $chat")
+        }
+    }
+
+    private fun observeChatState() {
+        chatStateManager.addChatStateListener { chat, state, message ->
+            Log.d(TAG, "ChatStateListener - state: $state, message: $message, chat: $chat")
         }
     }
 
