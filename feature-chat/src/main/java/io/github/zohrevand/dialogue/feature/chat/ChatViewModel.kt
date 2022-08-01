@@ -55,6 +55,10 @@ class ChatViewModel @Inject constructor(
     fun sendMessage(message: String) {
 
     }
+
+    fun userTyping() {
+
+    }
 }
 
 sealed interface ChatUiState {

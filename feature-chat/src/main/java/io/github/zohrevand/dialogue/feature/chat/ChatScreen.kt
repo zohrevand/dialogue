@@ -50,6 +50,7 @@ fun ChatRoute(
     ChatScreen(
         uiState = uiState,
         onSendMessage = viewModel::sendMessage,
+        onUserTyping = viewModel::userTyping,
         onBackClick = onBackClick,
         modifier = modifier
     )
@@ -59,6 +60,7 @@ fun ChatRoute(
 fun ChatScreen(
     uiState: ChatUiState,
     onSendMessage: (String) -> Unit,
+    onUserTyping: () -> Unit,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -98,7 +100,10 @@ fun ChatScreen(
         ) {
             TextField(
                 value = messageText,
-                onValueChange = setMessageText,
+                onValueChange = {
+                    setMessageText(it)
+                    onUserTyping()
+                },
                 placeholder = { Text(text = stringResource(message_label)) },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
