@@ -17,13 +17,14 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     conversationsRepository: ConversationsRepository,
-    messagesRepository: MessagesRepository
+    private val messagesRepository: MessagesRepository
 ) : ViewModel() {
 
     private val contactId: String = checkNotNull(
@@ -52,8 +53,12 @@ class ChatViewModel @Inject constructor(
                 initialValue = Loading
             )
 
-    fun sendMessage(message: String) {
-
+    fun sendMessage(text: String) {
+        viewModelScope.launch {
+            messagesRepository.updateMessage(
+                Message.create(text, contactId)
+            )
+        }
     }
 
     fun userTyping() {
