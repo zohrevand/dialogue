@@ -5,5 +5,6 @@ data class Conversation(
     val status: ConversationStatus,
     val draftMessage: String? = null,
     val lastMessage: Message? = null,
-    val unreadMessagesCount: Int = 0
+    val unreadMessagesCount: Int = 0,
+    val chatState: ChatState = ChatState.Idle
 )
