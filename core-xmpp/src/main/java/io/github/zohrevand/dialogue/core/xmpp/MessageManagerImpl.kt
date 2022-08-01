@@ -31,11 +31,19 @@ class MessageManagerImpl @Inject constructor(
         }
 
         observeIncomingMessages()
+
+        observeOutgoingMessages()
     }
 
     private fun observeIncomingMessages() {
         chatManager.addIncomingListener { from, message, chat ->
-            Log.d(TAG, "addIncomingListener - from: $from, message: $message, chat: $chat")
+            Log.d(TAG, "IncomingListener - from: $from, message: $message, chat: $chat")
+        }
+    }
+
+    private fun observeOutgoingMessages() {
+        chatManager.addOutgoingListener { to, messageBuilder, chat ->
+            Log.d(TAG, "OutgoingListener - to: $to, messageBuilder: $messageBuilder, chat: $chat")
         }
     }
 
