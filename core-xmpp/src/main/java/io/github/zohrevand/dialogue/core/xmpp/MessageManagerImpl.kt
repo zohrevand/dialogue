@@ -8,11 +8,15 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.jivesoftware.smack.chat2.ChatManager
+import org.jivesoftware.smack.chat2.IncomingChatMessageListener
+import org.jivesoftware.smack.chat2.OutgoingChatMessageListener
 import org.jivesoftware.smack.packet.MessageBuilder
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
+import org.jivesoftware.smackx.chatstates.ChatStateListener
 import org.jivesoftware.smackx.chatstates.ChatStateManager
 import org.jivesoftware.smackx.receipts.DeliveryReceiptManager
 import org.jivesoftware.smackx.receipts.DeliveryReceiptManager.AutoReceiptMode.always
+import org.jivesoftware.smackx.receipts.ReceiptReceivedListener
 import org.jxmpp.jid.impl.JidCreate
 import javax.inject.Inject
 
@@ -27,6 +31,11 @@ class MessageManagerImpl @Inject constructor(
     private lateinit var chatManager: ChatManager
     private lateinit var chatStateManager: ChatStateManager
     private lateinit var deliveryReceiptManager: DeliveryReceiptManager
+
+    private var incomingChatMessageListener: IncomingChatMessageListener? = null
+    private var outgoingChatMessageListener: OutgoingChatMessageListener? = null
+    private var chatStateListener: ChatStateListener? = null
+    private var receiptReceivedListener: ReceiptReceivedListener? = null
 
     override suspend fun initialize(connection: XMPPTCPConnection) {
         chatManager = ChatManager.getInstanceFor(connection)
@@ -47,28 +56,35 @@ class MessageManagerImpl @Inject constructor(
     }
 
     private fun observeIncomingMessages() {
-        chatManager.addIncomingListener { from, message, chat ->
+        incomingChatMessageListener = IncomingChatMessageListener { from, message, chat ->
             Log.d(TAG, "IncomingListener - from: $from, message: $message, chat: $chat")
         }
+        chatManager.addIncomingListener(incomingChatMessageListener)
     }
 
     private fun observeOutgoingMessages() {
-        chatManager.addOutgoingListener { to, messageBuilder, chat ->
+        outgoingChatMessageListener = OutgoingChatMessageListener { to, messageBuilder, chat ->
             Log.d(TAG, "OutgoingListener - to: $to, messageBuilder: $messageBuilder, chat: $chat")
         }
+        chatManager.addOutgoingListener(outgoingChatMessageListener)
     }
 
     private fun observeChatState() {
-        chatStateManager.addChatStateListener { chat, state, message ->
+        chatStateListener = ChatStateListener { chat, state, message ->
             Log.d(TAG, "ChatStateListener - state: $state, message: $message, chat: $chat")
         }
+        chatStateManager.addChatStateListener(chatStateListener)
     }
 
     private fun observeDeliveryReceipt() {
         deliveryReceiptManager.autoReceiptMode = always
-        deliveryReceiptManager.addReceiptReceivedListener { fromJid, toJid, receiptId, receipt ->
-            Log.d(TAG, "addReceiptReceivedListener - fromJid: $fromJid, toJid: $toJid, receiptId: $receiptId, receipt: $receipt")
+        receiptReceivedListener = ReceiptReceivedListener { fromJid, toJid, receiptId, receipt ->
+            Log.d(
+                TAG,
+                "addReceiptReceivedListener - fromJid: $fromJid, toJid: $toJid, receiptId: $receiptId, receipt: $receipt"
+            )
         }
+        deliveryReceiptManager.addReceiptReceivedListener(receiptReceivedListener)
     }
 
     // blocking
