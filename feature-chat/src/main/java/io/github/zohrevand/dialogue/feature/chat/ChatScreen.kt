@@ -49,6 +49,7 @@ fun ChatRoute(
 
     ChatScreen(
         uiState = uiState,
+        onSendMessage = viewModel::sendMessage,
         onBackClick = onBackClick,
         modifier = modifier
     )
@@ -57,6 +58,7 @@ fun ChatRoute(
 @Composable
 fun ChatScreen(
     uiState: ChatUiState,
+    onSendMessage: (String) -> Unit,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -105,7 +107,10 @@ fun ChatScreen(
                     .weight(1f),
                 maxLines = 4
             )
-            IconButton(onClick = {}) {
+            IconButton(
+                onClick = { onSendMessage(messageText) },
+                enabled = messageText.isNotBlank()
+            ) {
                 Icon(
                     imageVector = Filled.Send,
                     contentDescription = stringResource(send),

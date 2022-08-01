@@ -51,6 +51,10 @@ class ChatViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = Loading
             )
+
+    fun sendMessage(message: String) {
+
+    }
 }
 
 sealed interface ChatUiState {
