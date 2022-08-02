@@ -6,6 +6,7 @@ import io.github.zohrevand.core.model.data.MessageStatus.Sent
 import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
 import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
+import io.github.zohrevand.dialogue.core.xmpp.model.asExternalModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -104,6 +105,10 @@ class MessageManagerImpl @Inject constructor(
         chat: Chat
     ) {
         Log.d(TAG, "IncomingListener - from: $from, message: $message, chat: $chat")
+
+        scope.launch {
+            messagesRepository.updateMessage(message.asExternalModel())
+        }
     }
 
     private fun handleOutgoingMessage(
