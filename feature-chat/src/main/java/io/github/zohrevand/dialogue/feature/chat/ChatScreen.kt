@@ -135,7 +135,10 @@ fun ChatScreen(
 
 @Composable
 fun MessagesList(messages: List<Message>) {
-    LazyColumn(reverseLayout = true) {
+    LazyColumn(
+        reverseLayout = true,
+        modifier = Modifier.fillMaxSize()
+    ) {
         items(messages) { message ->
             MessageItem(message = message)
         }
