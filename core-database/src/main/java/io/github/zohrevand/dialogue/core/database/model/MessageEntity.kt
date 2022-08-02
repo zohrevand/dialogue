@@ -14,7 +14,7 @@ data class MessageEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     @ColumnInfo(name = "client_id")
-    val clientId: String,
+    val stanzaId: String,
     @ColumnInfo(name = "peer_jid")
     val peerJid: String,
     val body: String,
@@ -25,7 +25,7 @@ data class MessageEntity(
 
 fun MessageEntity.asExternalModel() = Message(
     id = id,
-    clientId = clientId,
+    stanzaId = stanzaId,
     peerJid = peerJid,
     body = body,
     sendTime = sendTime,

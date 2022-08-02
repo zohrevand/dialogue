@@ -7,7 +7,7 @@ import java.util.UUID
 
 data class Message(
     val id: Long? = null,
-    val clientId : String,
+    val stanzaId : String,
     val peerJid: String,
     val body: String,
     val sendTime: Instant = Clock.System.now(),
@@ -16,7 +16,7 @@ data class Message(
     companion object {
         fun create(text: String, peerJid: String): Message =
             Message(
-                clientId = UUID.randomUUID().toString(),
+                stanzaId = UUID.randomUUID().toString(),
                 peerJid = peerJid,
                 body = text,
                 status = ShouldSend
