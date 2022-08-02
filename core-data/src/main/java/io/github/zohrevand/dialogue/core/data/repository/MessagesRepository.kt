@@ -8,6 +8,8 @@ interface MessagesRepository {
 
     fun getMessage(id: String): Flow<Message>
 
+    fun getMessageByStanzaId(stanzaId: String): Flow<Message>
+
     fun getMessagesStream(): Flow<List<Message>>
 
     fun getMessagesStream(peerJid: String): Flow<List<Message>>
