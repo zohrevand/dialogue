@@ -149,7 +149,7 @@ fun MessagesList(messages: List<Message>) {
         reverseLayout = true,
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
         contentPadding = PaddingValues(all = 16.dp),
-        modifier = Modifier.fillMaxSize().background(Color.Red)
+        modifier = Modifier.fillMaxSize()
     ) {
         items(messages) { message ->
             MessageItem(message = message)
