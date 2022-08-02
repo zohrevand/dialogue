@@ -36,6 +36,18 @@ interface ConversationDao {
     fun getConversationEntitiesStream(status: ConversationStatus): Flow<List<ConversationEntity>>
 
     /**
+     * Check if conversation with peerJid exists
+     */
+    @Query(
+        value = """
+        SELECT EXISTS
+        (SELECT * FROM conversations
+        WHERE peer_jid = :peerJid)
+    """
+    )
+    fun isConversationExists(peerJid: String): Flow<Boolean>
+
+    /**
      * Inserts [conversationEntity] into the db if it doesn't exist, and update if it do
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
