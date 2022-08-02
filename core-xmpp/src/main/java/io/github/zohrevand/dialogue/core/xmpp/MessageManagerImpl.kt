@@ -80,10 +80,8 @@ class MessageManagerImpl @Inject constructor(
         chatManager.addIncomingListener(incomingChatMessageListener)
     }
 
-    private suspend fun observeOutgoingMessages() {
-        outgoingChatMessageListener = OutgoingChatMessageListener { to, messageBuilder, chat ->
-            scope.launch { handleOutgoingMessage(to,messageBuilder,chat) }
-        }
+    private fun observeOutgoingMessages() {
+        outgoingChatMessageListener = OutgoingChatMessageListener(::handleOutgoingMessage)
         chatManager.addOutgoingListener(outgoingChatMessageListener)
     }
 
@@ -107,15 +105,17 @@ class MessageManagerImpl @Inject constructor(
         Log.d(TAG, "IncomingListener - from: $from, message: $message, chat: $chat")
     }
 
-    private suspend fun handleOutgoingMessage(
+    private fun handleOutgoingMessage(
         to: EntityBareJid,
         messageBuilder: MessageBuilder,
         chat: Chat?
     ) {
         Log.d(TAG, "OutgoingListener - to: $to, messageBuilder: $messageBuilder, chat: $chat")
 
-        val message = messagesRepository.getMessageByStanzaId(messageBuilder.stanzaId).first()
-        messagesRepository.updateMessage(message.copy(status = Sent))
+        scope.launch {
+            val message = messagesRepository.getMessageByStanzaId(messageBuilder.stanzaId).first()
+            messagesRepository.updateMessage(message.copy(status = Sent))
+        }
     }
 
     private fun handleChatState(
