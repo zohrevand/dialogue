@@ -65,7 +65,7 @@ class MessageManagerImpl @Inject constructor(
         messages.forEach { message ->
             val chat = chatManager.chatWith(JidCreate.entityBareFrom(message.peerJid))
             val smackMessage = MessageBuilder
-                .buildMessage()
+                .buildMessage(message.clientId)
                 .addBody(null, message.body)
                 .build()
 
