@@ -118,14 +118,15 @@ fun ChatScreen(
                     .weight(1f),
                 maxLines = 4
             )
+            val isSendEnabled = messageText.isNotBlank()
             IconButton(
                 onClick = { onSendMessage(messageText) },
-                enabled = messageText.isNotBlank()
+                enabled = isSendEnabled
             ) {
                 Icon(
                     imageVector = Filled.Send,
                     contentDescription = stringResource(send),
-                    tint = Color.Blue
+                    tint = if (isSendEnabled) Color.Blue else Color.LightGray
                 )
             }
         }
