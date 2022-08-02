@@ -127,6 +127,8 @@ class MessageManagerImpl @Inject constructor(
         Log.d(TAG, "OutgoingListener - to: $to, messageBuilder: $messageBuilder, chat: $chat")
 
         scope.launch {
+            // TODO: if user has multiple clients this will fail because stanzaId
+            //  does not exist for other clients
             val message = messagesRepository.getMessageByStanzaId(messageBuilder.stanzaId).first()
             messagesRepository.updateMessage(message.copy(status = Sent))
         }
@@ -152,6 +154,8 @@ class MessageManagerImpl @Inject constructor(
         )
 
         scope.launch {
+            // TODO: if user has multiple clients this will fail because stanzaId
+            //  does not exist for other clients
             val message = messagesRepository.getMessageByStanzaId(receiptId).first()
             messagesRepository.updateMessage(message.copy(status = SentDelivered))
         }
