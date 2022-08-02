@@ -42,10 +42,11 @@ interface ConversationDao {
         value = """
         SELECT EXISTS
         (SELECT * FROM conversations
-        WHERE peer_jid = :peerJid)
+        WHERE peer_jid = :peerJid 
+        AND status != :startedStatus)
     """
     )
-    fun isConversationExists(peerJid: String): Flow<Boolean>
+    fun isConversationExists(peerJid: String, startedStatus: ConversationStatus): Flow<Boolean>
 
     /**
      * Inserts [conversationEntity] into the db if it doesn't exist, and update if it do
