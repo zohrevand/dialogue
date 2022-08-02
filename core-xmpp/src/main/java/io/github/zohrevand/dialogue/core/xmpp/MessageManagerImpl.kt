@@ -2,11 +2,13 @@ package io.github.zohrevand.dialogue.core.xmpp
 
 import android.util.Log
 import io.github.zohrevand.core.model.data.Message
+import io.github.zohrevand.core.model.data.MessageStatus.Sent
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
 import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.jivesoftware.smack.chat2.Chat
 import org.jivesoftware.smack.chat2.ChatManager
@@ -78,8 +80,10 @@ class MessageManagerImpl @Inject constructor(
         chatManager.addIncomingListener(incomingChatMessageListener)
     }
 
-    private fun observeOutgoingMessages() {
-        outgoingChatMessageListener = OutgoingChatMessageListener(::handleOutgoingMessage)
+    private suspend fun observeOutgoingMessages() {
+        outgoingChatMessageListener = OutgoingChatMessageListener { to, messageBuilder, chat ->
+            scope.launch { handleOutgoingMessage(to,messageBuilder,chat) }
+        }
         chatManager.addOutgoingListener(outgoingChatMessageListener)
     }
 
@@ -103,12 +107,15 @@ class MessageManagerImpl @Inject constructor(
         Log.d(TAG, "IncomingListener - from: $from, message: $message, chat: $chat")
     }
 
-    private fun handleOutgoingMessage(
+    private suspend fun handleOutgoingMessage(
         to: EntityBareJid,
         messageBuilder: MessageBuilder,
         chat: Chat?
     ) {
         Log.d(TAG, "OutgoingListener - to: $to, messageBuilder: $messageBuilder, chat: $chat")
+
+        val message = messagesRepository.getMessageByStanzaId(messageBuilder.stanzaId).first()
+        messagesRepository.updateMessage(message.copy(status = Sent))
     }
 
     private fun handleChatState(
