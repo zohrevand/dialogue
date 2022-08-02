@@ -3,6 +3,7 @@ package io.github.zohrevand.dialogue.core.xmpp
 import android.util.Log
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.MessageStatus.Sent
+import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
 import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
 import kotlinx.coroutines.CoroutineScope
@@ -100,7 +101,7 @@ class MessageManagerImpl @Inject constructor(
     private fun handleIncomingMessage(
         from: EntityBareJid,
         message: SmackMessage,
-        chat: Chat?
+        chat: Chat
     ) {
         Log.d(TAG, "IncomingListener - from: $from, message: $message, chat: $chat")
     }
@@ -108,7 +109,7 @@ class MessageManagerImpl @Inject constructor(
     private fun handleOutgoingMessage(
         to: EntityBareJid,
         messageBuilder: MessageBuilder,
-        chat: Chat?
+        chat: Chat
     ) {
         Log.d(TAG, "OutgoingListener - to: $to, messageBuilder: $messageBuilder, chat: $chat")
 
@@ -119,7 +120,7 @@ class MessageManagerImpl @Inject constructor(
     }
 
     private fun handleChatState(
-        chat: Chat?,
+        chat: Chat,
         state: ChatState,
         message: SmackMessage
     ) {
@@ -127,15 +128,20 @@ class MessageManagerImpl @Inject constructor(
     }
 
     private fun handleReceivedReceipt(
-        fromJid: Jid?,
-        toJid: Jid?,
-        receiptId: String?,
-        receipt: Stanza?
+        fromJid: Jid,
+        toJid: Jid,
+        receiptId: String,
+        receipt: Stanza
     ) {
         Log.d(
             TAG,
             "addReceiptReceivedListener - fromJid: $fromJid, toJid: $toJid, receiptId: $receiptId, receipt: $receipt"
         )
+
+        scope.launch {
+            val message = messagesRepository.getMessageByStanzaId(receiptId).first()
+            messagesRepository.updateMessage(message.copy(status = SentDelivered))
+        }
     }
 
     override fun onCleared() {
