@@ -157,10 +157,13 @@ fun MessageItem(
 ) {
     Box(modifier = modifier.fillMaxWidth()) {
         val alignment = if (message.isMine) Alignment.CenterStart else Alignment.CenterEnd
+        val surfaceColor = if (message.isMine) Color(0xFFC5CAE9) else Color(0xFFFFF9C4)
         Column(
             modifier = Modifier.align(alignment)
         ) {
-            Surface {
+            Surface(
+                color = surfaceColor
+            ) {
                 Text(text = message.body)
             }
             Text(
