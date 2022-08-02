@@ -2,6 +2,7 @@ package io.github.zohrevand.dialogue.core.data.repository
 
 import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus
+import io.github.zohrevand.core.model.data.ConversationStatus.NotStarted
 import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.dialogue.core.data.model.asEntity
 import io.github.zohrevand.dialogue.core.database.dao.ConversationDao
@@ -27,7 +28,7 @@ class OfflineFirstConversationsRepository @Inject constructor(
             .map { it.map(ConversationEntity::asExternalModel) }
 
     override fun isConversationExists(peerJid: String): Flow<Boolean> =
-        conversationDao.isConversationExists(peerJid, Started)
+        conversationDao.isConversationExists(peerJid, NotStarted)
 
     override suspend fun updateConversation(conversation: Conversation) =
         conversationDao.upsert(conversation.asEntity())
