@@ -31,7 +31,7 @@ interface MessageDao {
         value = """
         SELECT * FROM messages
         WHERE peer_jid = :peerJid
-        ORDER BY send_time
+        ORDER BY send_time DESC
     """
     )
     fun getMessageEntitiesStream(peerJid: String): Flow<List<MessageEntity>>
