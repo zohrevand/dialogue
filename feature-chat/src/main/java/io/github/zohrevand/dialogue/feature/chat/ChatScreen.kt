@@ -1,17 +1,21 @@
 package io.github.zohrevand.dialogue.feature.chat
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons.Filled
@@ -34,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -142,6 +147,8 @@ fun ChatScreen(
 fun MessagesList(messages: List<Message>) {
     LazyColumn(
         reverseLayout = true,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(all = 16.dp),
         modifier = Modifier.fillMaxSize()
     ) {
         items(messages) { message ->
@@ -157,14 +164,26 @@ fun MessageItem(
 ) {
     Box(modifier = modifier.fillMaxWidth()) {
         val alignment = if (message.isMine) Alignment.CenterStart else Alignment.CenterEnd
-        val surfaceColor = if (message.isMine) Color(0xFFC5CAE9) else Color(0xFFFFF9C4)
+        val horizontalAlignment = if (message.isMine) Alignment.Start else Alignment.End
+        val surfaceColor = if (message.isMine) Color(0xFF3F51B5) else Color(0xFFC5CAE9)
+        val textColor = if (message.isMine) Color.White else Color.Black
+        val bubbleShape =
+            if (message.isMine) RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
+            else RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
+
         Column(
-            modifier = Modifier.align(alignment)
+            modifier = Modifier.align(alignment),
+            horizontalAlignment = horizontalAlignment
         ) {
             Surface(
-                color = surfaceColor
+                color = surfaceColor,
+                shape = bubbleShape
             ) {
-                Text(text = message.body)
+                Text(
+                    text = message.body,
+                    color = textColor,
+                    modifier = Modifier.padding(16.dp)
+                )
             }
             Text(
                 text = message.status.name,
