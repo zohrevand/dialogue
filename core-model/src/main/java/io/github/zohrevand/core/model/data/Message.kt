@@ -7,7 +7,7 @@ import java.util.UUID
 
 data class Message(
     val id: Long? = null,
-    val clientId : String? = null,
+    val clientId : String,
     val serverId: String? = null,
     val peerJid: String,
     val body: String,
