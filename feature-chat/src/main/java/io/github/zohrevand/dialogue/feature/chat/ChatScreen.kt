@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.feature.chat
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons.Filled
@@ -17,7 +20,7 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -33,6 +36,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Success
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
 import io.github.zohrevand.dialogue.feature.chat.R.string.message_label
@@ -86,12 +90,14 @@ fun ChatScreen(
                 }
             }
         )
-        Surface(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f)
         ) {
-            // TODO: list of messages
+            if (uiState is Success) {
+                MessagesList(uiState.messages)
+            }
         }
 
         Row(
@@ -123,5 +129,26 @@ fun ChatScreen(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun MessagesList(messages: List<Message>) {
+    LazyColumn(reverseLayout = true) {
+        items(messages) { message ->
+            MessageItem(message = message)
+        }
+    }
+}
+
+@Composable
+fun MessageItem(message: Message) {
+    Column {
+        Text(text = message.body)
+        Text(
+            text = message.status.name,
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.LightGray
+        )
     }
 }
