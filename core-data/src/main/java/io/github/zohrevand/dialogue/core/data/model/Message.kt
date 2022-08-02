@@ -6,7 +6,6 @@ import io.github.zohrevand.dialogue.core.database.model.MessageEntity
 fun Message.asEntity() = MessageEntity(
     id = id ?: 0,
     clientId = clientId,
-    serverId = serverId,
     peerJid = peerJid,
     body = body,
     sendTime = sendTime,
