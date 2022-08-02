@@ -21,6 +21,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -37,6 +38,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Message
+import io.github.zohrevand.core.model.data.isMine
 import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Success
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
 import io.github.zohrevand.dialogue.feature.chat.R.string.message_label
@@ -149,13 +151,23 @@ fun MessagesList(messages: List<Message>) {
 }
 
 @Composable
-fun MessageItem(message: Message) {
-    Column {
-        Text(text = message.body)
-        Text(
-            text = message.status.name,
-            style = MaterialTheme.typography.bodySmall,
-            color = Color.LightGray
-        )
+fun MessageItem(
+    message: Message,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.fillMaxWidth()) {
+        val alignment = if (message.isMine) Alignment.CenterStart else Alignment.CenterEnd
+        Column(
+            modifier = Modifier.align(alignment)
+        ) {
+            Surface {
+                Text(text = message.body)
+            }
+            Text(
+                text = message.status.name,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.LightGray
+            )
+        }
     }
 }
