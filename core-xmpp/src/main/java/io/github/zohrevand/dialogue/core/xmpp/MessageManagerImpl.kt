@@ -90,6 +90,7 @@ class MessageManagerImpl @Inject constructor(
 
     private fun observeDeliveryReceipt() {
         deliveryReceiptManager.autoReceiptMode = always
+        deliveryReceiptManager.autoAddDeliveryReceiptRequests()
         receiptReceivedListener = ReceiptReceivedListener(::handleReceivedReceipt)
         deliveryReceiptManager.addReceiptReceivedListener(receiptReceivedListener)
     }
