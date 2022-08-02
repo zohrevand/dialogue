@@ -147,9 +147,9 @@ fun ChatScreen(
 fun MessagesList(messages: List<Message>) {
     LazyColumn(
         reverseLayout = true,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
         contentPadding = PaddingValues(all = 16.dp),
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(Color.Red)
     ) {
         items(messages) { message ->
             MessageItem(message = message)
