@@ -3,6 +3,7 @@ package io.github.zohrevand.core.model.data
 import io.github.zohrevand.core.model.data.MessageStatus.ShouldSend
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import java.util.UUID
 
 data class Message(
     val id: Long? = null,
@@ -16,6 +17,7 @@ data class Message(
     companion object {
         fun create(text: String, peerJid: String): Message =
             Message(
+                clientId = UUID.randomUUID().toString(),
                 peerJid = peerJid,
                 body = text,
                 status = ShouldSend
