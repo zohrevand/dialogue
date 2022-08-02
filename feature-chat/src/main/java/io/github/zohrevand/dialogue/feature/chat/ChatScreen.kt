@@ -120,7 +120,10 @@ fun ChatScreen(
             )
             val isSendEnabled = messageText.isNotBlank()
             IconButton(
-                onClick = { onSendMessage(messageText) },
+                onClick = {
+                    onSendMessage(messageText)
+                    focusManager.clearFocus()
+                },
                 enabled = isSendEnabled
             ) {
                 Icon(
