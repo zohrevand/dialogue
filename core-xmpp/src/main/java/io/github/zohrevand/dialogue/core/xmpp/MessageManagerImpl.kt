@@ -2,6 +2,7 @@ package io.github.zohrevand.dialogue.core.xmpp
 
 import android.util.Log
 import io.github.zohrevand.core.model.data.Message
+import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
 import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -29,7 +30,8 @@ import org.jivesoftware.smack.packet.Message as SmackMessage
 private const val TAG = "MessagesManagerImpl"
 
 class MessageManagerImpl @Inject constructor(
-    private val messagesCollector: MessagesCollector
+    private val messagesCollector: MessagesCollector,
+    private val messagesRepository: MessagesRepository
 ) : MessageManager {
 
     private val scope = CoroutineScope(SupervisorJob())
