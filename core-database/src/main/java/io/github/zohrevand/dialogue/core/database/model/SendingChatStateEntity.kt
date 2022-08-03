@@ -18,6 +18,7 @@ data class SendingChatStateEntity(
 )
 
 fun SendingChatStateEntity.asExternalModel() = SendingChatState(
+    id = id,
     chatState = chatState,
     consumed = consumed
 )
