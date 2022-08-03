@@ -11,8 +11,10 @@ import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus.NotStarted
 import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.core.model.data.Message
+import io.github.zohrevand.core.model.data.SendingChatState
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
+import io.github.zohrevand.dialogue.core.data.repository.SendingChatStatesRepository
 import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Loading
 import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Success
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
@@ -20,7 +22,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.lang.System.currentTimeMillis
@@ -30,7 +31,8 @@ import javax.inject.Inject
 class ChatViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val conversationsRepository: ConversationsRepository,
-    private val messagesRepository: MessagesRepository
+    private val messagesRepository: MessagesRepository,
+    private val sendingChatStatesRepository: SendingChatStatesRepository
 ) : ViewModel() {
 
     private val contactId: String = checkNotNull(
@@ -79,12 +81,9 @@ class ChatViewModel @Inject constructor(
                 delay(3_000)
                 if (inputState.userStoppedTyping) {
                     inputState = inputState.copy(chatState = Paused, lastTimeTyped = null)
-                    val conversation = conversation.first()
-                    conversation?.let {
-                        conversationsRepository.updateConversation(
-                            conversation.copy(chatState = Paused)
-                        )
-                    }
+                    sendingChatStatesRepository.updateSendingChatState(
+                        SendingChatState(peerJid = contactId, chatState = Paused)
+                    )
                 }
             }
         }
@@ -93,12 +92,9 @@ class ChatViewModel @Inject constructor(
 
         if (inputState.chatState != Composing) {
             viewModelScope.launch {
-                val conversation = conversation.first()
-                conversation?.let {
-                    conversationsRepository.updateConversation(
-                        conversation.copy(chatState = Composing)
-                    )
-                }
+                sendingChatStatesRepository.updateSendingChatState(
+                    SendingChatState(peerJid = contactId, chatState = Composing)
+                )
             }
         }
     }
