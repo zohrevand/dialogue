@@ -37,10 +37,6 @@ class ChatViewModel @Inject constructor(
     private val sendingChatStatesRepository: SendingChatStatesRepository
 ) : ViewModel() {
 
-    init {
-        viewModelScope.launch { sendChatState(Active) }
-    }
-
     private val contactId: String = checkNotNull(
         savedStateHandle[ChatDestination.contactJidArg]
     )
@@ -49,8 +45,11 @@ class ChatViewModel @Inject constructor(
 
     private val messages = messagesRepository.getMessagesStream(peerJid = contactId)
 
-    private var typeJob: Job? = null
-    private var currentChatState: ChatState? = null
+    private var currentChatState = CurrentChatState(Active)
+
+    init {
+        viewModelScope.launch { sendChatState(Active) }
+    }
 
     val uiState: StateFlow<ChatUiState> =
         combine(
@@ -73,7 +72,7 @@ class ChatViewModel @Inject constructor(
             )
 
     fun sendMessage(text: String) {
-        typeJob?.cancel()
+        currentChatState.cancelSendingPaused()
         viewModelScope.launch {
             messagesRepository.updateMessage(
                 Message.create(text, contactId)
@@ -86,20 +85,22 @@ class ChatViewModel @Inject constructor(
     fun userTyping(messageText: String) {
         updateDraft(messageText)
 
-        typeJob?.cancel()
-        typeJob = viewModelScope.launch {
+        currentChatState.cancelSendingPaused()
+        val sendingPausedJob = viewModelScope.launch {
             delay(3_000)
             sendChatState(Paused)
-            currentChatState = Paused
         }
+        currentChatState = currentChatState.copy(sendingPausedJob = sendingPausedJob)
 
-        if (currentChatState != Composing) {
-            viewModelScope.launch { sendChatState(Composing) }
+        if (currentChatState.shouldSendComposing()) {
+            viewModelScope.launch {
+                sendChatState(Composing)
+            }
         }
     }
 
     private suspend fun sendChatState(chatState: ChatState) {
-        currentChatState = chatState
+        currentChatState = currentChatState.copy(chatState = chatState)
         sendingChatStatesRepository.updateSendingChatState(
             SendingChatState(peerJid = contactId, chatState = chatState)
         )
@@ -118,6 +119,17 @@ class ChatViewModel @Inject constructor(
             conversationsRepository.updateConversation(it.copy(draftMessage = null))
         }
     }
+}
+
+data class CurrentChatState(
+    val chatState: ChatState,
+    val sendingPausedJob: Job? = null
+) {
+    fun cancelSendingPaused() {
+        sendingPausedJob?.cancel()
+    }
+
+    fun shouldSendComposing() = chatState != Composing
 }
 
 sealed interface ChatUiState {
