@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface SendingChatStatesRepository {
 
     fun getSendingChatStatesStream(): Flow<List<SendingChatState>>
+
+    suspend fun updateSendingChatState(sendingChatState: SendingChatState)
 }
