@@ -38,11 +38,7 @@ class ChatViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        viewModelScope.launch {
-            sendingChatStatesRepository.updateSendingChatState(
-                SendingChatState(peerJid = contactId, chatState = Active)
-            )
-        }
+        viewModelScope.launch { sendChatState(Active) }
     }
 
     private val contactId: String = checkNotNull(
@@ -93,20 +89,20 @@ class ChatViewModel @Inject constructor(
         typeJob?.cancel()
         typeJob = viewModelScope.launch {
             delay(3_000)
-            sendingChatStatesRepository.updateSendingChatState(
-                SendingChatState(peerJid = contactId, chatState = Paused)
-            )
+            sendChatState(Paused)
             currentChatState = Paused
         }
 
         if (currentChatState != Composing) {
-            currentChatState = Composing
-            viewModelScope.launch {
-                sendingChatStatesRepository.updateSendingChatState(
-                    SendingChatState(peerJid = contactId, chatState = Composing)
-                )
-            }
+            viewModelScope.launch { sendChatState(Composing) }
         }
+    }
+
+    private suspend fun sendChatState(chatState: ChatState) {
+        currentChatState = chatState
+        sendingChatStatesRepository.updateSendingChatState(
+            SendingChatState(peerJid = contactId, chatState = chatState)
+        )
     }
 
     private fun updateDraft(messageText: String) {
