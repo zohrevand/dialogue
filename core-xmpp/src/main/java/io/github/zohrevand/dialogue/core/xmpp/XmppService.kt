@@ -55,7 +55,7 @@ class XmppService : Service() {
                 startForeground()
             } else {
                 @Suppress("DEPRECATION")
-                if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+                if (VERSION.SDK_INT >= VERSION_CODES.N) {
                     stopForeground(STOP_FOREGROUND_REMOVE)
                 } else {
                     // TODO: this still warns about deprecation although deprecated on API level 33
