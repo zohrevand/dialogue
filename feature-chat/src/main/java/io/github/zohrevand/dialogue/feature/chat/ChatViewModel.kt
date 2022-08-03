@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.zohrevand.core.model.data.ChatState
+import io.github.zohrevand.core.model.data.ChatState.Active
 import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.ChatState.Paused
 import io.github.zohrevand.core.model.data.Conversation
@@ -35,6 +36,14 @@ class ChatViewModel @Inject constructor(
     private val messagesRepository: MessagesRepository,
     private val sendingChatStatesRepository: SendingChatStatesRepository
 ) : ViewModel() {
+
+    init {
+        viewModelScope.launch {
+            sendingChatStatesRepository.updateSendingChatState(
+                SendingChatState(peerJid = contactId, chatState = Active)
+            )
+        }
+    }
 
     private val contactId: String = checkNotNull(
         savedStateHandle[ChatDestination.contactJidArg]
