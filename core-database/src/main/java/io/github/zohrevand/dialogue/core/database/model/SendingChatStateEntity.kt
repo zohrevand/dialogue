@@ -12,6 +12,8 @@ import io.github.zohrevand.core.model.data.SendingChatState
 data class SendingChatStateEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+    @ColumnInfo(name = "peer_jid")
+    val peerJid: String,
     @ColumnInfo(name = "chat_state")
     val chatState: ChatState,
     val consumed: Boolean
@@ -19,6 +21,7 @@ data class SendingChatStateEntity(
 
 fun SendingChatStateEntity.asExternalModel() = SendingChatState(
     id = id,
+    peerJid = peerJid,
     chatState = chatState,
     consumed = consumed
 )
