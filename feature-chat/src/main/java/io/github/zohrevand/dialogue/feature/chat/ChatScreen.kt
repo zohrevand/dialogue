@@ -80,7 +80,8 @@ fun ChatScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val (messageText, setMessageText) = remember { mutableStateOf("") }
+    val draftMessage = if (uiState is Success) uiState.conversation.draftMessage ?: "" else ""
+    val (messageText, setMessageText) = remember(draftMessage) { mutableStateOf(draftMessage) }
 
     val focusManager = LocalFocusManager.current
 
