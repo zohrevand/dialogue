@@ -75,7 +75,6 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    // TODO: refactor to better idiomatic solution
     fun userTyping() {
         typeJob?.cancel()
         typeJob = viewModelScope.launch {
