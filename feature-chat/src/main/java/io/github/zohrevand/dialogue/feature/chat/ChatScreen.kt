@@ -131,6 +131,7 @@ fun ChatScreen(
             IconButton(
                 onClick = {
                     onSendMessage(messageText)
+                    setMessageText("")
                     focusManager.clearFocus()
                 },
                 enabled = isSendEnabled
