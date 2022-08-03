@@ -43,8 +43,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.zohrevand.core.model.data.ChatState.Composing
+import io.github.zohrevand.core.model.data.ChatState.Paused
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.isMine
+import io.github.zohrevand.core.model.data.peerLocalPart
 import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Success
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
 import io.github.zohrevand.dialogue.feature.chat.R.string.message_label
@@ -109,11 +112,16 @@ fun ChatScreen(
             }
         }
 
-        if (uiState is Success) {
+        if (uiState is Success &&
+            (uiState.conversation.chatState == Composing ||
+                uiState.conversation.chatState == Paused)
+        ) {
+            val postfixText = if (uiState.conversation.chatState == Composing) "is typing..."
+            else "stopped typing."
             Text(
-                text = uiState.conversation.chatState.name,
+                text = "${uiState.conversation.peerLocalPart} $postfixText",
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.Red,
+                color = Color.Gray,
                 modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }
