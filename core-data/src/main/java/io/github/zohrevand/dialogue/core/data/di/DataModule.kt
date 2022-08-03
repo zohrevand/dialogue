@@ -11,7 +11,9 @@ import io.github.zohrevand.dialogue.core.data.repository.OfflineFirstContactsRep
 import io.github.zohrevand.dialogue.core.data.repository.OfflineFirstConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.OfflineFirstMessagesRepository
 import io.github.zohrevand.dialogue.core.data.repository.OfflineFirstPreferencesRepository
+import io.github.zohrevand.dialogue.core.data.repository.OfflineFirstSendingChatStatesRepository
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
+import io.github.zohrevand.dialogue.core.data.repository.SendingChatStatesRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -36,4 +38,9 @@ interface DataModule {
     fun bindsConversationsRepository(
         conversationsRepository: OfflineFirstConversationsRepository
     ): ConversationsRepository
+
+    @Binds
+    fun bindsSendingChatStatesRepository(
+        sendingChatStatesRepository: OfflineFirstSendingChatStatesRepository
+    ): SendingChatStatesRepository
 }
