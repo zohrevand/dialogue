@@ -27,7 +27,7 @@ interface MessageDao {
         WHERE stanza_id = :stanzaId
     """
     )
-    fun getMessageEntityByStanzaId(stanzaId: String): Flow<MessageEntity>
+    fun getMessageEntityByStanzaId(stanzaId: String): Flow<MessageEntity?>
 
     @Query(value = "SELECT * FROM messages")
     fun getMessageEntitiesStream(): Flow<List<MessageEntity>>
