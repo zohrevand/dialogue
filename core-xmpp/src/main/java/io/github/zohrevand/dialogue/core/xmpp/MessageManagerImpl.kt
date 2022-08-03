@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
 import android.util.Log
+import io.github.zohrevand.core.model.data.ConversationStatus.NotStarted
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.MessageStatus.Sent
 import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
@@ -110,9 +111,8 @@ class MessageManagerImpl @Inject constructor(
         Log.d(TAG, "IncomingListener - from: $from, message: $message, chat: $chat")
 
         scope.launch {
-            val isConversationExists =
-                conversationsRepository.isConversationExists(from.toString()).first()
-            if (!isConversationExists) {
+            val conversation = conversationsRepository.getConversation(from.toString()).first()
+            if (conversation == null || conversation.status == NotStarted) {
                 conversationsRepository.updateConversation(from.asConversation())
             }
             messagesRepository.updateMessage(message.asExternalModel())
