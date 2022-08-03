@@ -78,7 +78,7 @@ class ChatViewModel @Inject constructor(
                 Message.create(text, contactId)
             )
 
-            removeDraft()
+            updateDraft(null)
         }
     }
 
@@ -106,17 +106,11 @@ class ChatViewModel @Inject constructor(
         )
     }
 
-    private fun updateDraft(messageText: String) {
+    private fun updateDraft(messageText: String?) {
         viewModelScope.launch {
             conversation.first()?.let {
                 conversationsRepository.updateConversation(it.copy(draftMessage = messageText))
             }
-        }
-    }
-
-    private suspend fun removeDraft() {
-        conversation.first()?.let {
-            conversationsRepository.updateConversation(it.copy(draftMessage = null))
         }
     }
 }
