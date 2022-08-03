@@ -105,6 +105,14 @@ class ChatViewModel @Inject constructor(
             }
         }
     }
+
+    private fun removeDraft() {
+        viewModelScope.launch {
+            conversation.first()?.let {
+                conversationsRepository.updateConversation(it.copy(draftMessage = null))
+            }
+        }
+    }
 }
 
 sealed interface ChatUiState {
