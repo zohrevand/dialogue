@@ -2,6 +2,8 @@ package io.github.zohrevand.dialogue.core.xmpp
 
 import android.app.Service
 import android.content.Intent
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
@@ -52,7 +54,13 @@ class XmppService : Service() {
             if (connectionStatus.availability && connectionStatus.authenticated) {
                 startForeground()
             } else {
-                stopForeground(true)
+                @Suppress("DEPRECATION")
+                if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+                    stopForeground(STOP_FOREGROUND_REMOVE)
+                } else {
+                    // TODO: this still warns about deprecation although deprecated on API level 33
+                    stopForeground(true)
+                }
             }
         }
     }
