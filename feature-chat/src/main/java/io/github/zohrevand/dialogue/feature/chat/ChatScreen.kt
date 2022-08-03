@@ -76,7 +76,7 @@ fun ChatRoute(
 fun ChatScreen(
     uiState: ChatUiState,
     onSendMessage: (String) -> Unit,
-    onUserTyping: () -> Unit,
+    onUserTyping: (String) -> Unit,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -134,7 +134,7 @@ fun ChatScreen(
                 value = messageText,
                 onValueChange = {
                     setMessageText(it)
-                    onUserTyping()
+                    onUserTyping(it)
                 },
                 placeholder = { Text(text = stringResource(message_label)) },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),

@@ -23,6 +23,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -75,7 +76,9 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun userTyping() {
+    fun userTyping(messageText: String) {
+        updateDraft(messageText)
+
         typeJob?.cancel()
         typeJob = viewModelScope.launch {
             delay(3_000)
@@ -91,6 +94,14 @@ class ChatViewModel @Inject constructor(
                 sendingChatStatesRepository.updateSendingChatState(
                     SendingChatState(peerJid = contactId, chatState = Composing)
                 )
+            }
+        }
+    }
+
+    private fun updateDraft(messageText: String) {
+        viewModelScope.launch {
+            conversation.first()?.let {
+                conversationsRepository.updateConversation(it.copy(draftMessage = messageText))
             }
         }
     }
