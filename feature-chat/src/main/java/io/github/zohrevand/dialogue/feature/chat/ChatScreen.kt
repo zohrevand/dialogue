@@ -109,6 +109,15 @@ fun ChatScreen(
             }
         }
 
+        if (uiState is Success) {
+            Text(
+                text = uiState.conversation.chatState.name,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Red,
+                modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
