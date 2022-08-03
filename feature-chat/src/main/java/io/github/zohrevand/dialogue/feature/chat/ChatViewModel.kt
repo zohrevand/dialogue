@@ -18,13 +18,13 @@ import io.github.zohrevand.dialogue.core.data.repository.SendingChatStatesReposi
 import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Loading
 import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Success
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.lang.System.currentTimeMillis
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,7 +43,8 @@ class ChatViewModel @Inject constructor(
 
     private val messages = messagesRepository.getMessagesStream(peerJid = contactId)
 
-    private var inputState = InputState()
+    private var typeJob: Job? = null
+    private var currentChatState: ChatState? = null
 
     val uiState: StateFlow<ChatUiState> =
         combine(
@@ -66,6 +67,7 @@ class ChatViewModel @Inject constructor(
             )
 
     fun sendMessage(text: String) {
+        typeJob?.cancel()
         viewModelScope.launch {
             messagesRepository.updateMessage(
                 Message.create(text, contactId)
@@ -75,22 +77,17 @@ class ChatViewModel @Inject constructor(
 
     // TODO: refactor to better idiomatic solution
     fun userTyping() {
-        if (inputState.lastTimeTyped == null) {
-            viewModelScope.launch {
-                // 3 second delay to check if user is still typing
-                delay(3_000)
-                if (inputState.userStoppedTyping) {
-                    inputState = inputState.copy(chatState = Paused, lastTimeTyped = null)
-                    sendingChatStatesRepository.updateSendingChatState(
-                        SendingChatState(peerJid = contactId, chatState = Paused)
-                    )
-                }
-            }
+        typeJob?.cancel()
+        typeJob = viewModelScope.launch {
+            delay(3_000)
+            sendingChatStatesRepository.updateSendingChatState(
+                SendingChatState(peerJid = contactId, chatState = Paused)
+            )
+            currentChatState = Paused
         }
 
-        inputState = inputState.copy(chatState = Composing, lastTimeTyped = currentTimeMillis())
-
-        if (inputState.chatState != Composing) {
+        if (currentChatState != Composing) {
+            currentChatState = Composing
             viewModelScope.launch {
                 sendingChatStatesRepository.updateSendingChatState(
                     SendingChatState(peerJid = contactId, chatState = Composing)
@@ -98,14 +95,6 @@ class ChatViewModel @Inject constructor(
             }
         }
     }
-}
-
-data class InputState(
-    val chatState: ChatState = ChatState.Active,
-    val lastTimeTyped: Long? = null
-) {
-    val userStoppedTyping: Boolean
-        get() = lastTimeTyped != null && currentTimeMillis() - lastTimeTyped > 3_000
 }
 
 sealed interface ChatUiState {
