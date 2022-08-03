@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import io.github.zohrevand.dialogue.core.database.dao.ContactDao
 import io.github.zohrevand.dialogue.core.database.dao.ConversationDao
 import io.github.zohrevand.dialogue.core.database.dao.MessageDao
+import io.github.zohrevand.dialogue.core.database.dao.SendingChatStateDao
 import io.github.zohrevand.dialogue.core.database.model.ContactEntity
 import io.github.zohrevand.dialogue.core.database.model.ConversationEntity
 import io.github.zohrevand.dialogue.core.database.model.MessageEntity
@@ -31,4 +32,6 @@ abstract class DialogueDatabase : RoomDatabase() {
     abstract fun messageDao(): MessageDao
 
     abstract fun conversationDao(): ConversationDao
+
+    abstract fun sendingChatStateDao(): SendingChatStateDao
 }

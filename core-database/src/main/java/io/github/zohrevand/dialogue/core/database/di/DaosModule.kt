@@ -8,6 +8,7 @@ import io.github.zohrevand.dialogue.core.database.DialogueDatabase
 import io.github.zohrevand.dialogue.core.database.dao.ContactDao
 import io.github.zohrevand.dialogue.core.database.dao.ConversationDao
 import io.github.zohrevand.dialogue.core.database.dao.MessageDao
+import io.github.zohrevand.dialogue.core.database.dao.SendingChatStateDao
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -27,4 +28,9 @@ object DaosModule {
     fun providesConversationDao(
         database: DialogueDatabase,
     ): ConversationDao = database.conversationDao()
+
+    @Provides
+    fun providesSendingChatStateDao(
+        database: DialogueDatabase,
+    ): SendingChatStateDao = database.sendingChatStateDao()
 }
