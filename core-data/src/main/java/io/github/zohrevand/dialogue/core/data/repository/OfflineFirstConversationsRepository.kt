@@ -16,8 +16,8 @@ class OfflineFirstConversationsRepository @Inject constructor(
     private val conversationDao: ConversationDao
 ) : ConversationsRepository {
 
-    override fun getConversation(peerJid: String): Flow<Conversation> =
-        conversationDao.getConversationEntity(peerJid).map(ConversationEntity::asExternalModel)
+    override fun getConversation(peerJid: String): Flow<Conversation?> =
+        conversationDao.getConversationEntity(peerJid).map { it?.asExternalModel() }
 
     override fun getConversationsStream(): Flow<List<Conversation>> =
         conversationDao.getConversationEntitiesStream()

@@ -48,12 +48,14 @@ class ChatViewModel @Inject constructor(
             conversation,
             messages
         ) { conversation, messages ->
-            if (conversation.status == NotStarted) {
-                conversationsRepository.updateConversation(conversation.copy(status = Started))
-                Loading
-            } else {
-                Success(conversation, messages)
-            }
+            conversation?.let {
+                if (conversation.status == NotStarted) {
+                    conversationsRepository.updateConversation(conversation.copy(status = Started))
+                    Loading
+                } else {
+                    Success(conversation, messages)
+                }
+            } ?: run { Loading }
         }
             .stateIn(
                 scope = viewModelScope,
@@ -77,9 +79,12 @@ class ChatViewModel @Inject constructor(
                 delay(3_000)
                 if (inputState.userStoppedTyping) {
                     inputState = inputState.copy(chatState = Paused, lastTimeTyped = null)
-                    conversationsRepository.updateConversation(
-                        conversation.first().copy(chatState = Paused)
-                    )
+                    val conversation = conversation.first()
+                    conversation?.let {
+                        conversationsRepository.updateConversation(
+                            conversation.copy(chatState = Paused)
+                        )
+                    }
                 }
             }
         }
@@ -88,9 +93,12 @@ class ChatViewModel @Inject constructor(
 
         if (inputState.chatState != Composing) {
             viewModelScope.launch {
-                conversationsRepository.updateConversation(
-                    conversation.first().copy(chatState = Composing)
-                )
+                val conversation = conversation.first()
+                conversation?.let {
+                    conversationsRepository.updateConversation(
+                        conversation.copy(chatState = Composing)
+                    )
+                }
             }
         }
     }

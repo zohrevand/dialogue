@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ConversationsRepository {
 
-    fun getConversation(peerJid: String): Flow<Conversation>
+    fun getConversation(peerJid: String): Flow<Conversation?>
 
     fun getConversationsStream(): Flow<List<Conversation>>
 
