@@ -113,6 +113,13 @@ fun ConversationItem(
             )
         }
 
-        Text(text = conversation.peerJid)
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(text = conversation.peerJid)
+            conversation.draftMessage?.let { draft ->
+                Text(text = "Draft: $draft", color = Color.LightGray)
+            }
+        }
     }
 }
