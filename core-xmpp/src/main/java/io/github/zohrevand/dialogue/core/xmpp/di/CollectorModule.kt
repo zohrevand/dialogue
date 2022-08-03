@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.zohrevand.dialogue.core.xmpp.collector.AccountsCollector
 import io.github.zohrevand.dialogue.core.xmpp.collector.AccountsCollectorImpl
+import io.github.zohrevand.dialogue.core.xmpp.collector.ChatStateCollector
+import io.github.zohrevand.dialogue.core.xmpp.collector.ChatStateCollectorImpl
 import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
 import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollectorImpl
 import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
@@ -29,4 +31,10 @@ interface CollectorModule {
     fun bindsMessagesCollector(
         messagesCollector: MessagesCollectorImpl
     ): MessagesCollector
+
+    @Binds
+    fun bindsChatStateCollector(
+        chatStateCollector: ChatStateCollectorImpl
+    ): ChatStateCollector
+
 }
