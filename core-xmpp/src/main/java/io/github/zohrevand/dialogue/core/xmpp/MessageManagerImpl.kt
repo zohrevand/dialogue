@@ -9,6 +9,7 @@ import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
 import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
 import io.github.zohrevand.dialogue.core.xmpp.model.asConversation
+import io.github.zohrevand.dialogue.core.xmpp.model.asExternalEnum
 import io.github.zohrevand.dialogue.core.xmpp.model.asExternalModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -142,6 +143,14 @@ class MessageManagerImpl @Inject constructor(
         message: SmackMessage
     ) {
         Log.d(TAG, "ChatStateListener - state: $state, message: $message, chat: $chat")
+
+        scope.launch {
+            val peerJid = chat.xmppAddressOfChatPartner.toString()
+            val conversation = conversationsRepository.getConversation(peerJid).first()
+            conversation?.let {
+                conversationsRepository.updateConversation(it.copy(chatState = state.asExternalEnum()))
+            }
+        }
     }
 
     private fun handleReceivedReceipt(
