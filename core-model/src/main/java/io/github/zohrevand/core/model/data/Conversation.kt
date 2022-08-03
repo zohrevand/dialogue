@@ -8,3 +8,6 @@ data class Conversation(
     val unreadMessagesCount: Int = 0,
     val chatState: ChatState = ChatState.Idle
 )
+
+val Conversation.peerLocalPart: String
+    get() = peerJid.substringBefore("@")
