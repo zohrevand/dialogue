@@ -5,12 +5,15 @@ import io.github.zohrevand.core.model.data.ConversationStatus.NotStarted
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.MessageStatus.Sent
 import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
+import io.github.zohrevand.core.model.data.SendingChatState
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
+import io.github.zohrevand.dialogue.core.xmpp.collector.ChatStateCollector
 import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
 import io.github.zohrevand.dialogue.core.xmpp.model.asConversation
 import io.github.zohrevand.dialogue.core.xmpp.model.asExternalEnum
 import io.github.zohrevand.dialogue.core.xmpp.model.asExternalModel
+import io.github.zohrevand.dialogue.core.xmpp.model.asSmackEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -39,6 +42,7 @@ private const val TAG = "MessagesManagerImpl"
 
 class MessageManagerImpl @Inject constructor(
     private val messagesCollector: MessagesCollector,
+    private val chatStateCollector: ChatStateCollector,
     private val messagesRepository: MessagesRepository,
     private val conversationsRepository: ConversationsRepository
 ) : MessageManager {
@@ -63,6 +67,10 @@ class MessageManagerImpl @Inject constructor(
             messagesCollector.collectShouldSendMessages(sendMessages = ::sendMessages)
         }
 
+        scope.launch {
+            chatStateCollector.collectChatState(onChatStateChanged = ::sendChatState)
+        }
+
         observeIncomingMessages()
         observeOutgoingMessages()
         observeChatState()
@@ -80,6 +88,12 @@ class MessageManagerImpl @Inject constructor(
 
             chat.send(smackMessage)
         }
+    }
+
+    // blocking
+    private fun sendChatState(sendingChatState: SendingChatState) {
+        val chat = chatManager.chatWith(JidCreate.entityBareFrom(sendingChatState.peerJid))
+        chatStateManager.setCurrentState(sendingChatState.chatState.asSmackEnum(), chat)
     }
 
     private fun observeIncomingMessages() {
