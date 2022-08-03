@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.github.zohrevand.dialogue.core.database.model.ConversationEntity
 import io.github.zohrevand.dialogue.core.database.model.SendingChatStateEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -15,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 interface SendingChatStateDao {
 
     @Query(value = "SELECT * FROM sending_chat_state where consumed = 0")
-    fun getSendingChatStateEntitiesStream(): Flow<List<ConversationEntity>>
+    fun getSendingChatStateEntitiesStream(): Flow<List<SendingChatStateEntity>>
 
     /**
      * Inserts [sendingChatStateEntity] into the db if it doesn't exist, and update if it do
