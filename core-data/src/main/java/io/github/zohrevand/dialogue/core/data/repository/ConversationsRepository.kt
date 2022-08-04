@@ -12,8 +12,6 @@ interface ConversationsRepository {
 
     fun getConversationsStream(status: ConversationStatus): Flow<List<Conversation>>
 
-    fun isConversationExists(peerJid: String): Flow<Boolean>
-
     suspend fun updateConversation(conversation: Conversation)
 
     suspend fun updateConversations(conversations: List<Conversation>)

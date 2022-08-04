@@ -27,9 +27,6 @@ class OfflineFirstConversationsRepository @Inject constructor(
         conversationDao.getConversationEntitiesStream(status)
             .map { it.map(ConversationEntity::asExternalModel) }
 
-    override fun isConversationExists(peerJid: String): Flow<Boolean> =
-        conversationDao.isConversationExists(peerJid, NotStarted)
-
     override suspend fun updateConversation(conversation: Conversation) =
         conversationDao.upsert(conversation.asEntity())
 
