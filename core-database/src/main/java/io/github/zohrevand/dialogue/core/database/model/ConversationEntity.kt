@@ -17,6 +17,8 @@ data class ConversationEntity(
     val draftMessage: String?,
     @ColumnInfo(name = "last_message_id")
     val lastMessageId: Long?,
+    @ColumnInfo(name = "unread_messages_count")
+    val unreadMessagesCount: Int,
     @ColumnInfo(name = "chat_state")
     val chatState: ChatState
 )
