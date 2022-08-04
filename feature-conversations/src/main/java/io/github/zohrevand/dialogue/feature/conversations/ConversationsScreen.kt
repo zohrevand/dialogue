@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
@@ -114,13 +115,31 @@ fun ConversationItem(
         }
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         ) {
             Text(text = conversation.peerJid)
             if (conversation.draftMessage != null) {
                 Text(text = "Draft: ${conversation.draftMessage}", color = Color.LightGray)
             } else if (conversation.lastMessage != null) {
                 Text(text = "Draft: ${conversation.lastMessage?.body}", color = Color.LightGray)
+            }
+        }
+
+        if (conversation.unreadMessagesCount > 0) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF4CAF50))
+            ) {
+                Text(
+                    text = conversation.unreadMessagesCount.toString(),
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
         }
     }
