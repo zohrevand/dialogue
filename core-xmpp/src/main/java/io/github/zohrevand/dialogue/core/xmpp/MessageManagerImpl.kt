@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.core.xmpp
 
 import android.util.Log
+import io.github.zohrevand.core.model.data.ConversationStatus.NotStarted
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.MessageStatus.Sent
 import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
@@ -133,9 +134,11 @@ class MessageManagerImpl @Inject constructor(
             messagesRepository.updateMessage(message.asExternalModel())
 
             val lastMessage = messagesRepository.getMessageByStanzaId(message.stanzaId).first()
+            val unreadMessagesCount = (conversation?.unreadMessagesCount ?: 0) + 1
 
             conversationsRepository.updateConversation(from.asConversation().copy(
-                lastMessage = lastMessage
+                lastMessage = lastMessage,
+                unreadMessagesCount = unreadMessagesCount
             ))
         }
     }
