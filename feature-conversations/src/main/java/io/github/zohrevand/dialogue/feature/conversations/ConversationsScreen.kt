@@ -117,8 +117,10 @@ fun ConversationItem(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(text = conversation.peerJid)
-            conversation.draftMessage?.let { draft ->
-                Text(text = "Draft: $draft", color = Color.LightGray)
+            if (conversation.draftMessage != null) {
+                Text(text = "Draft: ${conversation.draftMessage}", color = Color.LightGray)
+            } else if (conversation.lastMessage != null) {
+                Text(text = "Draft: ${conversation.lastMessage?.body}", color = Color.LightGray)
             }
         }
     }
