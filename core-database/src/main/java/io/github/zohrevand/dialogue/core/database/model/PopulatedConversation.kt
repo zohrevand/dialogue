@@ -11,7 +11,7 @@ data class PopulatedConversation(
     @Embedded
     val entity: ConversationEntity,
     @Relation(
-        parentColumn = "episode_id",
+        parentColumn = "last_message_id",
         entityColumn = "id"
     )
     val lastMessage: MessageEntity?

@@ -7,6 +7,7 @@ import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.dialogue.core.data.model.asEntity
 import io.github.zohrevand.dialogue.core.database.dao.ConversationDao
 import io.github.zohrevand.dialogue.core.database.model.ConversationEntity
+import io.github.zohrevand.dialogue.core.database.model.PopulatedConversation
 import io.github.zohrevand.dialogue.core.database.model.asExternalModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -21,11 +22,11 @@ class OfflineFirstConversationsRepository @Inject constructor(
 
     override fun getConversationsStream(): Flow<List<Conversation>> =
         conversationDao.getConversationEntitiesStream()
-            .map { it.map(ConversationEntity::asExternalModel) }
+            .map { it.map(PopulatedConversation::asExternalModel) }
 
     override fun getConversationsStream(status: ConversationStatus): Flow<List<Conversation>> =
         conversationDao.getConversationEntitiesStream(status)
-            .map { it.map(ConversationEntity::asExternalModel) }
+            .map { it.map(PopulatedConversation::asExternalModel) }
 
     override suspend fun updateConversation(conversation: Conversation) =
         conversationDao.upsert(conversation.asEntity())
