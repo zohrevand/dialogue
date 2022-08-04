@@ -15,6 +15,8 @@ data class ConversationEntity(
     val status: ConversationStatus,
     @ColumnInfo(name = "draft_message")
     val draftMessage: String?,
+    @ColumnInfo(name = "last_message_id")
+    val lastMessageId: Long?,
     @ColumnInfo(name = "chat_state")
     val chatState: ChatState
 )
