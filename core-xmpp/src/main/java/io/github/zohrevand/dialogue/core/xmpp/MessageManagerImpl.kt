@@ -127,6 +127,9 @@ class MessageManagerImpl @Inject constructor(
 
         scope.launch {
             val conversation = conversationsRepository.getConversation(from.toString()).first()
+            // TODO: sometimes conversation update not happening
+            Log.d(TAG, "conversation == null ${conversation == null}")
+            Log.d(TAG, "status ${conversation?.status}")
             if (conversation == null || conversation.status == NotStarted) {
                 conversationsRepository.updateConversation(from.asConversation())
             }
