@@ -78,6 +78,11 @@ class XmppManagerImpl @Inject constructor(
         val configuration = configurationBuilder(this)
         val connection = connectionBuilder(configuration)
 
+        // TODO: some servers like jabb3.org are not standard and needed to handle this
+        connection.setParsingExceptionCallback {
+
+        }
+
         reconnectionManager(connection)
         connectionListener(connection)
 
