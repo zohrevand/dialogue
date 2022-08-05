@@ -118,6 +118,7 @@ class MessageManagerImpl @Inject constructor(
         deliveryReceiptManager.addReceiptReceivedListener(receiptReceivedListener)
     }
 
+    // TODO: does not work correctly
     private fun handleIncomingMessage(
         from: EntityBareJid,
         message: SmackMessage,
