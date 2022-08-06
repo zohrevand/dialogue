@@ -47,7 +47,10 @@ class ChatViewModel @Inject constructor(
     private var currentChatState = CurrentChatState(Active)
 
     init {
-        viewModelScope.launch { sendChatState(Active) }
+        viewModelScope.launch {
+            sendChatState(Active)
+            resetUnreadMessageCount()
+        }
     }
 
     val uiState: StateFlow<ChatUiState> =
@@ -56,7 +59,6 @@ class ChatViewModel @Inject constructor(
             messages
         ) { conversation, messages ->
             if (conversation != null) {
-                conversationsRepository.updateConversation(conversation.copy(unreadMessagesCount = 0))
                 Success(conversation, messages)
             } else {
                 conversationsRepository.updateConversation(
@@ -107,6 +109,12 @@ class ChatViewModel @Inject constructor(
         sendingChatStatesRepository.updateSendingChatState(
             SendingChatState(peerJid = contactId, chatState = chatState)
         )
+    }
+
+    private suspend fun resetUnreadMessageCount() {
+        conversation.first()?.let {
+            conversationsRepository.updateConversation(it.copy(unreadMessagesCount = 0))
+        }
     }
 
     private fun updateDraft(messageText: String?) {
