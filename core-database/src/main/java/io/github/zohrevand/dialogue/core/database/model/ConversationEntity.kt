@@ -33,10 +33,3 @@ data class ConversationEntity(
     @ColumnInfo(name = "chat_state")
     val chatState: ChatState
 )
-
-fun ConversationEntity.asExternalModel() = Conversation(
-    peerJid = peerJid,
-    status = status,
-    draftMessage = draftMessage,
-    chatState = chatState
-)
