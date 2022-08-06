@@ -121,10 +121,15 @@ fun ConversationItem(
                 .weight(1f)
         ) {
             Text(text = conversation.peerJid)
-            if (conversation.draftMessage != null) {
-                Text(text = "Draft: ${conversation.draftMessage}", color = Color.LightGray)
+            val subtitle: String? = if (conversation.draftMessage != null) {
+                "Draft: ${conversation.draftMessage}"
             } else if (conversation.lastMessage != null) {
-                Text(text = "Draft: ${conversation.lastMessage?.body}", color = Color.LightGray)
+                conversation.lastMessage?.body
+            } else {
+                null
+            }
+            subtitle?.let {
+                Text(text = it, color = Color.Gray)
             }
         }
 
