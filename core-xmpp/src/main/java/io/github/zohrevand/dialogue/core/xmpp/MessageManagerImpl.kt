@@ -153,9 +153,14 @@ class MessageManagerImpl @Inject constructor(
             // TODO: if user has multiple clients this will return null because stanzaId
             //  does not exist for other clients
             val message = messagesRepository.getMessageByStanzaId(messageBuilder.stanzaId).first()
-            message?.let {
-                messagesRepository.updateMessage(it.copy(status = Sent))
-            }
+            requireNotNull(message) { "Message must not be null" }
+
+            messagesRepository.updateMessage(message.copy(status = Sent))
+
+            val conversation = conversationsRepository.getConversation(message.peerJid).first()
+            requireNotNull(conversation) { "Conversation must not be null" }
+
+            conversationsRepository.updateConversation(conversation.copy(lastMessage = message))
         }
     }
 
