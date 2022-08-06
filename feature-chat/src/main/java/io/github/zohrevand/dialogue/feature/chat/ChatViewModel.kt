@@ -56,6 +56,7 @@ class ChatViewModel @Inject constructor(
             messages
         ) { conversation, messages ->
             if (conversation != null) {
+                conversationsRepository.updateConversation(conversation.copy(unreadMessagesCount = 0))
                 Success(conversation, messages)
             } else {
                 conversationsRepository.updateConversation(
