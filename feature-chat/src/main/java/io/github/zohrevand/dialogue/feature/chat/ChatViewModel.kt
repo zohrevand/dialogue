@@ -77,7 +77,7 @@ class ChatViewModel @Inject constructor(
             )
 
     fun sendMessage(text: String) {
-        currentChatState.cancelSendingPaused()
+        currentChatState.cancelSendingPausedState()
         viewModelScope.launch {
             messagesRepository.updateMessage(
                 Message.create(text, contactId)
@@ -90,12 +90,12 @@ class ChatViewModel @Inject constructor(
     fun userTyping(messageText: String) {
         updateDraft(messageText)
 
-        currentChatState.cancelSendingPaused()
-        val sendingPausedJob = viewModelScope.launch {
+        currentChatState.cancelSendingPausedState()
+        val sendingPausedStateJob = viewModelScope.launch {
             delay(3_000)
             sendChatState(Paused)
         }
-        currentChatState = currentChatState.copy(sendingPausedJob = sendingPausedJob)
+        currentChatState = currentChatState.copy(sendingPausedStateJob = sendingPausedStateJob)
 
         if (currentChatState.shouldSendComposing()) {
             viewModelScope.launch {
@@ -128,10 +128,10 @@ class ChatViewModel @Inject constructor(
 
 data class CurrentChatState(
     val chatState: ChatState,
-    val sendingPausedJob: Job? = null
+    val sendingPausedStateJob: Job? = null
 ) {
-    fun cancelSendingPaused() {
-        sendingPausedJob?.cancel()
+    fun cancelSendingPausedState() {
+        sendingPausedStateJob?.cancel()
     }
 
     fun shouldSendComposing() = chatState != Composing
