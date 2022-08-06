@@ -2,11 +2,8 @@ package io.github.zohrevand.dialogue.core.data.repository
 
 import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus
-import io.github.zohrevand.core.model.data.ConversationStatus.NotStarted
-import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.dialogue.core.data.model.asEntity
 import io.github.zohrevand.dialogue.core.database.dao.ConversationDao
-import io.github.zohrevand.dialogue.core.database.model.ConversationEntity
 import io.github.zohrevand.dialogue.core.database.model.PopulatedConversation
 import io.github.zohrevand.dialogue.core.database.model.asExternalModel
 import kotlinx.coroutines.flow.Flow

@@ -3,9 +3,7 @@ package io.github.zohrevand.dialogue.core.xmpp
 import android.util.Log
 import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.data.repository.ContactsRepository
-import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
-import io.github.zohrevand.dialogue.core.xmpp.model.asConversation
 import io.github.zohrevand.dialogue.core.xmpp.model.asExternalModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -30,8 +28,7 @@ private const val TAG = "RosterManager"
 @Suppress("BlockingMethodInNonBlockingContext")
 class RosterManagerImpl @Inject constructor(
     private val contactsCollector: ContactsCollector,
-    private val contactsRepository: ContactsRepository,
-    private val conversationsRepository: ConversationsRepository
+    private val contactsRepository: ContactsRepository
 ) : RosterManager {
 
     private val scope = CoroutineScope(SupervisorJob())
@@ -52,7 +49,7 @@ class RosterManagerImpl @Inject constructor(
 
         Log.d(TAG, "Roster entries: ${roster.entries}")
 
-        updateDatabase(roster.entries)
+        updateContacts(roster.entries)
 
         roster.addRosterListener()
 
@@ -61,11 +58,6 @@ class RosterManagerImpl @Inject constructor(
         scope.launch {
             contactsCollector.collectShouldAddToRosterContacts { addToRoster(it) }
         }
-    }
-
-    private suspend fun updateDatabase(rosterEntries: Set<RosterEntry>) {
-        updateContacts(rosterEntries)
-        updateConversations(rosterEntries)
     }
 
     private suspend fun updateContacts(rosterEntries: Set<RosterEntry>) {
@@ -80,20 +72,6 @@ class RosterManagerImpl @Inject constructor(
             .map(RosterEntry::asExternalModel)
 
         contactsRepository.updateContacts(newContacts)
-    }
-
-    private suspend fun updateConversations(rosterEntries: Set<RosterEntry>) {
-        val conversations = conversationsRepository.getConversationsStream().first()
-
-        val newConversations = rosterEntries
-            .filter { entry ->
-                conversations.none { conversation ->
-                    conversation.peerJid == entry.jid.asBareJid().toString()
-                }
-            }
-            .map(RosterEntry::asConversation)
-
-        conversationsRepository.updateConversations(newConversations)
     }
 
     private fun addToRoster(contacts: List<Contact>) {

@@ -9,7 +9,6 @@ import io.github.zohrevand.core.model.data.ChatState.Active
 import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.ChatState.Paused
 import io.github.zohrevand.core.model.data.Conversation
-import io.github.zohrevand.core.model.data.ConversationStatus.NotStarted
 import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.SendingChatState
@@ -56,14 +55,17 @@ class ChatViewModel @Inject constructor(
             conversation,
             messages
         ) { conversation, messages ->
-            conversation?.let {
-                if (conversation.status == NotStarted) {
-                    conversationsRepository.updateConversation(conversation.copy(status = Started))
-                    Loading
-                } else {
-                    Success(conversation, messages)
-                }
-            } ?: run { Loading }
+            if (conversation != null) {
+                Success(conversation, messages)
+            } else {
+                conversationsRepository.updateConversation(
+                    Conversation(
+                        peerJid = contactId,
+                        status = Started
+                    )
+                )
+                Loading
+            }
         }
             .stateIn(
                 scope = viewModelScope,
