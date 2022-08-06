@@ -20,7 +20,7 @@ interface ConversationDao {
         WHERE peer_jid = :peerJid
     """
     )
-    fun getConversationEntity(peerJid: String): Flow<ConversationEntity?>
+    fun getConversationEntity(peerJid: String): Flow<PopulatedConversation?>
 
     @Query(value = "SELECT * FROM conversations")
     fun getConversationEntitiesStream(): Flow<List<PopulatedConversation>>
