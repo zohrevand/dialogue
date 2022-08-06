@@ -117,7 +117,6 @@ class MessageManagerImpl @Inject constructor(
         deliveryReceiptManager.addReceiptReceivedListener(receiptReceivedListener)
     }
 
-    // TODO: does not work correctly
     private fun handleIncomingMessage(
         from: EntityBareJid,
         message: SmackMessage,
@@ -127,17 +126,15 @@ class MessageManagerImpl @Inject constructor(
 
         scope.launch {
             val conversation = conversationsRepository.getConversation(from.toString()).first()
-            // TODO: sometimes conversation update not happening
-            Log.d(TAG, "conversation == null ${conversation == null}")
-            Log.d(TAG, "status ${conversation?.status}")
+                ?: from.asConversation()
 
             messagesRepository.updateMessage(message.asExternalModel())
 
             val lastMessage = messagesRepository.getMessageByStanzaId(message.stanzaId).first()
-            val unreadMessagesCount = (conversation?.unreadMessagesCount ?: 0) + 1
+            val unreadMessagesCount = conversation.unreadMessagesCount + 1
 
             conversationsRepository.updateConversation(
-                from.asConversation().copy(
+                conversation.copy(
                     lastMessage = lastMessage,
                     unreadMessagesCount = unreadMessagesCount
                 )
