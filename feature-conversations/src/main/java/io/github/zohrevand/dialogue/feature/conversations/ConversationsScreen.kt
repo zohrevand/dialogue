@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -62,13 +61,7 @@ fun ConversationsScreen(
     Column(modifier = modifier.background(Color(0xFFE0F7FA))) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
-        DialogueTopAppBar(
-            title = {
-                if (uiState is Success) {
-                    Text(text = stringResource(conversations_title))
-                }
-            }
-        )
+        DialogueTopAppBar(titleRes = conversations_title)
 
         if (uiState is Success) {
             LazyColumn(

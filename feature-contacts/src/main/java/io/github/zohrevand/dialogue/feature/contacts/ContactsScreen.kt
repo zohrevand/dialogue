@@ -70,13 +70,7 @@ fun ContactsScreen(
         Column(modifier = modifier.background(Color(0xFFE0F7FA))) {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
-            DialogueTopAppBar(
-                title = {
-                    if (uiState is Success) {
-                        Text(text = stringResource(contacts_title))
-                    }
-                }
-            )
+            DialogueTopAppBar(titleRes = contacts_title)
 
             if (uiState is Success) {
                 LazyColumn(
