@@ -20,9 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Contact
+import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
 import io.github.zohrevand.dialogue.feature.contacts.ContactsUiState.Success
 import io.github.zohrevand.dialogue.feature.contacts.R.string.add
 import io.github.zohrevand.dialogue.feature.contacts.R.string.contacts_title
@@ -60,7 +59,6 @@ fun ContactsRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsScreen(
     uiState: ContactsUiState,
@@ -72,7 +70,7 @@ fun ContactsScreen(
         Column(modifier = modifier.background(Color(0xFFE0F7FA))) {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
-            CenterAlignedTopAppBar(
+            DialogueTopAppBar(
                 title = {
                     if (uiState is Success) {
                         Text(text = stringResource(contacts_title))
