@@ -21,7 +21,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -48,6 +47,7 @@ import io.github.zohrevand.core.model.data.ChatState.Paused
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.isMine
 import io.github.zohrevand.core.model.data.peerLocalPart
+import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
 import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Success
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
 import io.github.zohrevand.dialogue.feature.chat.R.string.message_label
@@ -88,21 +88,17 @@ fun ChatScreen(
     Column(modifier = modifier.background(Color(0xFFE0F7FA))) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
-        CenterAlignedTopAppBar(
+        DialogueTopAppBar(
             title = {
                 if (uiState is Success) {
                     Text(text = uiState.conversation.peerJid)
                 }
             },
-            navigationIcon = {
-                IconButton(onClick = onBackClick) {
-                    Icon(
-                        imageVector = Filled.ArrowBack,
-                        contentDescription = stringResource(back)
-                    )
-                }
-            }
+            navigationIcon = Filled.ArrowBack,
+            navigationIconContentDescription = stringResource(back),
+            onNavigationClick = onBackClick
         )
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
