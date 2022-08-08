@@ -14,10 +14,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DialogueTopAppBar(
-    title: @Composable () -> Unit,
-    navigationIcon: ImageVector,
-    navigationIconContentDescription: String?,
     modifier: Modifier = Modifier,
+    title: @Composable () -> Unit,
+    navigationIcon: ImageVector? = null,
+    navigationIconContentDescription: String? = null,
     actionIcon: ImageVector? = null,
     actionIconContentDescription: String? = null,
     colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
@@ -27,12 +27,14 @@ fun DialogueTopAppBar(
     CenterAlignedTopAppBar(
         title = title,
         navigationIcon = {
-            IconButton(onClick = onNavigationClick) {
-                Icon(
-                    imageVector = navigationIcon,
-                    contentDescription = navigationIconContentDescription,
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
+            navigationIcon?.let {
+                IconButton(onClick = onNavigationClick) {
+                    Icon(
+                        imageVector = navigationIcon,
+                        contentDescription = navigationIconContentDescription,
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             }
         },
         actions = {
