@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import io.github.zohrevand.core.model.data.ChatState
-import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus
 
 @Entity(
