@@ -47,7 +47,10 @@ import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
 import io.github.zohrevand.dialogue.feature.contacts.ContactsUiState.Success
 import io.github.zohrevand.dialogue.feature.contacts.R.string.add
+import io.github.zohrevand.dialogue.feature.contacts.R.string.add_contact_title
+import io.github.zohrevand.dialogue.feature.contacts.R.string.cancel
 import io.github.zohrevand.dialogue.feature.contacts.R.string.contacts_title
+import io.github.zohrevand.dialogue.feature.contacts.R.string.new_contact
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -121,24 +124,24 @@ private fun AddContactDialog(
 
     AlertDialog(
         title = {
-            Text(text = "Add new contact")
+            Text(text = stringResource(add_contact_title))
         },
         text = {
             OutlinedTextField(
                 value = newContact,
                 onValueChange = setNewContact,
-                label = { Text(text = "New Contact") }
+                label = { Text(text = stringResource(new_contact)) }
             )
         },
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(onClick = {}) {
-                Text(text = "Add Contact")
+                Text(text = stringResource(add))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(text = "Cancel")
+                Text(text = stringResource(cancel))
             }
         },
         modifier = modifier

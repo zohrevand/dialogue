@@ -2,4 +2,7 @@
 <resources>
     <string name="add">Add Contact</string>
     <string name="contacts_title">Contacts</string>
+    <string name="new_contact">New Contact</string>
+    <string name="add_contact_title">Add new contact</string>
+    <string name="cancel">Cancel</string>
 </resources>
