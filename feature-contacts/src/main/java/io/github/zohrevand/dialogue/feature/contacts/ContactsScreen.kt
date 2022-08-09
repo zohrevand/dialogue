@@ -36,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -44,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Contact
+import io.github.zohrevand.dialogue.core.common.utils.isValidJid
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
 import io.github.zohrevand.dialogue.feature.contacts.ContactsUiState.Success
 import io.github.zohrevand.dialogue.feature.contacts.R.string.add
@@ -123,21 +125,45 @@ private fun AddContactDialog(
     onDismissRequest: () -> Unit
 ) {
     val (newContact, setNewContact) = remember { mutableStateOf("") }
+    var contactError by remember { mutableStateOf(false) }
 
     AlertDialog(
         title = {
             Text(text = stringResource(add_contact_title))
         },
         text = {
-            OutlinedTextField(
-                value = newContact,
-                onValueChange = setNewContact,
-                label = { Text(text = stringResource(new_contact)) }
-            )
+            Column {
+                OutlinedTextField(
+                    value = newContact,
+                    onValueChange = {
+                        setNewContact(it)
+                        contactError = false
+                    },
+                    label = { Text(text = stringResource(new_contact)) },
+                    isError = contactError,
+                )
+                Text(
+                    text = stringResource(R.string.error_contact_is_not_valid_jabber_id),
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.labelSmall,
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        // Workaround to display error when needed,
+                        // if we wrap error text with if statement it's not displayed
+                        .alpha(if (contactError) 1f else 0f)
+                )
+            }
         },
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(onClick = { onAddContact(newContact) }) {
+            TextButton(
+                onClick = {
+                    contactError = !newContact.isValidJid
+                    if (!contactError) {
+                        onAddContact(newContact)
+                    }
+                }
+            ) {
                 Text(text = stringResource(add))
             }
         },
