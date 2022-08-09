@@ -49,7 +49,7 @@ class RosterManagerImpl @Inject constructor(
 
         Log.d(TAG, "Roster entries: ${roster.entries}")
 
-        updateContacts(roster.entries)
+        createNewContacts(roster.entries)
 
         roster.addRosterListener()
 
@@ -63,7 +63,7 @@ class RosterManagerImpl @Inject constructor(
     /**
      * Create contacts if entry jid is of type EntityBareJid and does not exist already
      */
-    private suspend fun updateContacts(rosterEntries: Set<RosterEntry>) {
+    private suspend fun createNewContacts(rosterEntries: Set<RosterEntry>) {
         val contacts = contactsRepository.getContactsStream().first()
 
         val newContacts = rosterEntries
