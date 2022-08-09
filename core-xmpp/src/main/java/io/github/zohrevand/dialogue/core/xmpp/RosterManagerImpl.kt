@@ -60,10 +60,14 @@ class RosterManagerImpl @Inject constructor(
         }
     }
 
+    /**
+     * Create contacts if entry jid is of type EntityBareJid and does not exist already
+     */
     private suspend fun updateContacts(rosterEntries: Set<RosterEntry>) {
         val contacts = contactsRepository.getContactsStream().first()
 
         val newContacts = rosterEntries
+            .filter { it.jid.isEntityBareJid }
             .filter { entry ->
                 contacts.none { contact ->
                     contact.jid == entry.jid.asBareJid().toString()
