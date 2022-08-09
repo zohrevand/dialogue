@@ -72,7 +72,7 @@ fun ContactsRoute(
 @Composable
 fun ContactsScreen(
     uiState: ContactsUiState,
-    addContact: () -> Unit,
+    addContact: (String) -> Unit,
     navigateToChat: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -99,6 +99,7 @@ fun ContactsScreen(
 
         if (isDialogVisible) {
             AddContactDialog(
+                onAddContact = addContact,
                 onDismissRequest = { isDialogVisible = false }
             )
         }
@@ -118,6 +119,7 @@ fun ContactsScreen(
 @Composable
 private fun AddContactDialog(
     modifier: Modifier = Modifier,
+    onAddContact: (String) -> Unit,
     onDismissRequest: () -> Unit
 ) {
     val (newContact, setNewContact) = remember { mutableStateOf("") }
@@ -135,7 +137,7 @@ private fun AddContactDialog(
         },
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(onClick = {}) {
+            TextButton(onClick = { onAddContact(newContact) }) {
                 Text(text = stringResource(add))
             }
         },
