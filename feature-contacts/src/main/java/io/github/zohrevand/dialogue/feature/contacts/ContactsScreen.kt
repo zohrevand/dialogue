@@ -30,7 +30,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,7 +67,6 @@ fun ContactsRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsScreen(
     uiState: ContactsUiState,
@@ -77,7 +75,6 @@ fun ContactsScreen(
     modifier: Modifier = Modifier
 ) {
     var isDialogVisible by remember { mutableStateOf(false) }
-    val (newContact, setNewContact) = remember { mutableStateOf("") }
 
     Box {
         Column(modifier = modifier.background(Color(0xFFE0F7FA))) {
@@ -99,36 +96,8 @@ fun ContactsScreen(
         }
 
         if (isDialogVisible) {
-            AlertDialog(
-                title = {
-                    Text(text = "Add new contact")
-                },
-                text = {
-                    OutlinedTextField(
-                        value = newContact,
-                        onValueChange = setNewContact,
-                        label = { Text(text = "New Contact") }
-                    )
-                },
-                onDismissRequest = {
-                    isDialogVisible = false
-                    setNewContact("")
-                },
-                confirmButton = {
-                    Button(onClick = {}) {
-                        Text(text = "Add Contact")
-                    }
-                },
-                dismissButton = {
-                    OutlinedButton(
-                        onClick = {
-                            isDialogVisible = false
-                            setNewContact("")
-                        }
-                    ) {
-                        Text(text = "Cancel")
-                    }
-                }
+            AddContactDialog(
+                onDismissRequest = { isDialogVisible = false }
             )
         }
 
@@ -141,6 +110,40 @@ fun ContactsScreen(
             Icon(imageVector = Filled.Add, contentDescription = stringResource(id = add))
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AddContactDialog(
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit
+) {
+    val (newContact, setNewContact) = remember { mutableStateOf("") }
+
+    AlertDialog(
+        title = {
+            Text(text = "Add new contact")
+        },
+        text = {
+            OutlinedTextField(
+                value = newContact,
+                onValueChange = setNewContact,
+                label = { Text(text = "New Contact") }
+            )
+        },
+        onDismissRequest = onDismissRequest,
+        confirmButton = {
+            Button(onClick = {}) {
+                Text(text = "Add Contact")
+            }
+        },
+        dismissButton = {
+            OutlinedButton(onClick = onDismissRequest) {
+                Text(text = "Cancel")
+            }
+        },
+        modifier = modifier
+    )
 }
 
 @Composable
