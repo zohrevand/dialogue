@@ -20,13 +20,22 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,6 +68,7 @@ fun ContactsRoute(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsScreen(
     uiState: ContactsUiState,
@@ -66,6 +76,9 @@ fun ContactsScreen(
     navigateToChat: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var isDialogVisible by remember { mutableStateOf(false) }
+    val (newContact, setNewContact) = remember { mutableStateOf("") }
+
     Box {
         Column(modifier = modifier.background(Color(0xFFE0F7FA))) {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
@@ -85,8 +98,42 @@ fun ContactsScreen(
             }
         }
 
+        if (isDialogVisible) {
+            AlertDialog(
+                title = {
+                    Text(text = "Add new contact")
+                },
+                text = {
+                    OutlinedTextField(
+                        value = newContact,
+                        onValueChange = setNewContact,
+                        label = { Text(text = "New Contact") }
+                    )
+                },
+                onDismissRequest = {
+                    isDialogVisible = false
+                    setNewContact("")
+                },
+                confirmButton = {
+                    Button(onClick = {}) {
+                        Text(text = "Add Contact")
+                    }
+                },
+                dismissButton = {
+                    OutlinedButton(
+                        onClick = {
+                            isDialogVisible = false
+                            setNewContact("")
+                        }
+                    ) {
+                        Text(text = "Cancel")
+                    }
+                }
+            )
+        }
+
         FloatingActionButton(
-            onClick = addContact,
+            onClick = { isDialogVisible = true },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
