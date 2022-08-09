@@ -22,6 +22,9 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", project(":core-designsystem"))
                 add("implementation", project(":core-navigation"))
 
+                add("testImplementation", project(":core-testing"))
+                add("androidTestImplementation", project(":core-testing"))
+
                 add("api", libs.findLibrary("androidx.compose.foundation").get())
                 add("api", libs.findLibrary("androidx.compose.foundation.layout").get())
                 add("api", libs.findLibrary("androidx.compose.material.iconsExtended").get())
