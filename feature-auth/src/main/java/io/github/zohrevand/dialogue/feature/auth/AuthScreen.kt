@@ -45,12 +45,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.zohrevand.dialogue.core.common.utils.isValidJid
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Error
 import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Loading
 import io.github.zohrevand.dialogue.feature.auth.R.string
 import io.github.zohrevand.dialogue.feature.auth.R.string.hide_password
 import io.github.zohrevand.dialogue.feature.auth.R.string.show_password
-import io.github.zohrevand.dialogue.feature.auth.utils.isValidJid
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

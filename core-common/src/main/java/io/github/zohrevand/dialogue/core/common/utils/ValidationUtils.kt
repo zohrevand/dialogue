@@ -1,4 +1,4 @@
-package io.github.zohrevand.dialogue.feature.auth.utils
+package io.github.zohrevand.dialogue.core.common.utils
 
 import android.text.TextUtils
 
