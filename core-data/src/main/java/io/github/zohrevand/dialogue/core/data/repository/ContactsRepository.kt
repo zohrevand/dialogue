@@ -9,11 +9,7 @@ interface ContactsRepository {
 
     fun getContactsStream(): Flow<List<Contact>>
 
-    fun getContactsStream(jids: Set<String>): Flow<List<Contact>>
-
     fun getShouldAddToRosterStream(): Flow<List<Contact>>
 
     suspend fun updateContacts(contacts: List<Contact>)
-
-    suspend fun deleteContacts(jids: List<String>)
 }

@@ -20,19 +20,10 @@ class TestContactsRepository : ContactsRepository {
 
     override fun getContactsStream(): Flow<List<Contact>> = contactsFlow
 
-    override fun getContactsStream(jids: Set<String>): Flow<List<Contact>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getShouldAddToRosterStream(): Flow<List<Contact>> {
-        TODO("Not yet implemented")
-    }
+    override fun getShouldAddToRosterStream(): Flow<List<Contact>> =
+        contactsFlow.map { contacts -> contacts.filter { it.shouldAddToRoster } }
 
     override suspend fun updateContacts(contacts: List<Contact>) {
         contactsFlow.tryEmit(contacts)
-    }
-
-    override suspend fun deleteContacts(jids: List<String>) {
-        TODO("Not yet implemented")
     }
 }

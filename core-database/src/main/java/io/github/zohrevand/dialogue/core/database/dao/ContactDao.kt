@@ -26,14 +26,6 @@ interface ContactDao {
     @Query(
         value = """
         SELECT * FROM contacts
-        WHERE jid IN (:jids)
-    """
-    )
-    fun getContactEntitiesStream(jids: Set<String>): Flow<List<ContactEntity>>
-
-    @Query(
-        value = """
-        SELECT * FROM contacts
         WHERE should_add_to_roster = 1
     """
     )
@@ -44,15 +36,4 @@ interface ContactDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(contactEntities: List<ContactEntity>)
-
-    /**
-     * Deletes rows in the db matching the specified [jids]
-     */
-    @Query(
-        value = """
-            DELETE FROM contacts
-            WHERE jid in (:jids)
-        """
-    )
-    suspend fun deleteContacts(jids: List<String>)
 }
