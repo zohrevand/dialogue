@@ -1,5 +1,6 @@
 package io.github.zohrevand.dialogue.feature.contacts
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -146,7 +147,7 @@ private fun AddContactDialog(
                     isError = contactError,
                     modifier = Modifier.testTag("newContactTextField")
                 )
-                if (contactError) {
+                AnimatedVisibility(visible = contactError) {
                     Text(
                         text = stringResource(error_contact_is_not_valid_jabber_id),
                         color = MaterialTheme.colorScheme.error,
