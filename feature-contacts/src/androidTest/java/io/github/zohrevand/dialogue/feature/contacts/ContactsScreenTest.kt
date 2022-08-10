@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import io.github.zohrevand.core.model.data.Contact
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -11,6 +12,15 @@ class ContactsScreenTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+
+    private lateinit var addContactTitle: String
+
+    @Before
+    fun setup() {
+        composeTestRule.activity.apply {
+            addContactTitle = getString(R.string.add_contact_title)
+        }
+    }
 
     @Test
     fun contacts_whenContactsIsLoading_isNotShow() {
