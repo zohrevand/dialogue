@@ -35,11 +35,4 @@ class TestContactsRepository : ContactsRepository {
     override suspend fun deleteContacts(jids: List<String>) {
         TODO("Not yet implemented")
     }
-
-    /**
-     * A test-only API to allow controlling the list of contacts from tests.
-     */
-    fun sendContacts(contacts: List<Contact>) {
-        contactsFlow.tryEmit(contacts)
-    }
 }
