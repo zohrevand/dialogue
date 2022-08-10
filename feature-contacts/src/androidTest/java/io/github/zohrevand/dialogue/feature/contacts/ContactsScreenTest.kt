@@ -2,6 +2,7 @@ package io.github.zohrevand.dialogue.feature.contacts
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import io.github.zohrevand.core.model.data.Contact
 import org.junit.Before
@@ -13,12 +14,14 @@ class ContactsScreenTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private lateinit var addContactTitle: String
+    private lateinit var addContactFabTitle: String
+    private lateinit var addContactDialogTitle: String
 
     @Before
     fun setup() {
         composeTestRule.activity.apply {
-            addContactTitle = getString(R.string.add_contact_title)
+            addContactFabTitle = getString(R.string.add)
+            addContactDialogTitle = getString(R.string.add_contact_title)
         }
     }
 
@@ -50,6 +53,25 @@ class ContactsScreenTest {
         composeTestRule
             .onNodeWithText(testContacts.first().jid)
             .assertExists()
+    }
+
+    @Test
+    fun addContactDialog_whenScreenLoads_isNotShown() {
+        composeTestRule.setContent {
+            ContactsScreen(
+                uiState = ContactsUiState.Success(testContacts),
+                addContact = {},
+                navigateToChat = {}
+            )
+        }
+
+        composeTestRule
+            .onNodeWithContentDescription(addContactFabTitle)
+            .assertExists()
+
+        composeTestRule
+            .onNodeWithContentDescription(addContactDialogTitle)
+            .assertDoesNotExist()
     }
 }
 
