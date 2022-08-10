@@ -134,6 +134,37 @@ class ContactsScreenTest {
             .onNodeWithText(contactFieldErrorText)
             .assertExists()
     }
+
+    @Test
+    fun contactTextFieldError_whenValidAndAddClicked_isNotShown() {
+        composeTestRule.setContent {
+            ContactsScreen(
+                uiState = ContactsUiState.Success(testContacts),
+                addContact = {},
+                navigateToChat = {}
+            )
+        }
+
+        composeTestRule
+            .onNodeWithContentDescription(addContactFabTitle)
+            .assertExists()
+            .performClick()
+
+        composeTestRule
+            .onNodeWithTag("newContactTextField")
+            .assertExists()
+            .performTextInput(CONTACT_1_JID)
+
+        composeTestRule
+            .onNodeWithTag("addContactButton")
+            .assertExists()
+            .assertHasClickAction()
+            .performClick()
+
+        composeTestRule
+            .onNodeWithText(contactFieldErrorText)
+            .assertDoesNotExist()
+    }
 }
 
 private const val CONTACT_1_JID = "hasan@dialogue.im"
