@@ -71,7 +71,7 @@ class ContactsScreenTest {
             .assertExists()
 
         composeTestRule
-            .onNodeWithContentDescription(addContactDialogTitle)
+            .onNodeWithText(addContactDialogTitle)
             .assertDoesNotExist()
     }
 
