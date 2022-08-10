@@ -1,8 +1,6 @@
 package io.github.zohrevand.dialogue.feature.contacts
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -11,7 +9,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import io.github.zohrevand.core.model.data.Contact
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -108,7 +105,7 @@ class ContactsScreenTest {
     }
 
     @Test
-    fun contactTextFieldError_whenEmptyAndAddClick_isShown() {
+    fun contactTextFieldError_whenEmptyAndAddClicked_isShown() {
         composeTestRule.setContent {
             ContactsScreen(
                 uiState = ContactsUiState.Success(testContacts),
@@ -133,14 +130,9 @@ class ContactsScreenTest {
             .assertHasClickAction()
             .performClick()
 
-        assertTrue(
-            composeTestRule
-                .onNodeWithText(contactFieldErrorText)
-                .fetchSemanticsNode()
-                .layoutInfo
-                .getModifierInfo()
-                .any { it.modifier == Modifier.alpha(0f)}
-        )
+        composeTestRule
+            .onNodeWithText(contactFieldErrorText)
+            .assertExists()
     }
 }
 
