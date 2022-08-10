@@ -38,7 +38,7 @@ class ContactsViewModelTest {
     fun uiStateContacts_whenSuccess_thenMatchesContactsFromRepository() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uiState.collect() }
 
-        contactsRepository.updateContacts(contacts)
+        contactsRepository.updateContacts(testContacts)
 
         val item = viewModel.uiState.value
         assertTrue(item is ContactsUiState.Success)
@@ -56,7 +56,7 @@ class ContactsViewModelTest {
 
         val contact = contactsRepository.getContact(CONTACT_1_JID).first()
 
-        assertEquals(contact.jid, contacts[0].jid)
+        assertEquals(contact.jid, testContacts[0].jid)
     }
 
     @Test
@@ -79,7 +79,7 @@ class ContactsViewModelTest {
 private const val CONTACT_1_JID = "hasan@dialogue.im"
 private const val CONTACT_2_JID = "zohrevand@dialogue.im"
 
-private val contacts = listOf(
+private val testContacts = listOf(
     Contact.create(CONTACT_1_JID),
     Contact.create(CONTACT_2_JID)
 )
