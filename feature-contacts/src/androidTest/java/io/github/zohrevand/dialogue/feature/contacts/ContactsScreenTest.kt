@@ -1,11 +1,17 @@
 package io.github.zohrevand.dialogue.feature.contacts
 
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import io.github.zohrevand.core.model.data.Contact
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,12 +23,16 @@ class ContactsScreenTest {
 
     private lateinit var addContactFabTitle: String
     private lateinit var addContactDialogTitle: String
+    private lateinit var newContactLabel: String
+    private lateinit var contactFieldErrorText: String
 
     @Before
     fun setup() {
         composeTestRule.activity.apply {
             addContactFabTitle = getString(R.string.add)
             addContactDialogTitle = getString(R.string.add_contact_title)
+            newContactLabel = getString(R.string.new_contact)
+            contactFieldErrorText = getString(R.string.error_contact_is_not_valid_jabber_id)
         }
     }
 
@@ -69,6 +79,7 @@ class ContactsScreenTest {
         composeTestRule
             .onNodeWithContentDescription(addContactFabTitle)
             .assertExists()
+            .assertHasClickAction()
 
         composeTestRule
             .onNodeWithText(addContactDialogTitle)
@@ -88,11 +99,48 @@ class ContactsScreenTest {
         composeTestRule
             .onNodeWithContentDescription(addContactFabTitle)
             .assertExists()
+            .assertHasClickAction()
             .performClick()
 
         composeTestRule
             .onNodeWithText(addContactDialogTitle)
             .assertExists()
+    }
+
+    @Test
+    fun contactTextFieldError_whenEmptyAndAddClick_isShown() {
+        composeTestRule.setContent {
+            ContactsScreen(
+                uiState = ContactsUiState.Success(testContacts),
+                addContact = {},
+                navigateToChat = {}
+            )
+        }
+
+        composeTestRule
+            .onNodeWithContentDescription(addContactFabTitle)
+            .assertExists()
+            .performClick()
+
+        composeTestRule
+            .onNodeWithTag("newContactTextField")
+            .assertExists()
+            .performTextInput("")
+
+        composeTestRule
+            .onNodeWithTag("addContactButton")
+            .assertExists()
+            .assertHasClickAction()
+            .performClick()
+
+        assertTrue(
+            composeTestRule
+                .onNodeWithText(contactFieldErrorText)
+                .fetchSemanticsNode()
+                .layoutInfo
+                .getModifierInfo()
+                .any { it.modifier == Modifier.alpha(0f)}
+        )
     }
 }
 

@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -141,6 +142,7 @@ private fun AddContactDialog(
                     },
                     label = { Text(text = stringResource(new_contact)) },
                     isError = contactError,
+                    modifier = Modifier.testTag("newContactTextField")
                 )
                 Text(
                     text = stringResource(R.string.error_contact_is_not_valid_jabber_id),
@@ -162,7 +164,8 @@ private fun AddContactDialog(
                     if (!contactError) {
                         onAddContact(newContact)
                     }
-                }
+                },
+                modifier = Modifier.testTag("addContactButton")
             ) {
                 Text(text = stringResource(add))
             }
