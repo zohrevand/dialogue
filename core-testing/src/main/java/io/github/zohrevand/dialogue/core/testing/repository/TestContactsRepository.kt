@@ -29,7 +29,7 @@ class TestContactsRepository : ContactsRepository {
     }
 
     override suspend fun updateContacts(contacts: List<Contact>) {
-        TODO("Not yet implemented")
+        contactsFlow.tryEmit(contacts)
     }
 
     override suspend fun deleteContacts(jids: List<String>) {
