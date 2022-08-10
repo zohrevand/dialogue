@@ -35,13 +35,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -53,6 +54,7 @@ import io.github.zohrevand.dialogue.feature.contacts.R.string.add
 import io.github.zohrevand.dialogue.feature.contacts.R.string.add_contact_title
 import io.github.zohrevand.dialogue.feature.contacts.R.string.cancel
 import io.github.zohrevand.dialogue.feature.contacts.R.string.contacts_title
+import io.github.zohrevand.dialogue.feature.contacts.R.string.error_contact_is_not_valid_jabber_id
 import io.github.zohrevand.dialogue.feature.contacts.R.string.new_contact
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -118,7 +120,7 @@ fun ContactsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 private fun AddContactDialog(
     modifier: Modifier = Modifier,
@@ -144,16 +146,14 @@ private fun AddContactDialog(
                     isError = contactError,
                     modifier = Modifier.testTag("newContactTextField")
                 )
-                Text(
-                    text = stringResource(R.string.error_contact_is_not_valid_jabber_id),
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.labelSmall,
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        // Workaround to display error when needed,
-                        // if we wrap error text with if statement it's not displayed
-                        .alpha(if (contactError) 1f else 0f)
-                )
+                if (contactError) {
+                    Text(
+                        text = stringResource(error_contact_is_not_valid_jabber_id),
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                }
             }
         },
         onDismissRequest = onDismissRequest,
@@ -175,6 +175,7 @@ private fun AddContactDialog(
                 Text(text = stringResource(cancel))
             }
         },
+        properties = DialogProperties(usePlatformDefaultWidth = false),
         modifier = modifier
     )
 }
