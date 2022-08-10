@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import io.github.zohrevand.core.model.data.Contact
 import org.junit.Before
 import org.junit.Rule
@@ -72,6 +73,26 @@ class ContactsScreenTest {
         composeTestRule
             .onNodeWithContentDescription(addContactDialogTitle)
             .assertDoesNotExist()
+    }
+
+    @Test
+    fun addContactDialog_whenFabClicked_isShown() {
+        composeTestRule.setContent {
+            ContactsScreen(
+                uiState = ContactsUiState.Success(testContacts),
+                addContact = {},
+                navigateToChat = {}
+            )
+        }
+
+        composeTestRule
+            .onNodeWithContentDescription(addContactFabTitle)
+            .assertExists()
+            .performClick()
+
+        composeTestRule
+            .onNodeWithText(addContactDialogTitle)
+            .assertExists()
     }
 }
 
