@@ -56,7 +56,7 @@ class ContactsViewModelTest {
 
         val contact = contactsRepository.getContact(CONTACT_1_JID).first()
 
-        assertEquals(contact.jid, testContacts[0].jid)
+        assertEquals(contact.jid, CONTACT_1_JID)
     }
 
     @Test
