@@ -49,9 +49,21 @@ class ContactsViewModelTest {
 
         collectJob.cancel()
     }
+
+    @Test
+    fun whenAddContact_thenMatchesContactFromRepository() = runTest {
+        viewModel.addContact(CONTACT_1_JID)
+
+        val contact = contactsRepository.getContact(CONTACT_1_JID).first()
+
+        assertEquals(contact.jid, contacts[0].jid)
+    }
 }
 
+private const val CONTACT_1_JID = "hasan@dialogue.im"
+private const val CONTACT_2_JID = "zohrevand@dialogue.im"
+
 private val contacts = listOf(
-    Contact.create("hasan@dialogue.im"),
-    Contact.create("zohrevand@dialogue.im")
+    Contact.create(CONTACT_1_JID),
+    Contact.create(CONTACT_2_JID)
 )
