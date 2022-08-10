@@ -18,9 +18,7 @@ class TestContactsRepository : ContactsRepository {
         TODO("Not yet implemented")
     }
 
-    override fun getContactsStream(): Flow<List<Contact>> {
-        TODO("Not yet implemented")
-    }
+    override fun getContactsStream(): Flow<List<Contact>> = contactsFlow
 
     override fun getContactsStream(jids: Set<String>): Flow<List<Contact>> {
         TODO("Not yet implemented")
