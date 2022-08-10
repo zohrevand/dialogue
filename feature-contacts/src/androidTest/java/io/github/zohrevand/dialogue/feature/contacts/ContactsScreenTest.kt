@@ -4,7 +4,6 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import io.github.zohrevand.core.model.data.Contact
-import io.github.zohrevand.dialogue.feature.contacts.ContactsUiState.Loading
 import org.junit.Rule
 import org.junit.Test
 
@@ -17,15 +16,30 @@ class ContactsScreenTest {
     fun contacts_whenContactsIsLoading_isNotShow() {
         composeTestRule.setContent {
             ContactsScreen(
-                uiState = Loading,
+                uiState = ContactsUiState.Loading,
                 addContact = {},
                 navigateToChat = {}
             )
         }
 
         composeTestRule
-            .onNodeWithText(testContacts[0].jid)
+            .onNodeWithText(testContacts.first().jid)
             .assertDoesNotExist()
+    }
+
+    @Test
+    fun contacts_whenSuccess_isShown() {
+        composeTestRule.setContent {
+            ContactsScreen(
+                uiState = ContactsUiState.Success(testContacts),
+                addContact = {},
+                navigateToChat = {}
+            )
+        }
+
+        composeTestRule
+            .onNodeWithText(testContacts.first().jid)
+            .assertExists()
     }
 }
 
