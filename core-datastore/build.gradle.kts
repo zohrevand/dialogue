@@ -7,6 +7,7 @@ import com.google.protobuf.gradle.protoc
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("dialogue.android.library")
+    id("dialogue.android.library.jacoco")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
     alias(libs.plugins.protobuf)
