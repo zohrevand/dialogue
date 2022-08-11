@@ -41,5 +41,9 @@ gradlePlugin {
             id = "dialogue.spotless"
             implementationClass = "SpotlessConventionPlugin"
         }
+        register("androidApplicationJacoco") {
+            id = "dialogue.android.application.jacoco"
+            implementationClass = "AndroidApplicationJacocoConventionPlugin"
+        }
     }
 }
