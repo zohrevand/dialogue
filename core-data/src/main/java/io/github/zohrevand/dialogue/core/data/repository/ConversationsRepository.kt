@@ -8,13 +8,7 @@ interface ConversationsRepository {
 
     fun getConversation(peerJid: String): Flow<Conversation?>
 
-    fun getConversationsStream(): Flow<List<Conversation>>
-
     fun getConversationsStream(status: ConversationStatus): Flow<List<Conversation>>
 
     suspend fun updateConversation(conversation: Conversation)
-
-    suspend fun updateConversations(conversations: List<Conversation>)
-
-    suspend fun deleteConversation(peerJid: String)
 }

@@ -11,23 +11,11 @@ class TestConversationsRepository : ConversationsRepository {
         TODO("Not yet implemented")
     }
 
-    override fun getConversationsStream(): Flow<List<Conversation>> {
-        TODO("Not yet implemented")
-    }
-
     override fun getConversationsStream(status: ConversationStatus): Flow<List<Conversation>> {
         TODO("Not yet implemented")
     }
 
     override suspend fun updateConversation(conversation: Conversation) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateConversations(conversations: List<Conversation>) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun deleteConversation(peerJid: String) {
         TODO("Not yet implemented")
     }
 }

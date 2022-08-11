@@ -17,20 +17,10 @@ class OfflineFirstConversationsRepository @Inject constructor(
     override fun getConversation(peerJid: String): Flow<Conversation?> =
         conversationDao.getConversationEntity(peerJid).map { it?.asExternalModel() }
 
-    override fun getConversationsStream(): Flow<List<Conversation>> =
-        conversationDao.getConversationEntitiesStream()
-            .map { it.map(PopulatedConversation::asExternalModel) }
-
     override fun getConversationsStream(status: ConversationStatus): Flow<List<Conversation>> =
         conversationDao.getConversationEntitiesStream(status)
             .map { it.map(PopulatedConversation::asExternalModel) }
 
     override suspend fun updateConversation(conversation: Conversation) =
         conversationDao.upsert(conversation.asEntity())
-
-    override suspend fun updateConversations(conversations: List<Conversation>) =
-        conversationDao.upsert(conversations.map(Conversation::asEntity))
-
-    override suspend fun deleteConversation(peerJid: String) =
-        conversationDao.deleteConversation(peerJid)
 }

@@ -22,9 +22,6 @@ interface ConversationDao {
     )
     fun getConversationEntity(peerJid: String): Flow<PopulatedConversation?>
 
-    @Query(value = "SELECT * FROM conversations")
-    fun getConversationEntitiesStream(): Flow<List<PopulatedConversation>>
-
     /**
      * Get conversations stream based on conversation status
      */
@@ -41,21 +38,4 @@ interface ConversationDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(conversationEntity: ConversationEntity)
-
-    /**
-     * Inserts [conversationEntities] into the db if they don't exist, and update those that do
-     */
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(conversationEntities: List<ConversationEntity>)
-
-    /**
-     * Deletes row in the db matching the specified [peerJid]
-     */
-    @Query(
-        value = """
-            DELETE FROM conversations
-            WHERE peer_jid = :peerJid
-        """
-    )
-    suspend fun deleteConversation(peerJid: String)
 }
