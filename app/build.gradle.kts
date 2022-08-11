@@ -1,6 +1,7 @@
 plugins {
     id("dialogue.android.application")
     id("dialogue.android.application.compose")
+    id("dialogue.android.application.jacoco")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
     id("dialogue.spotless")
