@@ -5,6 +5,7 @@ import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.dialogue.core.testing.repository.TestConversationsRepository
 import io.github.zohrevand.dialogue.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -36,6 +37,16 @@ class ConversationsViewModelTest {
     @Test
     fun uiStateConversations_whenSuccess_thenMatchesConversationsFromRepository() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uiState.collect() }
+
+        conversationsRepository.sendConversations(testConversations)
+
+        val item = viewModel.uiState.value
+        Assert.assertTrue(item is ConversationsUiState.Success)
+
+        val successConversationsUiState = item as ConversationsUiState.Success
+        val fromRepositoryConversations =
+            conversationsRepository.getConversationsStream(Started).first()
+        Assert.assertEquals(successConversationsUiState.conversations, fromRepositoryConversations)
 
         collectJob.cancel()
     }
