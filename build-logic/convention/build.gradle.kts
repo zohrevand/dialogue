@@ -45,5 +45,9 @@ gradlePlugin {
             id = "dialogue.android.application.jacoco"
             implementationClass = "AndroidApplicationJacocoConventionPlugin"
         }
+        register("androidLibraryJacoco") {
+            id = "dialogue.android.library.jacoco"
+            implementationClass = "AndroidLibraryJacocoConventionPlugin"
+        }
     }
 }
