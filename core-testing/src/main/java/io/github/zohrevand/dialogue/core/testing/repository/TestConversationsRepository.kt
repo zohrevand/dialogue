@@ -6,6 +6,7 @@ import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.map
 
 class TestConversationsRepository : ConversationsRepository {
 
@@ -15,9 +16,8 @@ class TestConversationsRepository : ConversationsRepository {
     private val conversationsFlow: MutableSharedFlow<List<Conversation>> =
         MutableSharedFlow(replay = 1, onBufferOverflow = DROP_OLDEST)
 
-    override fun getConversation(peerJid: String): Flow<Conversation?> {
-        TODO("Not yet implemented")
-    }
+    override fun getConversation(peerJid: String): Flow<Conversation?> =
+        conversationsFlow.map { conversations -> conversations.find { it.peerJid == peerJid } }
 
     override fun getConversationsStream(status: ConversationStatus): Flow<List<Conversation>> {
         TODO("Not yet implemented")
