@@ -2,6 +2,7 @@ package io.github.zohrevand.dialogue.feature.conversations
 
 import io.github.zohrevand.dialogue.core.testing.repository.TestConversationsRepository
 import io.github.zohrevand.dialogue.core.testing.util.MainDispatcherRule
+import org.junit.Before
 import org.junit.Rule
 
 class ConversationsViewModelTest {
@@ -11,4 +12,11 @@ class ConversationsViewModelTest {
 
     private val conversationsRepository = TestConversationsRepository()
     private lateinit var viewModel: ConversationsViewModel
+
+    @Before
+    fun setup() {
+        viewModel = ConversationsViewModel(
+            conversationsRepository = conversationsRepository
+        )
+    }
 }
