@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -66,7 +67,7 @@ fun ConversationsScreen(
         if (uiState is Success) {
             LazyColumn(
                 contentPadding = PaddingValues(16.dp),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().testTag("conversations")
             ) {
                 items(uiState.conversations) { conversation ->
                     ConversationItem(
