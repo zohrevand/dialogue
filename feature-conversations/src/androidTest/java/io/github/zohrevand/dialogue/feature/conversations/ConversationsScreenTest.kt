@@ -26,6 +26,20 @@ class ConversationsScreenTest {
             .onNodeWithTag("conversations")
             .assertDoesNotExist()
     }
+
+    @Test
+    fun conversations_whenSuccess_isShown() {
+        composeTestRule.setContent {
+            ConversationsScreen(
+                uiState = ConversationsUiState.Success(testConversations),
+                navigateToChat = {}
+            )
+        }
+
+        composeTestRule
+            .onNodeWithTag("conversations")
+            .assertExists()
+    }
 }
 
 private const val CONVERSATIONS_1_PEER_JID = "hasan@dialogue.im"
