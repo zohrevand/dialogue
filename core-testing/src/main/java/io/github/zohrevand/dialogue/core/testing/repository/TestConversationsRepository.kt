@@ -25,4 +25,11 @@ class TestConversationsRepository : ConversationsRepository {
     override suspend fun updateConversation(conversation: Conversation) {
         conversationsFlow.tryEmit(listOf(conversation))
     }
+
+    /**
+     * A test-only API to allow controlling the list of conversations from tests.
+     */
+    fun sendConversations(conversations: List<Conversation>) {
+        conversationsFlow.tryEmit(conversations)
+    }
 }
