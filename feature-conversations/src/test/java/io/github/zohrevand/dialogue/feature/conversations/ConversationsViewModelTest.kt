@@ -2,8 +2,11 @@ package io.github.zohrevand.dialogue.feature.conversations
 
 import io.github.zohrevand.dialogue.core.testing.repository.TestConversationsRepository
 import io.github.zohrevand.dialogue.core.testing.util.MainDispatcherRule
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 
 class ConversationsViewModelTest {
 
@@ -18,5 +21,10 @@ class ConversationsViewModelTest {
         viewModel = ConversationsViewModel(
             conversationsRepository = conversationsRepository
         )
+    }
+
+    @Test
+    fun uiStateConversations_whenInitialized_thenShowLoading() = runTest {
+        Assert.assertEquals(ConversationsUiState.Loading, viewModel.uiState.value)
     }
 }
