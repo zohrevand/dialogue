@@ -3,9 +3,17 @@ package io.github.zohrevand.dialogue.core.testing.repository
 import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
+import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 class TestConversationsRepository : ConversationsRepository {
+
+    /**
+     * The backing hot flow for the list of conversations for testing
+     */
+    private val conversationsFlow: MutableSharedFlow<List<Conversation>> =
+        MutableSharedFlow(replay = 1, onBufferOverflow = DROP_OLDEST)
 
     override fun getConversation(peerJid: String): Flow<Conversation?> {
         TODO("Not yet implemented")
