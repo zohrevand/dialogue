@@ -23,6 +23,6 @@ class TestConversationsRepository : ConversationsRepository {
         conversationsFlow.map { conversations -> conversations.filter { it.status == status } }
 
     override suspend fun updateConversation(conversation: Conversation) {
-        TODO("Not yet implemented")
+        conversationsFlow.tryEmit(listOf(conversation))
     }
 }
