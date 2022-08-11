@@ -19,9 +19,8 @@ class TestConversationsRepository : ConversationsRepository {
     override fun getConversation(peerJid: String): Flow<Conversation?> =
         conversationsFlow.map { conversations -> conversations.find { it.peerJid == peerJid } }
 
-    override fun getConversationsStream(status: ConversationStatus): Flow<List<Conversation>> {
-        TODO("Not yet implemented")
-    }
+    override fun getConversationsStream(status: ConversationStatus): Flow<List<Conversation>> =
+        conversationsFlow.map { conversations -> conversations.filter { it.status == status } }
 
     override suspend fun updateConversation(conversation: Conversation) {
         TODO("Not yet implemented")
