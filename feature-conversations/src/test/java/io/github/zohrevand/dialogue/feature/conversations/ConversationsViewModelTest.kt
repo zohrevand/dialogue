@@ -1,7 +1,12 @@
 package io.github.zohrevand.dialogue.feature.conversations
 
+import io.github.zohrevand.core.model.data.Conversation
+import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.dialogue.core.testing.repository.TestConversationsRepository
 import io.github.zohrevand.dialogue.core.testing.util.MainDispatcherRule
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
@@ -27,4 +32,19 @@ class ConversationsViewModelTest {
     fun uiStateConversations_whenInitialized_thenShowLoading() = runTest {
         Assert.assertEquals(ConversationsUiState.Loading, viewModel.uiState.value)
     }
+
+    @Test
+    fun uiStateConversations_whenSuccess_thenMatchesConversationsFromRepository() = runTest {
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uiState.collect() }
+
+        collectJob.cancel()
+    }
 }
+
+private const val CONVERSATIONS_1_PEER_JID = "hasan@dialogue.im"
+private const val CONVERSATIONS_2_PEER_JID = "zohrevand@dialogue.im"
+
+private val testConversations = listOf(
+    Conversation(peerJid = CONVERSATIONS_1_PEER_JID, status = Started),
+    Conversation(peerJid = CONVERSATIONS_2_PEER_JID, status = Started)
+)
