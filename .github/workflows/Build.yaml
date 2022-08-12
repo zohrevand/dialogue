@@ -53,3 +53,11 @@ jobs:
         with:
           name: build-reports
           path: app/build/reports
+
+  androidTest:
+    needs: build
+    runs-on: macOS-latest # enables hardware acceleration in the virtual machine
+    timeout-minutes: 45
+    strategy:
+      matrix:
+        api-level: [23, 26, 30]
