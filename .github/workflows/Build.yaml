@@ -31,3 +31,6 @@ jobs:
 
       - name: Check spotless
         run: ./gradlew spotlessCheck --stacktrace
+
+      - name: Check lint
+        run: ./gradlew lintDebug --stacktrace
