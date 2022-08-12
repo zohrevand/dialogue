@@ -32,9 +32,11 @@ class ContactsViewModel @Inject constructor(
 
     fun addContact(contact: String) {
         viewModelScope.launch {
-            contactsRepository.updateContacts(listOf(
-                Contact.create(jid = contact)
-            ))
+            contactsRepository.updateContacts(
+                listOf(
+                    Contact.create(jid = contact)
+                )
+            )
         }
     }
 }

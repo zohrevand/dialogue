@@ -175,7 +175,9 @@ class MessageManagerImpl @Inject constructor(
             val peerJid = chat.xmppAddressOfChatPartner.toString()
             val conversation = conversationsRepository.getConversation(peerJid).first()
             conversation?.let {
-                conversationsRepository.updateConversation(it.copy(chatState = state.asExternalEnum()))
+                conversationsRepository.updateConversation(
+                    it.copy(chatState = state.asExternalEnum())
+                )
             }
         }
     }
@@ -188,7 +190,9 @@ class MessageManagerImpl @Inject constructor(
     ) {
         Log.d(
             TAG,
-            "addReceiptReceivedListener - fromJid: $fromJid, toJid: $toJid, receiptId: $receiptId, receipt: $receipt"
+            "addReceiptReceivedListener - " +
+                "fromJid: $fromJid, toJid: $toJid, " +
+                "receiptId: $receiptId, receipt: $receipt"
         )
 
         scope.launch {

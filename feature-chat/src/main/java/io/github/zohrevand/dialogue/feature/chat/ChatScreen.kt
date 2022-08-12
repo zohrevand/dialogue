@@ -110,8 +110,10 @@ fun ChatScreen(
         }
 
         if (uiState is Success &&
-            (uiState.conversation.chatState == Composing ||
-                uiState.conversation.chatState == Paused)
+            (
+                uiState.conversation.chatState == Composing ||
+                    uiState.conversation.chatState == Paused
+                )
         ) {
             val postfixText = if (uiState.conversation.chatState == Composing) "is typing..."
             else "stopped typing."

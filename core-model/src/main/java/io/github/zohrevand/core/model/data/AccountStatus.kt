@@ -15,4 +15,3 @@ enum class AccountStatus {
     RegistrationFailed,
     RegistrationAlreadyExist
 }
-

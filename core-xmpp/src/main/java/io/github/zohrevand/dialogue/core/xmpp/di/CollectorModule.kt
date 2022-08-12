@@ -36,5 +36,4 @@ interface CollectorModule {
     fun bindsChatStateCollector(
         chatStateCollector: ChatStateCollectorImpl
     ): ChatStateCollector
-
 }

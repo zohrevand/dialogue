@@ -8,10 +8,14 @@ class ChatStateCollectorImpl @Inject constructor(
     private val sendingChatStatesRepository: SendingChatStatesRepository
 ) : ChatStateCollector {
 
-    override suspend fun collectChatState(onChatStateChanged: suspend (SendingChatState) -> Unit) {
+    override suspend fun collectChatState(
+        onChatStateChanged: suspend (SendingChatState) -> Unit
+    ) {
         sendingChatStatesRepository.getSendingChatStatesStream().collect { states ->
             states.forEach { sendingChatState ->
-                sendingChatStatesRepository.updateSendingChatState(sendingChatState.copy(consumed = true))
+                sendingChatStatesRepository.updateSendingChatState(
+                    sendingChatState.copy(consumed = true)
+                )
                 onChatStateChanged(sendingChatState)
             }
         }

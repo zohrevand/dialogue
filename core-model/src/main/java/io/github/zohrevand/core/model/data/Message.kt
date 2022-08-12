@@ -11,7 +11,7 @@ import java.util.UUID
 
 data class Message(
     val id: Long? = null,
-    val stanzaId : String,
+    val stanzaId: String,
     val peerJid: String,
     val body: String,
     val sendTime: Instant = Clock.System.now(),

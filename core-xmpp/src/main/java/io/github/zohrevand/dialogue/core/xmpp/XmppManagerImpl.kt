@@ -80,7 +80,6 @@ class XmppManagerImpl @Inject constructor(
 
         // TODO: some servers like jabb3.org are not standard and needed to handle this
         connection.setParsingExceptionCallback {
-
         }
 
         reconnectionManager(connection)
