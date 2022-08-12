@@ -5,9 +5,9 @@ import io.github.zohrevand.dialogue.core.data.model.asEntity
 import io.github.zohrevand.dialogue.core.database.dao.SendingChatStateDao
 import io.github.zohrevand.dialogue.core.database.model.SendingChatStateEntity
 import io.github.zohrevand.dialogue.core.database.model.asExternalModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 class OfflineFirstSendingChatStatesRepository @Inject constructor(
     private val sendingChatStateDao: SendingChatStateDao

@@ -2,6 +2,7 @@ package io.github.zohrevand.dialogue.core.xmpp.notification
 
 import android.app.Notification
 import android.app.NotificationChannel
+import android.app.NotificationManager as AndroidNotificationManager
 import android.content.Context
 import android.media.RingtoneManager
 import android.os.Build.VERSION
@@ -11,7 +12,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import io.github.zohrevand.dialogue.core.xmpp.R
 import javax.inject.Inject
-import android.app.NotificationManager as AndroidNotificationManager
 
 const val CHANNEL_ID = "xmpp_service_channel_id"
 

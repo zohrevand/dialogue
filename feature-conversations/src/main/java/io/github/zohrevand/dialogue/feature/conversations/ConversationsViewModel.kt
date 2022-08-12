@@ -8,11 +8,11 @@ import io.github.zohrevand.core.model.data.ConversationStatus
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.feature.conversations.ConversationsUiState.Loading
 import io.github.zohrevand.dialogue.feature.conversations.ConversationsUiState.Success
+import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import javax.inject.Inject
 
 @HiltViewModel
 class ConversationsViewModel @Inject constructor(

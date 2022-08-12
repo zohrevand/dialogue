@@ -31,19 +31,29 @@ class Playground {
         // XEP-0333: Chat Markers, deferred. Check if the server supports that
         val chatMarkersManager = ChatMarkersManager.getInstanceFor(connection)
         chatMarkersManager.addIncomingChatMarkerMessageListener { chatMarkersState, message, chat ->
-            Log.d(TAG, "addIncomingChatMarkerMessageListener - chatMarkersState: $chatMarkersState, message: $message, chat: $chat")
+            Log.d(
+                TAG,
+                "addIncomingChatMarkerMessageListener - " +
+                    "chatMarkersState: $chatMarkersState, " +
+                    "message: $message, " +
+                    "chat: $chat"
+            )
         }
 
         // Create ChatManager and Chat for each
         val chatManager = ChatManager.getInstanceFor(connection)
-        val currentChat = chatManager.chatWith(JidCreate.entityBareFrom("zohrevand2@conversations.im"))
+        val currentChat =
+            chatManager.chatWith(JidCreate.entityBareFrom("zohrevand2@conversations.im"))
 
         // Observe incoming and outgoing messages
         chatManager.addIncomingListener { from, message, chat ->
             Log.d(TAG, "addIncomingListener - from: $from, message: $message, chat: $chat")
         }
         chatManager.addOutgoingListener { to, messageBuilder, chat ->
-            Log.d(TAG, "addOutgoingListener - to: $to, messageBuilder: $messageBuilder, chat: $chat")
+            Log.d(
+                TAG,
+                "addOutgoingListener - to: $to, messageBuilder: $messageBuilder, chat: $chat"
+            )
         }
 
         // XEP-0085: Chat State Notifications
@@ -61,13 +71,18 @@ class Playground {
         val deliveryReceiptManager = DeliveryReceiptManager.getInstanceFor(connection)
         deliveryReceiptManager.autoReceiptMode = always
         deliveryReceiptManager.addReceiptReceivedListener { fromJid, toJid, receiptId, receipt ->
-            Log.d(TAG, "addReceiptReceivedListener - fromJid: $fromJid, toJid: $toJid, receiptId: $receiptId, receipt: $receipt")
+            Log.d(
+                TAG,
+                "addReceiptReceivedListener - " +
+                    "fromJid: $fromJid, toJid: $toJid, " +
+                    "receiptId: $receiptId, receipt: $receipt"
+            )
         }
 
         // Sending message through Chat
         val message = MessageBuilder
             .buildMessage("1234567890")
-            .addBody(null,"this is the message")
+            .addBody(null, "this is the message")
             .build()
         currentChat.send(message)
 
@@ -75,7 +90,7 @@ class Playground {
         val message2 = MessageBuilder
             .buildMessage("1234567890")
             .to(JidCreate.from("zohrevand3@conversations.im"))
-            .addBody(null,"this is the message")
+            .addBody(null, "this is the message")
             .build()
         connection.sendStanza(message2)
 

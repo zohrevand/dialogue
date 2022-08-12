@@ -28,7 +28,7 @@ fun NavGraphBuilder.chatGraph(
     composable(
         route = ChatDestination.route,
         arguments = listOf(
-            navArgument(ChatDestination.contactJidArg) { type = NavType.StringType}
+            navArgument(ChatDestination.contactJidArg) { type = NavType.StringType }
         )
     ) {
         ChatRoute(onBackClick = onBackClick)

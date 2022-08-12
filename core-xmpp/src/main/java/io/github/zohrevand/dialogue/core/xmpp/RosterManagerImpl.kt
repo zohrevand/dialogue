@@ -5,6 +5,7 @@ import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.data.repository.ContactsRepository
 import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
 import io.github.zohrevand.dialogue.core.xmpp.model.asExternalModel
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -21,7 +22,6 @@ import org.jxmpp.jid.BareJid
 import org.jxmpp.jid.FullJid
 import org.jxmpp.jid.Jid
 import org.jxmpp.jid.impl.JidCreate
-import javax.inject.Inject
 
 private const val TAG = "RosterManager"
 

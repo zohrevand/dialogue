@@ -6,9 +6,9 @@ import io.github.zohrevand.dialogue.core.data.model.asEntity
 import io.github.zohrevand.dialogue.core.database.dao.MessageDao
 import io.github.zohrevand.dialogue.core.database.model.MessageEntity
 import io.github.zohrevand.dialogue.core.database.model.asExternalModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 class OfflineFirstMessagesRepository @Inject constructor(
     private val messageDao: MessageDao

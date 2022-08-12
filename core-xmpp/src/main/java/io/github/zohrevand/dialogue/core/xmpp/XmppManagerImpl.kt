@@ -8,6 +8,7 @@ import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
 import io.github.zohrevand.core.model.data.ConnectionStatus
 import io.github.zohrevand.core.model.data.alreadyLoggedIn
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
@@ -17,7 +18,6 @@ import org.jivesoftware.smack.SmackException
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
 import org.jxmpp.jid.parts.Resourcepart
-import javax.inject.Inject
 
 private const val TAG = "XmppManagerImpl"
 
@@ -80,7 +80,6 @@ class XmppManagerImpl @Inject constructor(
 
         // TODO: some servers like jabb3.org are not standard and needed to handle this
         connection.setParsingExceptionCallback {
-
         }
 
         reconnectionManager(connection)

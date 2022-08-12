@@ -13,6 +13,7 @@ import io.github.zohrevand.dialogue.core.xmpp.model.asConversation
 import io.github.zohrevand.dialogue.core.xmpp.model.asExternalEnum
 import io.github.zohrevand.dialogue.core.xmpp.model.asExternalModel
 import io.github.zohrevand.dialogue.core.xmpp.model.asSmackEnum
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -22,6 +23,7 @@ import org.jivesoftware.smack.chat2.Chat
 import org.jivesoftware.smack.chat2.ChatManager
 import org.jivesoftware.smack.chat2.IncomingChatMessageListener
 import org.jivesoftware.smack.chat2.OutgoingChatMessageListener
+import org.jivesoftware.smack.packet.Message as SmackMessage
 import org.jivesoftware.smack.packet.MessageBuilder
 import org.jivesoftware.smack.packet.Stanza
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
@@ -34,8 +36,6 @@ import org.jivesoftware.smackx.receipts.ReceiptReceivedListener
 import org.jxmpp.jid.EntityBareJid
 import org.jxmpp.jid.Jid
 import org.jxmpp.jid.impl.JidCreate
-import javax.inject.Inject
-import org.jivesoftware.smack.packet.Message as SmackMessage
 
 private const val TAG = "MessagesManagerImpl"
 
@@ -175,7 +175,9 @@ class MessageManagerImpl @Inject constructor(
             val peerJid = chat.xmppAddressOfChatPartner.toString()
             val conversation = conversationsRepository.getConversation(peerJid).first()
             conversation?.let {
-                conversationsRepository.updateConversation(it.copy(chatState = state.asExternalEnum()))
+                conversationsRepository.updateConversation(
+                    it.copy(chatState = state.asExternalEnum())
+                )
             }
         }
     }
@@ -188,7 +190,9 @@ class MessageManagerImpl @Inject constructor(
     ) {
         Log.d(
             TAG,
-            "addReceiptReceivedListener - fromJid: $fromJid, toJid: $toJid, receiptId: $receiptId, receipt: $receipt"
+            "addReceiptReceivedListener - " +
+                "fromJid: $fromJid, toJid: $toJid, " +
+                "receiptId: $receiptId, receipt: $receipt"
         )
 
         scope.launch {

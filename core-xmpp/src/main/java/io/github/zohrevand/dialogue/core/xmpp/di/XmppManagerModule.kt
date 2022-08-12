@@ -11,8 +11,8 @@ import io.github.zohrevand.dialogue.core.xmpp.MessageManager
 import io.github.zohrevand.dialogue.core.xmpp.RosterManager
 import io.github.zohrevand.dialogue.core.xmpp.XmppManager
 import io.github.zohrevand.dialogue.core.xmpp.XmppManagerImpl
-import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
+import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 @InstallIn(SingletonComponent::class)
