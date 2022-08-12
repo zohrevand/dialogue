@@ -5,9 +5,9 @@ import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
 import io.github.zohrevand.core.model.data.MessageStatus.SentDisplayed
 import io.github.zohrevand.core.model.data.MessageStatus.SentFailed
 import io.github.zohrevand.core.model.data.MessageStatus.ShouldSend
+import java.util.UUID
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import java.util.UUID
 
 data class Message(
     val id: Long? = null,

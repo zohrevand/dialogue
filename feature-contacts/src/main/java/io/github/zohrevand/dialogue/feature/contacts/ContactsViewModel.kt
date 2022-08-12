@@ -7,12 +7,12 @@ import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.data.repository.ContactsRepository
 import io.github.zohrevand.dialogue.feature.contacts.ContactsUiState.Loading
 import io.github.zohrevand.dialogue.feature.contacts.ContactsUiState.Success
+import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ContactsViewModel @Inject constructor(

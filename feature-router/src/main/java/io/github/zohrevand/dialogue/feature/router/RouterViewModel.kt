@@ -8,11 +8,11 @@ import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import io.github.zohrevand.dialogue.feature.router.RouterUiState.AuthRequired
 import io.github.zohrevand.dialogue.feature.router.RouterUiState.Loading
 import io.github.zohrevand.dialogue.feature.router.RouterUiState.UserAvailable
+import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import javax.inject.Inject
 
 @HiltViewModel
 class RouterViewModel @Inject constructor(
