@@ -86,3 +86,10 @@ jobs:
           disk-size: 2000M
           heap-size: 600M
           script: ./gradlew connectedDebugAndroidTest --stacktrace
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-reports
+          path: '*/build/reports/androidTests'
