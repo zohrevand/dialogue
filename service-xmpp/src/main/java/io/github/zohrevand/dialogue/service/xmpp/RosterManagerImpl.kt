@@ -1,10 +1,10 @@
-package io.github.zohrevand.dialogue.core.xmpp
+package io.github.zohrevand.dialogue.service.xmpp
 
 import android.util.Log
 import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.data.repository.ContactsRepository
-import io.github.zohrevand.dialogue.core.xmpp.collector.ContactsCollector
-import io.github.zohrevand.dialogue.core.xmpp.model.asExternalModel
+import io.github.zohrevand.dialogue.service.xmpp.collector.ContactsCollector
+import io.github.zohrevand.dialogue.service.xmpp.model.asExternalModel
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob

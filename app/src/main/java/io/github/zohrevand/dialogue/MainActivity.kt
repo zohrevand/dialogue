@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
-import io.github.zohrevand.dialogue.core.xmpp.XmppService
+import io.github.zohrevand.dialogue.service.xmpp.XmppService
 import io.github.zohrevand.dialogue.ui.DialogueApp
 
 @AndroidEntryPoint

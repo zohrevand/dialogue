@@ -1,4 +1,4 @@
-package io.github.zohrevand.dialogue.core.xmpp
+package io.github.zohrevand.dialogue.service.xmpp
 
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 

@@ -1,4 +1,4 @@
-package io.github.zohrevand.dialogue.core.xmpp.notification
+package io.github.zohrevand.dialogue.service.xmpp.notification
 
 import android.app.Notification
 

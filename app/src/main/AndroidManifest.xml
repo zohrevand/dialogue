@@ -30,7 +30,7 @@
         </activity>
 
         <service
-            android:name=".core.xmpp.XmppService"
+            android:name=".service.xmpp.XmppService"
             android:exported="false" />
 
     </application>

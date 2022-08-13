@@ -1,4 +1,4 @@
-package io.github.zohrevand.dialogue.core.xmpp.collector
+package io.github.zohrevand.dialogue.service.xmpp.collector
 
 import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.data.repository.ContactsRepository

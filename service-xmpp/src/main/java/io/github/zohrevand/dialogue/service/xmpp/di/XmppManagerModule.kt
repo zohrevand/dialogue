@@ -1,4 +1,4 @@
-package io.github.zohrevand.dialogue.core.xmpp.di
+package io.github.zohrevand.dialogue.service.xmpp.di
 
 import dagger.Module
 import dagger.Provides
@@ -7,10 +7,10 @@ import dagger.hilt.components.SingletonComponent
 import io.github.zohrevand.dialogue.core.common.coroutines.DialogueDispatchers.IO
 import io.github.zohrevand.dialogue.core.common.coroutines.Dispatcher
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
-import io.github.zohrevand.dialogue.core.xmpp.MessageManager
-import io.github.zohrevand.dialogue.core.xmpp.RosterManager
-import io.github.zohrevand.dialogue.core.xmpp.XmppManager
-import io.github.zohrevand.dialogue.core.xmpp.XmppManagerImpl
+import io.github.zohrevand.dialogue.service.xmpp.MessageManager
+import io.github.zohrevand.dialogue.service.xmpp.RosterManager
+import io.github.zohrevand.dialogue.service.xmpp.XmppManager
+import io.github.zohrevand.dialogue.service.xmpp.XmppManagerImpl
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 

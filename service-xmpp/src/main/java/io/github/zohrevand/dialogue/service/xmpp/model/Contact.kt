@@ -1,4 +1,4 @@
-package io.github.zohrevand.dialogue.core.xmpp.model
+package io.github.zohrevand.dialogue.service.xmpp.model
 
 import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.core.model.data.Presence

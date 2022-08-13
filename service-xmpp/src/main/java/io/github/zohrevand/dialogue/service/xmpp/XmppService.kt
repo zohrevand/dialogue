@@ -1,4 +1,4 @@
-package io.github.zohrevand.dialogue.core.xmpp
+package io.github.zohrevand.dialogue.service.xmpp
 
 import android.app.Service
 import android.content.Intent
@@ -7,8 +7,8 @@ import android.os.Build.VERSION_CODES
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
-import io.github.zohrevand.dialogue.core.xmpp.collector.AccountsCollector
-import io.github.zohrevand.dialogue.core.xmpp.notification.NotificationManager
+import io.github.zohrevand.dialogue.service.xmpp.collector.AccountsCollector
+import io.github.zohrevand.dialogue.service.xmpp.notification.NotificationManager
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob

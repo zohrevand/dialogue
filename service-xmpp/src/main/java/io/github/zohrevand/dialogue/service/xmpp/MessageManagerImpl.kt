@@ -1,4 +1,4 @@
-package io.github.zohrevand.dialogue.core.xmpp
+package io.github.zohrevand.dialogue.service.xmpp
 
 import android.util.Log
 import io.github.zohrevand.core.model.data.Message
@@ -7,12 +7,12 @@ import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
 import io.github.zohrevand.core.model.data.SendingChatState
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
-import io.github.zohrevand.dialogue.core.xmpp.collector.ChatStateCollector
-import io.github.zohrevand.dialogue.core.xmpp.collector.MessagesCollector
-import io.github.zohrevand.dialogue.core.xmpp.model.asConversation
-import io.github.zohrevand.dialogue.core.xmpp.model.asExternalEnum
-import io.github.zohrevand.dialogue.core.xmpp.model.asExternalModel
-import io.github.zohrevand.dialogue.core.xmpp.model.asSmackEnum
+import io.github.zohrevand.dialogue.service.xmpp.collector.ChatStateCollector
+import io.github.zohrevand.dialogue.service.xmpp.collector.MessagesCollector
+import io.github.zohrevand.dialogue.service.xmpp.model.asConversation
+import io.github.zohrevand.dialogue.service.xmpp.model.asExternalEnum
+import io.github.zohrevand.dialogue.service.xmpp.model.asExternalModel
+import io.github.zohrevand.dialogue.service.xmpp.model.asSmackEnum
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob

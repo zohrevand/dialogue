@@ -1,4 +1,4 @@
-package io.github.zohrevand.dialogue.core.xmpp
+package io.github.zohrevand.dialogue.service.xmpp
 
 import android.util.Log
 import org.jivesoftware.smack.ConnectionListener
