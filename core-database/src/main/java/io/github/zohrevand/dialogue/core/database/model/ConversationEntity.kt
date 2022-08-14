@@ -3,6 +3,7 @@ package io.github.zohrevand.dialogue.core.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import io.github.zohrevand.core.model.data.ChatState
 import io.github.zohrevand.core.model.data.ConversationStatus
@@ -16,6 +17,9 @@ import io.github.zohrevand.core.model.data.ConversationStatus
             childColumns = ["last_message_id"],
             onDelete = ForeignKey.NO_ACTION
         ),
+    ],
+    indices = [
+        Index(value = ["last_message_id"])
     ]
 )
 data class ConversationEntity(
