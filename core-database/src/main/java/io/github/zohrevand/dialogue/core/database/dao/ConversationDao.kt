@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import io.github.zohrevand.core.model.data.ConversationStatus
 import io.github.zohrevand.dialogue.core.database.model.ConversationEntity
 import io.github.zohrevand.dialogue.core.database.model.PopulatedConversation
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface ConversationDao {
+    @Transaction
     @Query(
         value = """
         SELECT * FROM conversations
@@ -25,6 +27,7 @@ interface ConversationDao {
     /**
      * Get conversations stream based on conversation status
      */
+    @Transaction
     @Query(
         value = """
         SELECT * FROM conversations
