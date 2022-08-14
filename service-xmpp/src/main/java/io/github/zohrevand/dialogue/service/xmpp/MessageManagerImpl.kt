@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.service.xmpp
 
 import android.util.Log
+import io.github.zohrevand.core.model.data.ChatState
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.MessageStatus.Sent
 import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
@@ -13,21 +14,13 @@ import io.github.zohrevand.dialogue.service.xmpp.model.asConversation
 import io.github.zohrevand.dialogue.service.xmpp.model.asExternalEnum
 import io.github.zohrevand.dialogue.service.xmpp.model.asExternalModel
 import io.github.zohrevand.dialogue.service.xmpp.model.asSmackEnum
-import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import org.jivesoftware.smack.chat2.Chat
 import org.jivesoftware.smack.chat2.ChatManager
 import org.jivesoftware.smack.chat2.IncomingChatMessageListener
 import org.jivesoftware.smack.chat2.OutgoingChatMessageListener
-import org.jivesoftware.smack.packet.Message as SmackMessage
 import org.jivesoftware.smack.packet.MessageBuilder
 import org.jivesoftware.smack.packet.Stanza
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
-import org.jivesoftware.smackx.chatstates.ChatState
 import org.jivesoftware.smackx.chatstates.ChatStateListener
 import org.jivesoftware.smackx.chatstates.ChatStateManager
 import org.jivesoftware.smackx.receipts.DeliveryReceiptManager
@@ -36,6 +29,14 @@ import org.jivesoftware.smackx.receipts.ReceiptReceivedListener
 import org.jxmpp.jid.EntityBareJid
 import org.jxmpp.jid.Jid
 import org.jxmpp.jid.impl.JidCreate
+import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import org.jivesoftware.smack.packet.Message as SmackMessage
+import org.jivesoftware.smackx.chatstates.ChatState as SmackChatState
 
 private const val TAG = "MessagesManagerImpl"
 
@@ -136,7 +137,8 @@ class MessageManagerImpl @Inject constructor(
             conversationsRepository.updateConversation(
                 conversation.copy(
                     lastMessage = lastMessage,
-                    unreadMessagesCount = unreadMessagesCount
+                    unreadMessagesCount = unreadMessagesCount,
+                    chatState = ChatState.Active
                 )
             )
         }
@@ -166,7 +168,7 @@ class MessageManagerImpl @Inject constructor(
 
     private fun handleChatState(
         chat: Chat,
-        state: ChatState,
+        state: SmackChatState,
         message: SmackMessage
     ) {
         Log.d(TAG, "ChatStateListener - state: $state, message: $message, chat: $chat")
