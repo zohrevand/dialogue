@@ -23,5 +23,6 @@ fun PopulatedConversation.asExternalModel() = Conversation(
     draftMessage = entity.draftMessage,
     lastMessage = lastMessage?.asExternalModel(),
     unreadMessagesCount = entity.unreadMessagesCount,
-    chatState = entity.chatState
+    chatState = entity.chatState,
+    isChatOpen = entity.isChatOpen
 )
