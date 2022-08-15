@@ -123,9 +123,10 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun updateDraft(messageText: String?) {
+        val updatedDraft = if (messageText?.isNotBlank() == true) messageText else null
         viewModelScope.launch {
             conversation.first()?.let {
-                conversationsRepository.updateConversation(it.copy(draftMessage = messageText))
+                conversationsRepository.updateConversation(it.copy(draftMessage = updatedDraft))
             }
         }
     }
