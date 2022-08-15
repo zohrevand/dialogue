@@ -12,6 +12,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -27,6 +28,17 @@ class DialogueViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             observeConnectionStatus()
+        }
+    }
+
+    fun onExitChat(contactId: String) {
+        viewModelScope.launch {
+            conversationsRepository.getConversation(peerJid = contactId).first()
+                ?.let { conversation ->
+                    conversationsRepository.updateConversation(
+                        conversation.copy(isChatOpen = false)
+                    )
+                }
         }
     }
 
