@@ -6,7 +6,8 @@ data class Conversation(
     val draftMessage: String? = null,
     val lastMessage: Message? = null,
     val unreadMessagesCount: Int = 0,
-    val chatState: ChatState = ChatState.Idle
+    val chatState: ChatState = ChatState.Idle,
+    val isChatOpen: Boolean = false
 )
 
 val Conversation.peerLocalPart: String

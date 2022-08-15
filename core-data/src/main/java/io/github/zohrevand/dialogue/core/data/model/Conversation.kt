@@ -9,5 +9,6 @@ fun Conversation.asEntity() = ConversationEntity(
     draftMessage = draftMessage,
     lastMessageId = lastMessage?.id,
     unreadMessagesCount = unreadMessagesCount,
-    chatState = chatState
+    chatState = chatState,
+    isChatOpen = isChatOpen
 )

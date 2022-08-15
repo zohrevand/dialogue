@@ -34,5 +34,7 @@ data class ConversationEntity(
     @ColumnInfo(name = "unread_messages_count")
     val unreadMessagesCount: Int,
     @ColumnInfo(name = "chat_state")
-    val chatState: ChatState
+    val chatState: ChatState,
+    @ColumnInfo(name = "is_chat_open")
+    val isChatOpen: Boolean
 )
