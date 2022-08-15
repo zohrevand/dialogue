@@ -49,7 +49,7 @@ class ChatViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             sendChatState(Active)
-            resetUnreadMessageCount()
+            updateConversation()
         }
     }
 
@@ -111,7 +111,7 @@ class ChatViewModel @Inject constructor(
         )
     }
 
-    private suspend fun resetUnreadMessageCount() {
+    private suspend fun updateConversation() {
         conversation.first()?.let {
             conversationsRepository.updateConversation(
                 it.copy(
