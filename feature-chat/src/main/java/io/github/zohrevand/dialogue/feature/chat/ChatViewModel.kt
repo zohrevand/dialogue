@@ -113,7 +113,12 @@ class ChatViewModel @Inject constructor(
 
     private suspend fun resetUnreadMessageCount() {
         conversation.first()?.let {
-            conversationsRepository.updateConversation(it.copy(unreadMessagesCount = 0))
+            conversationsRepository.updateConversation(
+                it.copy(
+                    unreadMessagesCount = 0,
+                    isChatOpen = true
+                )
+            )
         }
     }
 
