@@ -64,7 +64,8 @@ class ChatViewModel @Inject constructor(
                 conversationsRepository.updateConversation(
                     Conversation(
                         peerJid = contactId,
-                        status = Started
+                        status = Started,
+                        isChatOpen = true
                     )
                 )
                 Loading(contactId)
