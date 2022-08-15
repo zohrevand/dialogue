@@ -1,5 +1,6 @@
 package io.github.zohrevand.dialogue.feature.chat
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -159,6 +160,11 @@ fun ChatScreen(
                 )
             }
         }
+    }
+
+    // override back handler to send back contactId
+    BackHandler {
+        onBackClick(uiState.contactId)
     }
 }
 
