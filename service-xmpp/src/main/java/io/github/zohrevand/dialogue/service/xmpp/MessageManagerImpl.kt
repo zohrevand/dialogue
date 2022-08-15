@@ -168,10 +168,9 @@ class MessageManagerImpl @Inject constructor(
 
             messagesRepository.updateMessage(message.copy(status = Sent))
 
-            val conversation = conversationsRepository.getConversation(message.peerJid).first()
-            requireNotNull(conversation) { "Conversation must not be null" }
-
-            conversationsRepository.updateConversation(conversation.copy(lastMessage = message))
+            lastMessagesRepository.updateLastMessage(
+                LastMessage(peerJid = message.peerJid, lastMessage = message)
+            )
         }
     }
 
