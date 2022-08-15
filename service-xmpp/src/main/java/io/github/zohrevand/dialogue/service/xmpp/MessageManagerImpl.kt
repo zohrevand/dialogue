@@ -132,7 +132,8 @@ class MessageManagerImpl @Inject constructor(
             messagesRepository.updateMessage(message.asExternalModel())
 
             val lastMessage = messagesRepository.getMessageByStanzaId(message.stanzaId).first()
-            val unreadMessagesCount = conversation.unreadMessagesCount + 1
+            val unreadMessagesCount =
+                if (conversation.isChatOpen) 0 else conversation.unreadMessagesCount + 1
 
             conversationsRepository.updateConversation(
                 conversation.copy(
