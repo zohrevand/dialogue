@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
+import io.github.zohrevand.dialogue.core.data.repository.SendingChatStatesRepository
 import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connected
 import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connecting
 import io.github.zohrevand.dialogue.ui.ConnectionUiState.Idle
@@ -19,7 +20,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class DialogueViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository,
-    private val conversationsRepository: ConversationsRepository
+    private val conversationsRepository: ConversationsRepository,
+    private val sendingChatStatesRepository: SendingChatStatesRepository
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<ConnectionUiState> = MutableStateFlow(Idle)
