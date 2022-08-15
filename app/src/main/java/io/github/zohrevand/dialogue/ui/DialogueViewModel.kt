@@ -3,6 +3,8 @@ package io.github.zohrevand.dialogue.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.zohrevand.core.model.data.ChatState.Inactive
+import io.github.zohrevand.core.model.data.SendingChatState
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import io.github.zohrevand.dialogue.core.data.repository.SendingChatStatesRepository
@@ -41,6 +43,10 @@ class DialogueViewModel @Inject constructor(
                         conversation.copy(isChatOpen = false)
                     )
                 }
+
+            sendingChatStatesRepository.updateSendingChatState(
+                SendingChatState(peerJid = contactId, chatState = Inactive)
+            )
         }
     }
 
