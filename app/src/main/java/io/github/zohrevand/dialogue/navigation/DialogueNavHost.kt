@@ -19,6 +19,7 @@ import io.github.zohrevand.dialogue.feature.router.navigation.routerGraph
 fun DialogueNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    onExitChat: (String) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -49,7 +50,12 @@ fun DialogueNavHost(
                 navController.navigate(ChatDestination.createNavigationRoute(it))
             },
             nestedGraphs = {
-                chatGraph(onBackClick = { navController.popBackStack() })
+                chatGraph(
+                    onBackClick = { peerJid ->
+                        navController.popBackStack()
+                        onExitChat(peerJid)
+                    }
+                )
             }
         )
         contactsGraph(

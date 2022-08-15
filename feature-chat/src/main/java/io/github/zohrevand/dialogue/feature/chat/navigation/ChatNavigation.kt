@@ -23,7 +23,7 @@ object ChatDestination : DialogueNavigationDestination {
 }
 
 fun NavGraphBuilder.chatGraph(
-    onBackClick: () -> Unit
+    onBackClick: (String) -> Unit
 ) {
     composable(
         route = ChatDestination.route,

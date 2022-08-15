@@ -56,7 +56,7 @@ import io.github.zohrevand.dialogue.feature.chat.R.string.send
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ChatRoute(
-    onBackClick: () -> Unit,
+    onBackClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ChatViewModel = hiltViewModel()
 ) {
@@ -77,7 +77,7 @@ fun ChatScreen(
     uiState: ChatUiState,
     onSendMessage: (String) -> Unit,
     onUserTyping: (String) -> Unit,
-    onBackClick: () -> Unit,
+    onBackClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val draftMessage = if (uiState is Success) uiState.conversation.draftMessage ?: "" else ""
@@ -96,7 +96,7 @@ fun ChatScreen(
             },
             navigationIcon = Filled.ArrowBack,
             navigationIconContentDescription = stringResource(back),
-            onNavigationClick = onBackClick
+            onNavigationClick = { onBackClick(uiState.contactId) }
         )
 
         Box(
