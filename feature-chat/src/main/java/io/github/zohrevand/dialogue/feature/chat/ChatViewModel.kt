@@ -59,7 +59,7 @@ class ChatViewModel @Inject constructor(
             messages
         ) { conversation, messages ->
             if (conversation != null) {
-                Success(conversation, messages)
+                Success(contactId, conversation, messages)
             } else {
                 conversationsRepository.updateConversation(
                     Conversation(
@@ -67,13 +67,13 @@ class ChatViewModel @Inject constructor(
                         status = Started
                     )
                 )
-                Loading
+                Loading(contactId)
             }
         }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = Loading
+                initialValue = Loading(contactId)
             )
 
     fun sendMessage(text: String) {
@@ -137,7 +137,12 @@ data class CurrentChatState(
     fun shouldSendComposing() = chatState != Composing
 }
 
-sealed interface ChatUiState {
-    data class Success(val conversation: Conversation, val messages: List<Message>) : ChatUiState
-    object Loading : ChatUiState
+sealed class ChatUiState(val contactId: String) {
+    class Success(
+        contactId: String,
+        val conversation: Conversation,
+        val messages: List<Message>
+    ) : ChatUiState(contactId)
+
+    class Loading(contactId: String) : ChatUiState(contactId)
 }
