@@ -2,11 +2,13 @@ package io.github.zohrevand.dialogue.service.xmpp
 
 import android.util.Log
 import io.github.zohrevand.core.model.data.ChatState
+import io.github.zohrevand.core.model.data.LastMessage
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.MessageStatus.Sent
 import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
 import io.github.zohrevand.core.model.data.SendingChatState
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
+import io.github.zohrevand.dialogue.core.data.repository.LastMessagesRepository
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
 import io.github.zohrevand.dialogue.service.xmpp.collector.ChatStateCollector
 import io.github.zohrevand.dialogue.service.xmpp.collector.MessagesCollector
@@ -44,7 +46,8 @@ class MessageManagerImpl @Inject constructor(
     private val messagesCollector: MessagesCollector,
     private val chatStateCollector: ChatStateCollector,
     private val messagesRepository: MessagesRepository,
-    private val conversationsRepository: ConversationsRepository
+    private val conversationsRepository: ConversationsRepository,
+    private val lastMessagesRepository: LastMessagesRepository
 ) : MessageManager {
 
     private val scope = CoroutineScope(SupervisorJob())
@@ -137,11 +140,16 @@ class MessageManagerImpl @Inject constructor(
 
             conversationsRepository.updateConversation(
                 conversation.copy(
-                    lastMessage = lastMessage,
                     unreadMessagesCount = unreadMessagesCount,
                     chatState = ChatState.Active
                 )
             )
+
+            lastMessage?.let {
+                lastMessagesRepository.updateLastMessage(
+                    LastMessage(peerJid = conversation.peerJid, lastMessage = lastMessage)
+                )
+            }
         }
     }
 
