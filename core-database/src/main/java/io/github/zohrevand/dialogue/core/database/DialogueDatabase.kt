@@ -9,6 +9,7 @@ import io.github.zohrevand.dialogue.core.database.dao.MessageDao
 import io.github.zohrevand.dialogue.core.database.dao.SendingChatStateDao
 import io.github.zohrevand.dialogue.core.database.model.ContactEntity
 import io.github.zohrevand.dialogue.core.database.model.ConversationEntity
+import io.github.zohrevand.dialogue.core.database.model.LastMessageEntity
 import io.github.zohrevand.dialogue.core.database.model.MessageEntity
 import io.github.zohrevand.dialogue.core.database.model.SendingChatStateEntity
 import io.github.zohrevand.dialogue.core.database.util.InstantConverter
@@ -18,7 +19,8 @@ import io.github.zohrevand.dialogue.core.database.util.InstantConverter
         ContactEntity::class,
         MessageEntity::class,
         ConversationEntity::class,
-        SendingChatStateEntity::class
+        SendingChatStateEntity::class,
+        LastMessageEntity::class
     ],
     version = 1,
     exportSchema = true
