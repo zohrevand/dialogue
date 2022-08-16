@@ -135,3 +135,8 @@ val LightDefaultGradientColors = GradientColors(
  * Light Android background theme
  */
 val LightAndroidBackgroundTheme = BackgroundTheme(color = DarkGreenGray95)
+
+/**
+ * Dark Android background theme
+ */
+val DarkAndroidBackgroundTheme = BackgroundTheme(color = Color.Black)
