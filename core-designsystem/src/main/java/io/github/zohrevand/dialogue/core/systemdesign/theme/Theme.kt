@@ -120,3 +120,13 @@ val DarkAndroidColorScheme = darkColorScheme(
     onSurfaceVariant = GreenGray80,
     outline = GreenGray60
 )
+
+/**
+ * Light default gradient colors
+ */
+val LightDefaultGradientColors = GradientColors(
+    primary = Purple95,
+    secondary = Orange95,
+    tertiary = Blue95,
+    neutral = DarkPurpleGray95
+)
