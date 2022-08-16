@@ -1,5 +1,7 @@
 package io.github.zohrevand.dialogue.core.systemdesign.theme
 
+import androidx.annotation.VisibleForTesting
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
@@ -30,4 +32,33 @@ val LightDefaultColorScheme = lightColorScheme(
     surfaceVariant = PurpleGray90,
     onSurfaceVariant = PurpleGray30,
     outline = PurpleGray50
+)
+
+/**
+ * Dark default theme color scheme
+ */
+val DarkDefaultColorScheme = darkColorScheme(
+    primary = Purple80,
+    onPrimary = Purple20,
+    primaryContainer = Purple30,
+    onPrimaryContainer = Purple90,
+    secondary = Orange80,
+    onSecondary = Orange20,
+    secondaryContainer = Orange30,
+    onSecondaryContainer = Orange90,
+    tertiary = Blue80,
+    onTertiary = Blue20,
+    tertiaryContainer = Blue30,
+    onTertiaryContainer = Blue90,
+    error = Red80,
+    onError = Red20,
+    errorContainer = Red30,
+    onErrorContainer = Red90,
+    background = DarkPurpleGray10,
+    onBackground = DarkPurpleGray90,
+    surface = DarkPurpleGray10,
+    onSurface = DarkPurpleGray90,
+    surfaceVariant = PurpleGray30,
+    onSurfaceVariant = PurpleGray80,
+    outline = PurpleGray60
 )
