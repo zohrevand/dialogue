@@ -14,3 +14,8 @@ data class GradientColors(
     val tertiary: Color = Color.Unspecified,
     val neutral: Color = Color.Unspecified
 )
+
+/**
+ * A composition local for [GradientColors].
+ */
+val LocalGradientColors = staticCompositionLocalOf { GradientColors() }
