@@ -1,9 +1,18 @@
 package io.github.zohrevand.dialogue.core.systemdesign.theme
 
+import android.os.Build
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 
 /**
  * Light default theme color scheme
@@ -140,3 +149,69 @@ val LightAndroidBackgroundTheme = BackgroundTheme(color = DarkGreenGray95)
  * Dark Android background theme
  */
 val DarkAndroidBackgroundTheme = BackgroundTheme(color = Color.Black)
+
+/**
+ * Dialogue theme.
+ *
+ * The order of precedence for the color scheme is: Dynamic color > Android theme > Default theme.
+ * Dark theme is independent as all the aforementioned color schemes have light and dark versions.
+ * The default theme color scheme is used by default.
+ *
+ * @param darkTheme Whether the theme should use a dark color scheme (follows system by default).
+ * @param dynamicColor Whether the theme should use a dynamic color scheme (Android 12+ only).
+ * @param androidTheme Whether the theme should use the Android theme color scheme.
+ */
+@Composable
+fun NiaTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColor: Boolean = false,
+    androidTheme: Boolean = false,
+    content: @Composable() () -> Unit
+) {
+    val colorScheme = when {
+        dynamicColor -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val context = LocalContext.current
+                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            } else {
+                if (darkTheme) DarkDefaultColorScheme else LightDefaultColorScheme
+            }
+        }
+        androidTheme -> if (darkTheme) DarkAndroidColorScheme else LightAndroidColorScheme
+        else -> if (darkTheme) DarkDefaultColorScheme else LightDefaultColorScheme
+    }
+
+    val defaultGradientColors = GradientColors()
+    val gradientColors = when {
+        dynamicColor -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                defaultGradientColors
+            } else {
+                if (darkTheme) defaultGradientColors else LightDefaultGradientColors
+            }
+        }
+        androidTheme -> defaultGradientColors
+        else -> if (darkTheme) defaultGradientColors else LightDefaultGradientColors
+    }
+
+    val defaultBackgroundTheme = BackgroundTheme(
+        color = colorScheme.surface,
+        tonalElevation = 2.dp
+    )
+    val backgroundTheme = when {
+        dynamicColor -> defaultBackgroundTheme
+        androidTheme -> if (darkTheme) DarkAndroidBackgroundTheme else LightAndroidBackgroundTheme
+        else -> defaultBackgroundTheme
+    }
+
+    CompositionLocalProvider(
+        LocalGradientColors provides gradientColors,
+        LocalBackgroundTheme provides backgroundTheme
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = DialogueTypography,
+            content = content
+        )
+    }
+}
