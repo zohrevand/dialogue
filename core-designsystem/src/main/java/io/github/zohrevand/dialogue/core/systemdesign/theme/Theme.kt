@@ -162,7 +162,7 @@ val DarkAndroidBackgroundTheme = BackgroundTheme(color = Color.Black)
  * @param androidTheme Whether the theme should use the Android theme color scheme.
  */
 @Composable
-fun NiaTheme(
+fun DialogueTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     androidTheme: Boolean = false,
