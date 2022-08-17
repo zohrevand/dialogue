@@ -60,17 +60,20 @@ fun DialogueApp(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val navController = rememberNavController()
+    val dialogueTopLevelNavigation = remember(navController) {
+        DialogueTopLevelNavigation(navController)
+    }
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
+    val isConnecting = currentDestination.isConnectingDisplayable && uiState is Connecting
+
     DialogueTheme {
-        val navController = rememberNavController()
-        val dialogueTopLevelNavigation = remember(navController) {
-            DialogueTopLevelNavigation(navController)
-        }
-
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
-
         Scaffold(
             containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.onBackground,
             bottomBar = {
                 if (currentDestination.isBottomBarVisible) {
                     DialogueBottomBar(
@@ -97,8 +100,6 @@ fun DialogueApp(
                         .consumedWindowInsets(padding)
                 )
 
-                val isConnecting =
-                    currentDestination.isConnectingDisplayable && uiState is Connecting
                 Connecting(isConnecting)
             }
         }
