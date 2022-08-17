@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="PlatformAdjusted.Theme.Nia" parent="NightAdjusted.Theme.Dialogue">
+    <style name="PlatformAdjusted.Theme.Dialogue" parent="NightAdjusted.Theme.Dialogue">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>
