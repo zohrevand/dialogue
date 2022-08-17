@@ -1,7 +1,6 @@
 package io.github.zohrevand.dialogue.feature.chat
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -86,7 +85,7 @@ fun ChatScreen(
 
     val focusManager = LocalFocusManager.current
 
-    Column(modifier = modifier.background(Color(0xFFE0F7FA))) {
+    Column(modifier = modifier) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
         DialogueTopAppBar(
