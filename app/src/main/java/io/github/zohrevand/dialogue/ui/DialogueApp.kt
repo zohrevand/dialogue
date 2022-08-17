@@ -71,6 +71,7 @@ fun DialogueApp(
     val isConnecting = currentDestination.isConnectingDisplayable && uiState is Connecting
 
     DialogueTheme {
+
         Scaffold(
             containerColor = Color.Transparent,
             contentColor = MaterialTheme.colorScheme.onBackground,
