@@ -25,7 +25,6 @@ kotlinxCoroutines = "1.6.3"
 kotlinxDatetime = "0.4.0"
 ksp = "1.7.0-1.0.6"
 ktlint = "0.43.0"
-material3 = "1.6.1"
 protobuf = "3.21.5"
 protobufPlugin = "0.8.19"
 room = "2.4.2"
@@ -74,7 +73,6 @@ kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-pl
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
-material3 = { group = "com.google.android.material", name = "material", version.ref = "material3" }
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
