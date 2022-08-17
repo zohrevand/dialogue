@@ -17,6 +17,11 @@
     <!-- The final theme we use -->
     <style name="Theme.Dialogue" parent="PlatformAdjusted.Theme.Dialogue" />
 
+    <style name="NightAdjusted.Theme.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+    </style>
+
     <style name="Theme.Dialogue.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
