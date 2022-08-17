@@ -10,11 +10,4 @@
         <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
     </style>
-
-    <!-- Our dark theme -->
-    <style name="Theme.Dialogue" parent="Platform.Theme.Dialogue">
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/teal_200</item>
-    </style>
 </resources>
