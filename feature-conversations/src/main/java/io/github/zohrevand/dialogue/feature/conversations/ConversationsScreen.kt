@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -62,7 +63,12 @@ fun ConversationsScreen(
     Column(modifier = modifier) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
-        DialogueTopAppBar(titleRes = conversations_title)
+        DialogueTopAppBar(
+            titleRes = conversations_title,
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = Color.Transparent
+            )
+        )
 
         if (uiState is Success) {
             LazyColumn(
