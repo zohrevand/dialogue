@@ -136,27 +136,29 @@ private fun DialogueBottomBar(
     onNavigateToTopLevelDestination: (TopLevelDestination) -> Unit,
     currentDestination: NavDestination?
 ) {
-    NavigationBar(
-        modifier = Modifier.windowInsetsPadding(
-            WindowInsets.safeDrawing.only(
-                WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
-            )
-        ),
-        containerColor = Color.White,
-        contentColor = Color.Black,
-        tonalElevation = 0.dp,
-    ) {
+    Surface(color = MaterialTheme.colorScheme.surface) {
+        NavigationBar(
+            modifier = Modifier.windowInsetsPadding(
+                WindowInsets.safeDrawing.only(
+                    WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
+                )
+            ),
+            containerColor = Color.White,
+            contentColor = Color.Black,
+            tonalElevation = 0.dp,
+        ) {
 
-        TOP_LEVEL_DESTINATIONS.forEach { destination ->
-            val selected =
-                currentDestination?.hierarchy?.any { it.route == destination.route } == true
-            NavigationBarItem(
-                selected = selected,
-                onClick = { onNavigateToTopLevelDestination(destination) },
-                label = { Text(stringResource(destination.iconTextId)) },
-                alwaysShowLabel = true,
-                icon = { Icon(imageVector = destination.icon, contentDescription = null) }
-            )
+            TOP_LEVEL_DESTINATIONS.forEach { destination ->
+                val selected =
+                    currentDestination?.hierarchy?.any { it.route == destination.route } == true
+                NavigationBarItem(
+                    selected = selected,
+                    onClick = { onNavigateToTopLevelDestination(destination) },
+                    label = { Text(stringResource(destination.iconTextId)) },
+                    alwaysShowLabel = true,
+                    icon = { Icon(imageVector = destination.icon, contentDescription = null) }
+                )
+            }
         }
     }
 }
