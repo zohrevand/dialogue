@@ -26,13 +26,4 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
         <item name="postSplashScreenTheme">@style/Theme.Dialogue</item>
     </style>
-
-    <style name="Theme.Dialogue.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Theme.Dialogue.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
-
-    <style name="Theme.Dialogue.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 </resources>
