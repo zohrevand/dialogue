@@ -39,6 +39,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueBackground
 import io.github.zohrevand.dialogue.core.systemdesign.theme.DialogueTheme
 import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
@@ -71,37 +72,38 @@ fun DialogueApp(
     val isConnecting = currentDestination.isConnectingDisplayable && uiState is Connecting
 
     DialogueTheme {
-
-        Scaffold(
-            containerColor = Color.Transparent,
-            contentColor = MaterialTheme.colorScheme.onBackground,
-            bottomBar = {
-                if (currentDestination.isBottomBarVisible) {
-                    DialogueBottomBar(
-                        onNavigateToTopLevelDestination = dialogueTopLevelNavigation::navigateTo,
-                        currentDestination = currentDestination
-                    )
-                }
-            },
-        ) { padding ->
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(
-                            WindowInsetsSides.Horizontal
+        DialogueBackground {
+            Scaffold(
+                containerColor = Color.Transparent,
+                contentColor = MaterialTheme.colorScheme.onBackground,
+                bottomBar = {
+                    if (currentDestination.isBottomBarVisible) {
+                        DialogueBottomBar(
+                            onNavigateToTopLevelDestination = dialogueTopLevelNavigation::navigateTo,
+                            currentDestination = currentDestination
                         )
+                    }
+                },
+            ) { padding ->
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .windowInsetsPadding(
+                            WindowInsets.safeDrawing.only(
+                                WindowInsetsSides.Horizontal
+                            )
+                        )
+                ) {
+                    DialogueNavHost(
+                        navController = navController,
+                        onExitChat = viewModel::onExitChat,
+                        modifier = Modifier
+                            .padding(padding)
+                            .consumedWindowInsets(padding)
                     )
-            ) {
-                DialogueNavHost(
-                    navController = navController,
-                    onExitChat = viewModel::onExitChat,
-                    modifier = Modifier
-                        .padding(padding)
-                        .consumedWindowInsets(padding)
-                )
 
-                Connecting(isConnecting)
+                    Connecting(isConnecting)
+                }
             }
         }
     }
