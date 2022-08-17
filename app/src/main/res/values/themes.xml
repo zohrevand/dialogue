@@ -14,14 +14,8 @@
         <item name="android:statusBarColor">@color/black30</item>
     </style>
 
-    <!-- The actual theme we use. This varies for light theme (here),
-         and values-night for dark theme. -->
-    <!-- TODO Change colors here and in values-night when implementing M3 theme -->
-    <style name="Theme.Dialogue" parent="Platform.Theme.Dialogue">
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/teal_200</item>
-    </style>
+    <!-- The final theme we use -->
+    <style name="Theme.Dialogue" parent="PlatformAdjusted.Theme.Dialogue" />
 
     <style name="Theme.Dialogue.NoActionBar">
         <item name="windowActionBar">false</item>
