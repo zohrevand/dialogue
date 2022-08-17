@@ -30,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -88,7 +89,12 @@ fun ContactsScreen(
         Column {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
-            DialogueTopAppBar(titleRes = contacts_title)
+            DialogueTopAppBar(
+                titleRes = contacts_title,
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
+                )
+            )
 
             if (uiState is Success) {
                 LazyColumn(
