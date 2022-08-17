@@ -22,6 +22,11 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
     </style>
 
+    <style name="Theme.Dialogue.Splash" parent="NightAdjusted.Theme.Splash">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.Dialogue</item>
+    </style>
+
     <style name="Theme.Dialogue.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
