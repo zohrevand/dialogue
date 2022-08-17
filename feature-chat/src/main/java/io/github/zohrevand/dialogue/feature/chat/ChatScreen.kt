@@ -28,6 +28,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -97,7 +98,10 @@ fun ChatScreen(
                 },
                 navigationIcon = Filled.ArrowBack,
                 navigationIconContentDescription = stringResource(back),
-                onNavigationClick = { onBackClick(uiState.contactId) }
+                onNavigationClick = { onBackClick(uiState.contactId) },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
+                )
             )
 
             Box(
