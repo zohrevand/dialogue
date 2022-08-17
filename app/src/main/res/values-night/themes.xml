@@ -6,6 +6,11 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
     </style>
 
+    <style name="NightAdjusted.Theme.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+    </style>
+
     <!-- Our dark theme -->
     <style name="Theme.Dialogue" parent="Platform.Theme.Dialogue">
         <item name="colorPrimary">@color/purple_200</item>
