@@ -84,8 +84,8 @@ fun ContactsScreen(
 ) {
     var isDialogVisible by remember { mutableStateOf(false) }
 
-    Box {
-        Column(modifier = modifier.background(Color(0xFFE0F7FA))) {
+    Box(modifier = modifier) {
+        Column {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
             DialogueTopAppBar(titleRes = contacts_title)
