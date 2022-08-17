@@ -39,6 +39,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import io.github.zohrevand.dialogue.core.systemdesign.theme.DialogueTheme
 import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
 import io.github.zohrevand.dialogue.feature.router.navigation.RouterDestination
@@ -47,7 +48,6 @@ import io.github.zohrevand.dialogue.navigation.DialogueTopLevelNavigation
 import io.github.zohrevand.dialogue.navigation.TOP_LEVEL_DESTINATIONS
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
 import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connecting
-import io.github.zohrevand.dialogue.ui.theme.DialogueTheme
 
 @OptIn(
     ExperimentalMaterial3Api::class,
