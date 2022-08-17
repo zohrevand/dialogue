@@ -53,6 +53,7 @@ dependencies {
     implementation(project(":core-model"))
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.material3)
