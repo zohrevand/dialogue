@@ -47,6 +47,7 @@ import io.github.zohrevand.core.model.data.ChatState.Paused
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.isMine
 import io.github.zohrevand.core.model.data.peerLocalPart
+import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueGradientBackground
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
 import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Success
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
@@ -85,78 +86,75 @@ fun ChatScreen(
 
     val focusManager = LocalFocusManager.current
 
-    Column(modifier = modifier) {
-        Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
+    DialogueGradientBackground {
+        Column(modifier = modifier) {
+            Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
-        DialogueTopAppBar(
-            title = {
-                if (uiState is Success) {
-                    Text(text = uiState.conversation.peerJid)
-                }
-            },
-            navigationIcon = Filled.ArrowBack,
-            navigationIconContentDescription = stringResource(back),
-            onNavigationClick = { onBackClick(uiState.contactId) }
-        )
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1f)
-        ) {
-            if (uiState is Success) {
-                MessagesList(uiState.messages)
-            }
-        }
-
-        if (uiState is Success &&
-            (
-                uiState.conversation.chatState == Composing ||
-                    uiState.conversation.chatState == Paused
-                )
-        ) {
-            val postfixText = if (uiState.conversation.chatState == Composing) "is typing..."
-            else "stopped typing."
-            Text(
-                text = "${uiState.conversation.peerLocalPart} $postfixText",
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.Gray,
-                modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-            )
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextField(
-                value = messageText,
-                onValueChange = {
-                    setMessageText(it)
-                    onUserTyping(it)
+            DialogueTopAppBar(
+                title = {
+                    if (uiState is Success) {
+                        Text(text = uiState.conversation.peerJid)
+                    }
                 },
-                placeholder = { Text(text = stringResource(message_label)) },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                navigationIcon = Filled.ArrowBack,
+                navigationIconContentDescription = stringResource(back),
+                onNavigationClick = { onBackClick(uiState.contactId) }
+            )
+
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                maxLines = 4
-            )
-            val isSendEnabled = messageText.isNotBlank()
-            IconButton(
-                onClick = {
-                    onSendMessage(messageText)
-                    setMessageText("")
-                    focusManager.clearFocus()
-                },
-                enabled = isSendEnabled
+                    .fillMaxSize()
+                    .weight(1f)
             ) {
-                Icon(
-                    imageVector = Filled.Send,
-                    contentDescription = stringResource(send),
-                    tint = if (isSendEnabled) Color.Blue else Color.LightGray
+                if (uiState is Success) {
+                    MessagesList(uiState.messages)
+                }
+            }
+
+            if (uiState is Success && uiState.shouldShowChatState) {
+                val postfixText = if (uiState.conversation.chatState == Composing) "is typing..."
+                else "stopped typing."
+                Text(
+                    text = "${uiState.conversation.peerLocalPart} $postfixText",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray,
+                    modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextField(
+                    value = messageText,
+                    onValueChange = {
+                        setMessageText(it)
+                        onUserTyping(it)
+                    },
+                    placeholder = { Text(text = stringResource(message_label)) },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    maxLines = 4
+                )
+                val isSendEnabled = messageText.isNotBlank()
+                IconButton(
+                    onClick = {
+                        onSendMessage(messageText)
+                        setMessageText("")
+                        focusManager.clearFocus()
+                    },
+                    enabled = isSendEnabled
+                ) {
+                    Icon(
+                        imageVector = Filled.Send,
+                        contentDescription = stringResource(send),
+                        tint = if (isSendEnabled) Color.Blue else Color.LightGray
+                    )
+                }
             }
         }
     }
