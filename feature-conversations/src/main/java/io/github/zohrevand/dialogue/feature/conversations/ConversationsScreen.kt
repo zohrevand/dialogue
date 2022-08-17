@@ -59,7 +59,7 @@ fun ConversationsScreen(
     navigateToChat: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.background(Color(0xFFE0F7FA))) {
+    Column(modifier = modifier) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
         DialogueTopAppBar(titleRes = conversations_title)
