@@ -153,3 +153,6 @@ sealed class ChatUiState(val contactId: String) {
 
     class Loading(contactId: String) : ChatUiState(contactId)
 }
+
+val Success.shouldShowChatState: Boolean
+    get() = conversation.chatState == Composing || conversation.chatState == Paused
