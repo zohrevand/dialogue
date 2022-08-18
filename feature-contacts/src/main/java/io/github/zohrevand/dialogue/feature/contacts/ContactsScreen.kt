@@ -118,7 +118,7 @@ fun ContactsScreen(
                     .padding(innerPadding)
                     .consumedWindowInsets(innerPadding)
             ) {
-                items(uiState.contacts) { contact ->
+                items(uiState.contacts, key = { it.jid }) { contact ->
                     ContactItem(contact = contact, onContactClick = navigateToChat)
                     Divider(color = Color(0xFFDFDFDF))
                 }
