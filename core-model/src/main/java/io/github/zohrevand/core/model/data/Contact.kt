@@ -22,3 +22,6 @@ data class Contact(
             )
     }
 }
+
+val Contact.firstLetter: String
+    get() = jid.take(1).uppercase()
