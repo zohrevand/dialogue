@@ -247,6 +247,26 @@ fun MessageItem(
     }
 }
 
+private fun getMessageStyle(isMine: Boolean): MessageStyle {
+    return if (isMine) {
+        MessageStyle(
+            alignment = Alignment.CenterStart,
+            horizontalAlignment = Alignment.Start,
+            containerColor = Color(0xFF3F51B5),
+            contentColor = Color.White,
+            shape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
+        )
+    } else {
+        MessageStyle(
+            alignment = Alignment.CenterEnd,
+            horizontalAlignment = Alignment.End,
+            containerColor = Color(0xFFC5CAE9),
+            contentColor = Color.Black,
+            shape = RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
+        )
+    }
+}
+
 private data class MessageStyle(
     val alignment: Alignment,
     val horizontalAlignment: Alignment.Horizontal,
