@@ -87,12 +87,6 @@ fun ChatScreen(
     onBackClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val draftMessage =
-        if (uiState is ChatUiState.Success) uiState.conversation.draftMessage ?: "" else ""
-    val (messageText, setMessageText) = remember(draftMessage) { mutableStateOf(draftMessage) }
-
-    val focusManager = LocalFocusManager.current
-
     DialogueGradientBackground {
         Scaffold(
             topBar = {
@@ -137,40 +131,11 @@ fun ChatScreen(
 
                 ChatState(messagesState = uiState)
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    TextField(
-                        value = messageText,
-                        onValueChange = {
-                            setMessageText(it)
-                            onUserTyping(it)
-                        },
-                        placeholder = { Text(text = stringResource(message_label)) },
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
-                        maxLines = 4
-                    )
-                    val isSendEnabled = messageText.isNotBlank()
-                    IconButton(
-                        onClick = {
-                            onSendMessage(messageText)
-                            setMessageText("")
-                            focusManager.clearFocus()
-                        },
-                        enabled = isSendEnabled
-                    ) {
-                        Icon(
-                            imageVector = Filled.Send,
-                            contentDescription = stringResource(send),
-                            tint = if (isSendEnabled) Color.Blue else Color.LightGray
-                        )
-                    }
-                }
+                ChatInput(
+                    uiState = uiState,
+                    onUserTyping = onUserTyping,
+                    onSendMessage = onSendMessage
+                )
             }
         }
     }
@@ -243,6 +208,57 @@ private fun ChatState(
             color = Color.Gray,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ChatInput(
+    uiState: ChatUiState,
+    onUserTyping: (String) -> Unit,
+    onSendMessage: (String) -> Unit
+) {
+    val draftMessage =
+        if (uiState is ChatUiState.Success) uiState.conversation.draftMessage ?: "" else ""
+    val (messageText, setMessageText) = remember(draftMessage) { mutableStateOf(draftMessage) }
+
+    val focusManager = LocalFocusManager.current
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextField(
+            value = messageText,
+            onValueChange = {
+                setMessageText(it)
+                onUserTyping(it)
+            },
+            placeholder = { Text(text = stringResource(message_label)) },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            maxLines = 4
+        )
+
+        val isSendEnabled = messageText.isNotBlank()
+
+        IconButton(
+            onClick = {
+                onSendMessage(messageText)
+                setMessageText("")
+                focusManager.clearFocus()
+            },
+            enabled = isSendEnabled
+        ) {
+            Icon(
+                imageVector = Filled.Send,
+                contentDescription = stringResource(send),
+                tint = if (isSendEnabled) Color.Blue else Color.LightGray
+            )
+        }
     }
 }
 
