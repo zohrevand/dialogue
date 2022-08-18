@@ -43,7 +43,6 @@ fun AddContactDialog(
                 setContactHasError = setContactHasError
             )
         },
-        onDismissRequest = onDismissRequest,
         confirmButton = {
             AddContactConfirmButton(
                 contact = newContact,
@@ -56,6 +55,7 @@ fun AddContactDialog(
                 Text(text = stringResource(string.cancel))
             }
         },
+        onDismissRequest = onDismissRequest,
         properties = DialogProperties(usePlatformDefaultWidth = false),
         modifier = modifier
     )
