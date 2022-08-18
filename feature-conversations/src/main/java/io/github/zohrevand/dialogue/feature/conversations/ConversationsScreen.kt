@@ -96,7 +96,7 @@ fun ConversationsScreen(
                 .consumedWindowInsets(innerPadding)
         ) {
             conversations(
-                conversationsState = uiState,
+                uiState = uiState,
                 navigateToChat = navigateToChat
             )
         }
@@ -104,10 +104,10 @@ fun ConversationsScreen(
 }
 
 private fun LazyListScope.conversations(
-    conversationsState: ConversationsUiState,
+    uiState: ConversationsUiState,
     navigateToChat: (String) -> Unit
 ) {
-    when (conversationsState) {
+    when (uiState) {
         ConversationsUiState.Loading -> {
             item {
                 DialogueLoadingWheel(
@@ -118,7 +118,7 @@ private fun LazyListScope.conversations(
             }
         }
         is ConversationsUiState.Success -> {
-            items(conversationsState.conversations, key = { it.peerJid }) { conversation ->
+            items(uiState.conversations, key = { it.peerJid }) { conversation ->
                 ConversationItem(
                     conversation = conversation,
                     onConversationClick = navigateToChat
