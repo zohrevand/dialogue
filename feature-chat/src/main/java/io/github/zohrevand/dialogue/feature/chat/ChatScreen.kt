@@ -88,7 +88,8 @@ fun ChatScreen(
     onBackClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val draftMessage = if (uiState is ChatUiState.Success) uiState.conversation.draftMessage ?: "" else ""
+    val draftMessage =
+        if (uiState is ChatUiState.Success) uiState.conversation.draftMessage ?: "" else ""
     val (messageText, setMessageText) = remember(draftMessage) { mutableStateOf(draftMessage) }
 
     val focusManager = LocalFocusManager.current
@@ -116,10 +117,11 @@ fun ChatScreen(
             containerColor = Color.Transparent,
             modifier = modifier
         ) { innerPadding ->
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding)
-                .consumedWindowInsets(innerPadding)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(innerPadding)
+                    .consumedWindowInsets(innerPadding)
             ) {
                 LazyColumn(
                     reverseLayout = true,
@@ -135,8 +137,9 @@ fun ChatScreen(
                 }
 
                 if (uiState is ChatUiState.Success && uiState.shouldShowChatState) {
-                    val postfixText = if (uiState.conversation.chatState == Composing) "is typing..."
-                    else "stopped typing."
+                    val postfixText =
+                        if (uiState.conversation.chatState == Composing) "is typing..."
+                        else "stopped typing."
                     Text(
                         text = "${uiState.conversation.peerLocalPart} $postfixText",
                         style = MaterialTheme.typography.bodySmall,
@@ -192,7 +195,7 @@ fun ChatScreen(
 fun LazyListScope.messages(
     messagesState: ChatUiState
 ) {
-    when(messagesState) {
+    when (messagesState) {
         is ChatUiState.Loading -> {
             item {
                 DialogueLoadingWheel(
@@ -215,29 +218,27 @@ fun MessageItem(
     message: Message,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxWidth()) {
-        val style = getMessageStyle(message.isMine)
+    val style = getMessageStyle(message.isMine)
 
-        Column(
-            modifier = Modifier.align(style.alignment),
-            horizontalAlignment = style.horizontalAlignment
+    Column(
+        horizontalAlignment = style.horizontalAlignment,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Surface(
+            color = style.containerColor,
+            shape = style.shape
         ) {
-            Surface(
-                color = style.containerColor,
-                shape = style.shape
-            ) {
-                Text(
-                    text = message.body,
-                    color = style.contentColor,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
             Text(
-                text = message.status.name,
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.LightGray
+                text = message.body,
+                color = style.contentColor,
+                modifier = Modifier.padding(16.dp)
             )
         }
+        Text(
+            text = message.status.name,
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.LightGray
+        )
     }
 }
 
