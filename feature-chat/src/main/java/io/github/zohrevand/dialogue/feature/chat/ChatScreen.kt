@@ -37,7 +37,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -72,7 +71,7 @@ fun ChatRoute(
 
     ChatScreen(
         uiState = uiState,
-        onSendMessage = viewModel::sendMessage,
+        sendMessage = viewModel::sendMessage,
         onUserTyping = viewModel::userTyping,
         onBackClick = onBackClick,
         modifier = modifier
@@ -83,7 +82,7 @@ fun ChatRoute(
 @Composable
 fun ChatScreen(
     uiState: ChatUiState,
-    onSendMessage: (String) -> Unit,
+    sendMessage: (String) -> Unit,
     onUserTyping: (String) -> Unit,
     onBackClick: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -133,7 +132,7 @@ fun ChatScreen(
                 ChatInput(
                     uiState = uiState,
                     onUserTyping = onUserTyping,
-                    onSendMessage = onSendMessage
+                    sendMessage = sendMessage
                 )
             }
         }
@@ -216,7 +215,7 @@ private fun ChatState(
 private fun ChatInput(
     uiState: ChatUiState,
     onUserTyping: (String) -> Unit,
-    onSendMessage: (String) -> Unit
+    sendMessage: (String) -> Unit
 ) {
     val draftMessage = if (uiState is ChatUiState.Success)
         uiState.conversation.draftMessage ?: ""
@@ -249,7 +248,7 @@ private fun ChatInput(
 
         IconButton(
             onClick = {
-                onSendMessage(messageText)
+                sendMessage(messageText)
                 setMessageText("")
                 focusManager.clearFocus()
             },
