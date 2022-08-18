@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons.Filled
@@ -55,7 +56,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.common.utils.isValidJid
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
-import io.github.zohrevand.dialogue.feature.contacts.ContactsUiState.Success
 import io.github.zohrevand.dialogue.feature.contacts.R.string.add
 import io.github.zohrevand.dialogue.feature.contacts.R.string.add_contact_title
 import io.github.zohrevand.dialogue.feature.contacts.R.string.cancel
@@ -110,19 +110,17 @@ fun ContactsScreen(
         containerColor = Color.Transparent,
         modifier = modifier
     ) { innerPadding ->
-        if (uiState is Success) {
-            LazyColumn(
-                contentPadding = PaddingValues(16.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .consumedWindowInsets(innerPadding)
-            ) {
-                items(uiState.contacts, key = { it.jid }) { contact ->
-                    ContactItem(contact = contact, onContactClick = navigateToChat)
-                    Divider(color = Color(0xFFDFDFDF))
-                }
-            }
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .consumedWindowInsets(innerPadding)
+        ) {
+            contacts(
+                contactsState = uiState,
+                navigateToChat = navigateToChat
+            )
         }
 
         if (isDialogVisible) {
@@ -133,6 +131,26 @@ fun ContactsScreen(
                 },
                 onDismissRequest = { isDialogVisible = false }
             )
+        }
+    }
+}
+
+fun LazyListScope.contacts(
+    contactsState: ContactsUiState,
+    navigateToChat: (String) -> Unit,
+) {
+    when(contactsState) {
+        ContactsUiState.Loading -> {
+
+        }
+        is ContactsUiState.Success -> {
+            items(contactsState.contacts, key = { it.jid }) { contact ->
+                ContactItem(
+                    contact = contact,
+                    onContactClick = navigateToChat
+                )
+                Divider(color = Color(0xFFDFDFDF))
+            }
         }
     }
 }
