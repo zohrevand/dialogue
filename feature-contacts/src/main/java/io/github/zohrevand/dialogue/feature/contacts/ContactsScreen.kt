@@ -29,6 +29,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
@@ -77,6 +78,7 @@ fun ContactsRoute(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsScreen(
     uiState: ContactsUiState,
@@ -86,8 +88,8 @@ fun ContactsScreen(
 ) {
     var isDialogVisible by remember { mutableStateOf(false) }
 
-    Box(modifier = modifier) {
-        Column {
+    Scaffold(
+        topBar = {
             DialogueTopAppBar(
                 titleRes = contacts_title,
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -97,16 +99,24 @@ fun ContactsScreen(
                     WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
                 )
             )
-
-            if (uiState is Success) {
-                LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    items(uiState.contacts) { contact ->
-                        ContactItem(contact = contact, onContactClick = navigateToChat)
-                        Divider(color = Color(0xFFDFDFDF))
-                    }
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { isDialogVisible = true }) {
+                Icon(imageVector = Filled.Add, contentDescription = stringResource(id = add))
+            }
+        },
+        modifier = modifier
+    ) { innerPadding ->
+        if (uiState is Success) {
+            LazyColumn(
+                contentPadding = PaddingValues(16.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
+                items(uiState.contacts) { contact ->
+                    ContactItem(contact = contact, onContactClick = navigateToChat)
+                    Divider(color = Color(0xFFDFDFDF))
                 }
             }
         }
@@ -116,15 +126,6 @@ fun ContactsScreen(
                 onAddContact = addContact,
                 onDismissRequest = { isDialogVisible = false }
             )
-        }
-
-        FloatingActionButton(
-            onClick = { isDialogVisible = true },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp)
-        ) {
-            Icon(imageVector = Filled.Add, contentDescription = stringResource(id = add))
         }
     }
 }
