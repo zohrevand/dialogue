@@ -10,10 +10,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -23,7 +21,7 @@ import androidx.compose.ui.window.DialogProperties
 import io.github.zohrevand.dialogue.core.common.utils.isValidJid
 import io.github.zohrevand.dialogue.feature.contacts.R.string
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AddContactDialog(
     modifier: Modifier = Modifier,
@@ -31,40 +29,26 @@ fun AddContactDialog(
     onDismissRequest: () -> Unit
 ) {
     val (newContact, setNewContact) = rememberSaveable { mutableStateOf("") }
-    var contactError by rememberSaveable { mutableStateOf(false) }
+    val (contactHasError, setContactHasError) = rememberSaveable { mutableStateOf(false) }
 
     AlertDialog(
         title = {
             Text(text = stringResource(string.add_contact_title))
         },
         text = {
-            Column {
-                OutlinedTextField(
-                    value = newContact,
-                    onValueChange = {
-                        setNewContact(it)
-                        contactError = false
-                    },
-                    label = { Text(text = stringResource(string.new_contact)) },
-                    isError = contactError,
-                    modifier = Modifier.testTag("newContactTextField")
-                )
-                AnimatedVisibility(visible = contactError) {
-                    Text(
-                        text = stringResource(string.error_contact_is_not_valid_jabber_id),
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.labelSmall,
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
-                }
-            }
+            AddContactContent(
+                contact = newContact,
+                setContact = setNewContact,
+                contactHasError = contactHasError,
+                setContactHasError = setContactHasError
+            )
         },
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(
                 onClick = {
-                    contactError = !newContact.isValidJid
-                    if (!contactError) {
+                    setContactHasError(!newContact.isValidJid)
+                    if (!contactHasError) {
                         onAddContact(newContact)
                     }
                 },
@@ -81,4 +65,34 @@ fun AddContactDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
         modifier = modifier
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddContactContent(
+    contact: String,
+    setContact: (String) -> Unit,
+    contactHasError: Boolean,
+    setContactHasError: (Boolean) -> Unit
+) {
+    Column {
+        OutlinedTextField(
+            value = contact,
+            onValueChange = {
+                setContact(it)
+                setContactHasError(false)
+            },
+            label = { Text(text = stringResource(string.new_contact)) },
+            isError = contactHasError,
+            modifier = Modifier.testTag("newContactTextField")
+        )
+        AnimatedVisibility(visible = contactHasError) {
+            Text(
+                text = stringResource(string.error_contact_is_not_valid_jabber_id),
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.labelSmall,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+    }
 }
