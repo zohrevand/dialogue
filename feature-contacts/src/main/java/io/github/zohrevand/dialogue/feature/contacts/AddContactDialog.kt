@@ -45,17 +45,11 @@ fun AddContactDialog(
         },
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(
-                onClick = {
-                    setContactHasError(!newContact.isValidJid)
-                    if (!contactHasError) {
-                        onAddContact(newContact)
-                    }
-                },
-                modifier = Modifier.testTag("addContactButton")
-            ) {
-                Text(text = stringResource(string.add))
-            }
+            AddContactConfirmButton(
+                contact = newContact,
+                addContact = onAddContact,
+                setContactHasError = setContactHasError
+            )
         },
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
@@ -94,5 +88,25 @@ fun AddContactContent(
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
+    }
+}
+
+@Composable
+fun AddContactConfirmButton(
+    contact: String,
+    addContact: (String) -> Unit,
+    setContactHasError: (Boolean) -> Unit
+) {
+    TextButton(
+        onClick = {
+            val contactHasError = !contact.isValidJid
+            setContactHasError(contactHasError)
+            if (!contactHasError) {
+                addContact(contact)
+            }
+        },
+        modifier = Modifier.testTag("addContactButton")
+    ) {
+        Text(text = stringResource(string.add))
     }
 }
