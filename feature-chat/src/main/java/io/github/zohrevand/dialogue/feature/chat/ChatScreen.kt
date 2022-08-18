@@ -216,25 +216,19 @@ fun MessageItem(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxWidth()) {
-        val alignment = if (message.isMine) Alignment.CenterStart else Alignment.CenterEnd
-        val horizontalAlignment = if (message.isMine) Alignment.Start else Alignment.End
-        val surfaceColor = if (message.isMine) Color(0xFF3F51B5) else Color(0xFFC5CAE9)
-        val textColor = if (message.isMine) Color.White else Color.Black
-        val bubbleShape =
-            if (message.isMine) RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
-            else RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
+        val style = getMessageStyle(message.isMine)
 
         Column(
-            modifier = Modifier.align(alignment),
-            horizontalAlignment = horizontalAlignment
+            modifier = Modifier.align(style.alignment),
+            horizontalAlignment = style.horizontalAlignment
         ) {
             Surface(
-                color = surfaceColor,
-                shape = bubbleShape
+                color = style.containerColor,
+                shape = style.shape
             ) {
                 Text(
                     text = message.body,
-                    color = textColor,
+                    color = style.contentColor,
                     modifier = Modifier.padding(16.dp)
                 )
             }
