@@ -104,7 +104,7 @@ fun ContactsScreen(
                 .consumedWindowInsets(innerPadding)
         ) {
             contacts(
-                contactsState = uiState,
+                uiState = uiState,
                 navigateToChat = navigateToChat
             )
         }
@@ -122,10 +122,10 @@ fun ContactsScreen(
 }
 
 private fun LazyListScope.contacts(
-    contactsState: ContactsUiState,
+    uiState: ContactsUiState,
     navigateToChat: (String) -> Unit,
 ) {
-    when(contactsState) {
+    when(uiState) {
         ContactsUiState.Loading -> {
             item {
                 DialogueLoadingWheel(
@@ -136,7 +136,7 @@ private fun LazyListScope.contacts(
             }
         }
         is ContactsUiState.Success -> {
-            items(contactsState.contacts, key = { it.jid }) { contact ->
+            items(uiState.contacts, key = { it.jid }) { contact ->
                 ContactItem(
                     contact = contact,
                     onContactClick = navigateToChat
