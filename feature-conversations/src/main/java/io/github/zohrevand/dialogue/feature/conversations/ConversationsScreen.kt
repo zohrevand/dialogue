@@ -145,24 +145,12 @@ private fun ConversationItem(
             color = Color.Magenta
         )
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+        ConversationText(
+            conversation = conversation,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-        ) {
-            Text(text = conversation.peerJid)
-            val subtitle: String? = if (conversation.draftMessage != null) {
-                "Draft: ${conversation.draftMessage}"
-            } else if (conversation.lastMessage != null) {
-                conversation.lastMessage?.body
-            } else {
-                null
-            }
-            subtitle?.let {
-                Text(text = it, color = Color.Gray)
-            }
-        }
+        )
 
         if (conversation.unreadMessagesCount > 0) {
             Box(
@@ -177,6 +165,31 @@ private fun ConversationItem(
                     style = MaterialTheme.typography.titleMedium
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun ConversationText(
+    modifier: Modifier = Modifier,
+    conversation: Conversation
+) {
+    val subtitle: String? = if (conversation.draftMessage != null) {
+        "Draft: ${conversation.draftMessage}"
+    } else if (conversation.lastMessage != null) {
+        conversation.lastMessage?.body
+    } else {
+        null
+    }
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier
+    ) {
+        Text(text = conversation.peerJid)
+
+        subtitle?.let {
+            Text(text = it, color = Color.Gray)
         }
     }
 }
