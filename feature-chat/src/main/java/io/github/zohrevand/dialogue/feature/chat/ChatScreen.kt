@@ -124,12 +124,10 @@ fun ChatScreen(
                         .fillMaxSize()
                         .weight(1f)
                 ) {
-                    messages(
-                        messagesState = uiState
-                    )
+                    messages(uiState = uiState)
                 }
 
-                ChatState(messagesState = uiState)
+                ChatState(uiState = uiState)
 
                 ChatInput(
                     uiState = uiState,
@@ -146,8 +144,8 @@ fun ChatScreen(
     }
 }
 
-private fun LazyListScope.messages(messagesState: ChatUiState) {
-    when (messagesState) {
+private fun LazyListScope.messages(uiState: ChatUiState) {
+    when (uiState) {
         is ChatUiState.Loading -> {
             item {
                 DialogueLoadingWheel(
@@ -158,7 +156,7 @@ private fun LazyListScope.messages(messagesState: ChatUiState) {
             }
         }
         is ChatUiState.Success -> {
-            items(messagesState.messages, key = { it.stanzaId }) { message ->
+            items(uiState.messages, key = { it.stanzaId }) { message ->
                 MessageItem(message = message)
             }
         }
@@ -196,14 +194,14 @@ private fun MessageItem(
 
 @Composable
 private fun ChatState(
-    messagesState: ChatUiState
+    uiState: ChatUiState
 ) {
-    if (messagesState is ChatUiState.Success && messagesState.shouldShowChatState) {
+    if (uiState is ChatUiState.Success && uiState.shouldShowChatState) {
         val postfixText =
-            if (messagesState.conversation.chatState == Composing) "is typing..."
+            if (uiState.conversation.chatState == Composing) "is typing..."
             else "stopped typing."
         Text(
-            text = "${messagesState.conversation.peerLocalPart} $postfixText",
+            text = "${uiState.conversation.peerLocalPart} $postfixText",
             style = MaterialTheme.typography.bodySmall,
             color = Color.Gray,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
