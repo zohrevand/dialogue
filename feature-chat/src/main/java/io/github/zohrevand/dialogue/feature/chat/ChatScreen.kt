@@ -2,7 +2,6 @@ package io.github.zohrevand.dialogue.feature.chat
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
@@ -192,9 +191,7 @@ fun ChatScreen(
     }
 }
 
-fun LazyListScope.messages(
-    messagesState: ChatUiState
-) {
+private fun LazyListScope.messages(messagesState: ChatUiState) {
     when (messagesState) {
         is ChatUiState.Loading -> {
             item {
@@ -214,7 +211,7 @@ fun LazyListScope.messages(
 }
 
 @Composable
-fun MessageItem(
+private fun MessageItem(
     message: Message,
     modifier: Modifier = Modifier
 ) {

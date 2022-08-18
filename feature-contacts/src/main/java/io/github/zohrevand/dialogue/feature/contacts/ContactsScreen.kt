@@ -126,7 +126,7 @@ fun ContactsScreen(
     }
 }
 
-fun LazyListScope.contacts(
+private fun LazyListScope.contacts(
     contactsState: ContactsUiState,
     navigateToChat: (String) -> Unit,
 ) {
@@ -153,7 +153,7 @@ fun LazyListScope.contacts(
 }
 
 @Composable
-fun ContactItem(
+private fun ContactItem(
     contact: Contact,
     onContactClick: (String) -> Unit
 ) {

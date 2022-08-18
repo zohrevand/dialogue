@@ -63,7 +63,7 @@ fun AddContactDialog(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddContactContent(
+private fun AddContactContent(
     contact: String,
     setContact: (String) -> Unit,
     contactHasError: Boolean,
@@ -92,7 +92,7 @@ fun AddContactContent(
 }
 
 @Composable
-fun AddContactConfirmButton(
+private fun AddContactConfirmButton(
     contact: String,
     addContact: (String) -> Unit,
     setContactHasError: (Boolean) -> Unit

@@ -100,7 +100,7 @@ fun ConversationsScreen(
     }
 }
 
-fun LazyListScope.conversations(
+private fun LazyListScope.conversations(
     conversationsState: ConversationsUiState,
     navigateToChat: (String) -> Unit
 ) {
@@ -127,7 +127,7 @@ fun LazyListScope.conversations(
 }
 
 @Composable
-fun ConversationItem(
+private fun ConversationItem(
     conversation: Conversation,
     onConversationClick: (String) -> Unit
 ) {
