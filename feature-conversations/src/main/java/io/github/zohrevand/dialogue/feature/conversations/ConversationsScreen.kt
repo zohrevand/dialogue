@@ -45,6 +45,7 @@ import io.github.zohrevand.core.model.data.firstLetter
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueDivider
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
+import io.github.zohrevand.dialogue.core.ui.ContactThumb
 import io.github.zohrevand.dialogue.feature.conversations.R.string.conversations_title
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -139,18 +140,10 @@ private fun ConversationItem(
             .height(80.dp)
             .clickable { onConversationClick(conversation.peerJid) }
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(56.dp)
-                .clip(CircleShape)
-                .background(Color.Magenta)
-        ) {
-            Text(
-                text = conversation.firstLetter,
-                style = MaterialTheme.typography.titleMedium
-            )
-        }
+        ContactThumb(
+            firstLetter = conversation.firstLetter,
+            color = Color.Magenta
+        )
 
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),
