@@ -13,12 +13,14 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumedWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -55,6 +57,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Contact
 import io.github.zohrevand.dialogue.core.common.utils.isValidJid
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueDivider
+import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
 import io.github.zohrevand.dialogue.feature.contacts.R.string.add
 import io.github.zohrevand.dialogue.feature.contacts.R.string.add_contact_title
@@ -141,7 +144,13 @@ fun LazyListScope.contacts(
 ) {
     when(contactsState) {
         ContactsUiState.Loading -> {
-
+            item {
+                DialogueLoadingWheel(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentSize()
+                )
+            }
         }
         is ContactsUiState.Success -> {
             items(contactsState.contacts, key = { it.jid }) { contact ->
