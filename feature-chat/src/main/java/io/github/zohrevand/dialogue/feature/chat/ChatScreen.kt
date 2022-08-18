@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -16,7 +17,9 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -52,8 +55,8 @@ import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.isMine
 import io.github.zohrevand.core.model.data.peerLocalPart
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueGradientBackground
+import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
-import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Success
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
 import io.github.zohrevand.dialogue.feature.chat.R.string.message_label
 import io.github.zohrevand.dialogue.feature.chat.R.string.send
@@ -85,7 +88,7 @@ fun ChatScreen(
     onBackClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val draftMessage = if (uiState is Success) uiState.conversation.draftMessage ?: "" else ""
+    val draftMessage = if (uiState is ChatUiState.Success) uiState.conversation.draftMessage ?: "" else ""
     val (messageText, setMessageText) = remember(draftMessage) { mutableStateOf(draftMessage) }
 
     val focusManager = LocalFocusManager.current
@@ -95,7 +98,7 @@ fun ChatScreen(
             topBar = {
                 DialogueTopAppBar(
                     title = {
-                        if (uiState is Success) {
+                        if (uiState is ChatUiState.Success) {
                             Text(text = uiState.conversation.peerJid)
                         }
                     },
@@ -118,17 +121,9 @@ fun ChatScreen(
                 .padding(innerPadding)
                 .consumedWindowInsets(innerPadding)
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(1f)
-                ) {
-                    if (uiState is Success) {
-                        MessagesList(uiState.messages)
-                    }
-                }
+                MessagesList(messagesState = uiState)
 
-                if (uiState is Success && uiState.shouldShowChatState) {
+                if (uiState is ChatUiState.Success && uiState.shouldShowChatState) {
                     val postfixText = if (uiState.conversation.chatState == Composing) "is typing..."
                     else "stopped typing."
                     Text(
@@ -184,15 +179,44 @@ fun ChatScreen(
 }
 
 @Composable
-fun MessagesList(messages: List<Message>) {
-    LazyColumn(
-        reverseLayout = true,
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
-        contentPadding = PaddingValues(all = 16.dp),
-        modifier = Modifier.fillMaxSize()
+fun ColumnScope.MessagesList(
+    messagesState: ChatUiState
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .weight(1f)
     ) {
-        items(messages) { message ->
-            MessageItem(message = message)
+        LazyColumn(
+            reverseLayout = true,
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
+            contentPadding = PaddingValues(all = 16.dp),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            messages(
+                messagesState = messagesState
+            )
+        }
+    }
+}
+
+fun LazyListScope.messages(
+    messagesState: ChatUiState
+) {
+    when(messagesState) {
+        is ChatUiState.Loading -> {
+            item {
+                DialogueLoadingWheel(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentSize()
+                )
+            }
+        }
+        is ChatUiState.Success -> {
+            items(messagesState.messages, key = { it.stanzaId }) { message ->
+                MessageItem(message = message)
+            }
         }
     }
 }
