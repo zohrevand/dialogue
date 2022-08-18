@@ -15,3 +15,8 @@ val Conversation.peerLocalPart: String
 
 val Conversation.firstLetter: String
     get() = peerJid.take(1).uppercase()
+
+val Conversation.subtitle: String?
+    get() = if (draftMessage != null) {
+        "Draft: $draftMessage"
+    } else lastMessage?.body
