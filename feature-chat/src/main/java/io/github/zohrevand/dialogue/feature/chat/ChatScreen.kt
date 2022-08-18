@@ -110,6 +110,7 @@ fun ChatScreen(
                     )
                 )
             },
+            containerColor = Color.Transparent,
             modifier = modifier
         ) { innerPadding ->
             Column(modifier = Modifier
