@@ -19,7 +19,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
@@ -40,8 +42,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Conversation
+import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
-import io.github.zohrevand.dialogue.feature.conversations.ConversationsUiState.Success
 import io.github.zohrevand.dialogue.feature.conversations.R.string.conversations_title
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -82,22 +84,43 @@ fun ConversationsScreen(
         containerColor = Color.Transparent,
         modifier = modifier
     ) { innerPadding ->
-        if (uiState is Success) {
-            LazyColumn(
-                contentPadding = PaddingValues(16.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .testTag("conversations")
-                    .padding(innerPadding)
-                    .consumedWindowInsets(innerPadding)
-            ) {
-                items(uiState.conversations) { conversation ->
-                    ConversationItem(
-                        conversation = conversation,
-                        onConversationClick = navigateToChat
-                    )
-                    Divider(color = Color(0xFFDFDFDF))
-                }
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .testTag("conversations")
+                .padding(innerPadding)
+                .consumedWindowInsets(innerPadding)
+        ) {
+            conversations(
+                conversationsState = uiState,
+                navigateToChat = navigateToChat
+            )
+        }
+    }
+}
+
+fun LazyListScope.conversations(
+    conversationsState: ConversationsUiState,
+    navigateToChat: (String) -> Unit
+) {
+    when (conversationsState) {
+        ConversationsUiState.Loading -> {
+            item {
+                DialogueLoadingWheel(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentSize()
+                )
+            }
+        }
+        is ConversationsUiState.Success -> {
+            items(conversationsState.conversations, key = { it.peerJid }) { conversation ->
+                ConversationItem(
+                    conversation = conversation,
+                    onConversationClick = navigateToChat
+                )
+                Divider(color = Color(0xFFDFDFDF))
             }
         }
     }
