@@ -135,17 +135,7 @@ fun ChatScreen(
                     )
                 }
 
-                if (uiState is ChatUiState.Success && uiState.shouldShowChatState) {
-                    val postfixText =
-                        if (uiState.conversation.chatState == Composing) "is typing..."
-                        else "stopped typing."
-                    Text(
-                        text = "${uiState.conversation.peerLocalPart} $postfixText",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                    )
-                }
+                ChatState(messagesState = uiState)
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -235,6 +225,23 @@ private fun MessageItem(
             text = message.status.name,
             style = MaterialTheme.typography.bodySmall,
             color = Color.LightGray
+        )
+    }
+}
+
+@Composable
+private fun ChatState(
+    messagesState: ChatUiState
+) {
+    if (messagesState is ChatUiState.Success && messagesState.shouldShowChatState) {
+        val postfixText =
+            if (messagesState.conversation.chatState == Composing) "is typing..."
+            else "stopped typing."
+        Text(
+            text = "${messagesState.conversation.peerLocalPart} $postfixText",
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.Gray,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
     }
 }
