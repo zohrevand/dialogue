@@ -41,6 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Conversation
+import io.github.zohrevand.core.model.data.firstLetter
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueDivider
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
@@ -146,7 +147,7 @@ private fun ConversationItem(
                 .background(Color.Magenta)
         ) {
             Text(
-                text = conversation.peerJid.take(1).uppercase(),
+                text = conversation.firstLetter,
                 style = MaterialTheme.typography.titleMedium
             )
         }

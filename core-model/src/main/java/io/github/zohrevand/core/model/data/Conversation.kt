@@ -12,3 +12,6 @@ data class Conversation(
 
 val Conversation.peerLocalPart: String
     get() = peerJid.substringBefore("@")
+
+val Conversation.firstLetter: String
+    get() = peerJid.take(1).uppercase()
