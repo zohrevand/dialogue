@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -43,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -121,7 +121,18 @@ fun ChatScreen(
                 .padding(innerPadding)
                 .consumedWindowInsets(innerPadding)
             ) {
-                MessagesList(messagesState = uiState)
+                LazyColumn(
+                    reverseLayout = true,
+                    verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
+                    contentPadding = PaddingValues(all = 16.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f)
+                ) {
+                    messages(
+                        messagesState = uiState
+                    )
+                }
 
                 if (uiState is ChatUiState.Success && uiState.shouldShowChatState) {
                     val postfixText = if (uiState.conversation.chatState == Composing) "is typing..."
@@ -175,28 +186,6 @@ fun ChatScreen(
     // override back handler to send back contactId
     BackHandler {
         onBackClick(uiState.contactId)
-    }
-}
-
-@Composable
-fun ColumnScope.MessagesList(
-    messagesState: ChatUiState
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .weight(1f)
-    ) {
-        LazyColumn(
-            reverseLayout = true,
-            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
-            contentPadding = PaddingValues(all = 16.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            messages(
-                messagesState = messagesState
-            )
-        }
     }
 }
 
@@ -257,3 +246,11 @@ fun MessageItem(
         }
     }
 }
+
+private data class MessageStyle(
+    val alignment: Alignment,
+    val horizontalAlignment: Alignment.Horizontal,
+    val containerColor: Color,
+    val contentColor: Color,
+    val shape: Shape
+)
