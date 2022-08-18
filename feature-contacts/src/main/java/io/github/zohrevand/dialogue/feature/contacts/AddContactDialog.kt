@@ -25,7 +25,7 @@ import io.github.zohrevand.dialogue.feature.contacts.R.string
 @Composable
 fun AddContactDialog(
     modifier: Modifier = Modifier,
-    onAddContact: (String) -> Unit,
+    addContact: (String) -> Unit,
     onDismissRequest: () -> Unit
 ) {
     val (newContact, setNewContact) = rememberSaveable { mutableStateOf("") }
@@ -47,7 +47,7 @@ fun AddContactDialog(
         confirmButton = {
             AddContactConfirmButton(
                 contact = newContact,
-                addContact = onAddContact,
+                addContact = addContact,
                 setContactHasError = setContactHasError
             )
         },

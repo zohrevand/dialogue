@@ -116,7 +116,7 @@ fun ContactsScreen(
 
         if (isDialogVisible) {
             AddContactDialog(
-                onAddContact = {
+                addContact = {
                     addContact(it)
                     isDialogVisible = false
                 },
