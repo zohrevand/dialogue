@@ -105,6 +105,7 @@ fun ContactsScreen(
                 Icon(imageVector = Filled.Add, contentDescription = stringResource(id = add))
             }
         },
+        containerColor = Color.Transparent,
         modifier = modifier
     ) { innerPadding ->
         if (uiState is Success) {
