@@ -139,6 +139,7 @@ fun ChatScreen(
     }
 
     // override back handler to send back contactId
+    // in order to reset conversation's isChatOpen property
     BackHandler {
         onBackClick(uiState.contactId)
     }
