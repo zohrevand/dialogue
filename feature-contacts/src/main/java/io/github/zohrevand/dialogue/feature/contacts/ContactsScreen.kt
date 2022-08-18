@@ -149,7 +149,7 @@ fun LazyListScope.contacts(
                     contact = contact,
                     onContactClick = navigateToChat
                 )
-                Divider(color = Color(0xFFDFDFDF))
+                Divider(color = MaterialTheme.colorScheme.surfaceVariant)
             }
         }
     }
