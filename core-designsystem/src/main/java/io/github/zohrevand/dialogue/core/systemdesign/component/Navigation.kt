@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.core.systemdesign.component
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
@@ -22,9 +23,18 @@ fun DialogueNavigationBar(
 ) {
     NavigationBar(
         modifier = modifier,
-        containerColor = Color.White,
-        contentColor = Color.Black,
+        containerColor = DialogueNavigationDefaults.NavigationContainerColor,
+        contentColor = DialogueNavigationDefaults.navigationContentColor(),
         tonalElevation = 0.dp,
         content = content
     )
+}
+
+/**
+ * Dialogue navigation default values.
+ */
+object DialogueNavigationDefaults {
+    val NavigationContainerColor = Color.Transparent
+    @Composable
+    fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
 }
