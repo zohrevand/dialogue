@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import io.github.zohrevand.dialogue.core.navigation.NavigationParameters
 import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
 import io.github.zohrevand.dialogue.feature.auth.navigation.authGraph
-import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
+import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination.createNavigationParameters
 import io.github.zohrevand.dialogue.feature.chat.navigation.chatGraph
 import io.github.zohrevand.dialogue.feature.contacts.navigation.contactsGraph
 import io.github.zohrevand.dialogue.feature.conversations.navigation.ConversationsDestination
@@ -59,7 +59,7 @@ fun DialogueNavHost(
         )
         conversationsGraph(
             navigateToChat = {
-                onNavigateToDestination(createChatNavigationParameters(it))
+                onNavigateToDestination(createNavigationParameters(it))
             },
             nestedGraphs = {
                 chatGraph(
@@ -72,14 +72,8 @@ fun DialogueNavHost(
         )
         contactsGraph(
             navigateToChat = {
-                onNavigateToDestination(createChatNavigationParameters(it))
+                onNavigateToDestination(createNavigationParameters(it))
             }
         )
     }
 }
-
-private fun createChatNavigationParameters(contactId: String): NavigationParameters =
-    NavigationParameters(
-        destination = ChatDestination,
-        route = ChatDestination.createNavigationRoute(contactId)
-    )
