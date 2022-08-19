@@ -38,10 +38,13 @@ class DialogueAppState(
             .currentBackStackEntryAsState().value?.destination
 
     val shouldShowBottomBar: Boolean
-        @Composable get() = currentDestination?.route != null &&
-            currentDestination?.route != RouterDestination.route &&
-            currentDestination?.route != AuthDestination.route &&
-            currentDestination?.route != ChatDestination.route
+        @Composable get() {
+            val route = currentDestination?.route
+            return route != null &&
+                route != RouterDestination.route &&
+                route != AuthDestination.route &&
+                route != ChatDestination.route
+        }
 
     val shouldShowConnecting: Boolean
         @Composable get() = currentDestination?.route != null &&
