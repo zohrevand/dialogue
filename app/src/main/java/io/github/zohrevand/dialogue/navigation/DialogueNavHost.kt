@@ -31,25 +31,28 @@ fun DialogueNavHost(
         routerGraph(
             navigateToAuth = {
                 onNavigateToDestination(
-                    NavigationParameters(destination = AuthDestination) {
-                        popUpTo(RouterDestination.route) { inclusive = true }
-                    }
+                    NavigationParameters(
+                        destination = AuthDestination,
+                        popUpToInclusive = RouterDestination
+                    )
                 )
             },
             navigateToConversations = {
                 onNavigateToDestination(
-                    NavigationParameters(destination = ConversationsDestination) {
-                        popUpTo(RouterDestination.route) { inclusive = true }
-                    }
+                    NavigationParameters(
+                        destination = ConversationsDestination,
+                        popUpToInclusive = RouterDestination
+                    )
                 )
             }
         )
         authGraph(
             navigateToConversations = {
                 onNavigateToDestination(
-                    NavigationParameters(destination = ConversationsDestination) {
-                        popUpTo(AuthDestination.route) { inclusive = true }
-                    }
+                    NavigationParameters(
+                        destination = ConversationsDestination,
+                        popUpToInclusive = AuthDestination
+                    )
                 )
             }
         )

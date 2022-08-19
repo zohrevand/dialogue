@@ -101,7 +101,9 @@ class DialogueAppState(
         } else {
             navController.navigate(parameters.route ?: parameters.destination.route) {
                 // Custom navOptions to apply for this navigation
-                parameters.navOptions?.invoke(this)
+                parameters.popUpToInclusive?.let {
+                    popUpTo(it.route) { inclusive = true }
+                }
             }
         }
     }
