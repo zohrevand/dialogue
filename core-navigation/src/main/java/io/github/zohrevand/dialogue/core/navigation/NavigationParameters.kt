@@ -1,6 +1,4 @@
-package io.github.zohrevand.dialogue.navigation
-
-import io.github.zohrevand.dialogue.core.navigation.DialogueNavigationDestination
+package io.github.zohrevand.dialogue.core.navigation
 
 data class NavigationParameters(
     val destination: DialogueNavigationDestination,

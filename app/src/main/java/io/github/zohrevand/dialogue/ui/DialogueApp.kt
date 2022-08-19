@@ -40,7 +40,7 @@ import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueNavigati
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueNavigationBarItem
 import io.github.zohrevand.dialogue.core.systemdesign.theme.DialogueTheme
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
-import io.github.zohrevand.dialogue.navigation.NavigationParameters
+import io.github.zohrevand.dialogue.core.navigation.NavigationParameters
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
 import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connecting
 

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import io.github.zohrevand.dialogue.core.navigation.NavigationParameters
 import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
 import io.github.zohrevand.dialogue.feature.auth.navigation.authGraph
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
