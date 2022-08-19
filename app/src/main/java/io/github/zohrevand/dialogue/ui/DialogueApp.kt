@@ -124,6 +124,8 @@ private fun DialogueBottomBar(
     onNavigateToTopLevelDestination: (TopLevelDestination) -> Unit,
     currentDestination: NavDestination?
 ) {
+    // Wrap the navigation bar in a surface so the color behind the system
+    // navigation is equal to the container color of the navigation bar.
     Surface(color = MaterialTheme.colorScheme.surface) {
         NavigationBar(
             modifier = Modifier.windowInsetsPadding(
