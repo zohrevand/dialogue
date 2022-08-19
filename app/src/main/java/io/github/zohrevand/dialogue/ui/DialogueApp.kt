@@ -55,8 +55,6 @@ fun DialogueApp(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val isConnecting = appState.shouldShowConnecting && uiState is Connecting
-
     DialogueTheme {
         DialogueBackground {
             Scaffold(
@@ -88,7 +86,9 @@ fun DialogueApp(
                             .consumedWindowInsets(padding)
                     )
 
-                    Connecting(isConnecting)
+                    if (appState.shouldShowConnecting) {
+                        Connecting(uiState is Connecting)
+                    }
                 }
             }
         }
