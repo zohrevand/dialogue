@@ -38,6 +38,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import io.github.zohrevand.dialogue.R.string.connecting
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueBackground
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueNavigationBar
+import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueNavigationBarItem
 import io.github.zohrevand.dialogue.core.systemdesign.theme.DialogueTheme
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
@@ -137,11 +138,10 @@ private fun DialogueBottomBar(
             destinations.forEach { destination ->
                 val selected =
                     currentDestination?.hierarchy?.any { it.route == destination.route } == true
-                NavigationBarItem(
+                DialogueNavigationBarItem(
                     selected = selected,
                     onClick = { onNavigateToDestination(destination) },
                     label = { Text(stringResource(destination.iconTextId)) },
-                    alwaysShowLabel = true,
                     icon = { Icon(imageVector = destination.icon, contentDescription = null) }
                 )
             }
