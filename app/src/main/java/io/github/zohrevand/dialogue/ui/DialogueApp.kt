@@ -26,7 +26,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,15 +36,9 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueBackground
 import io.github.zohrevand.dialogue.core.systemdesign.theme.DialogueTheme
-import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
-import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
-import io.github.zohrevand.dialogue.feature.router.navigation.RouterDestination
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
-import io.github.zohrevand.dialogue.navigation.DialogueTopLevelNavigation
 import io.github.zohrevand.dialogue.navigation.TOP_LEVEL_DESTINATIONS
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
 import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connecting
@@ -57,19 +50,12 @@ import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connecting
 )
 @Composable
 fun DialogueApp(
+    appState: DialogueAppState = rememberDialogueAppState(),
     viewModel: DialogueViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val navController = rememberNavController()
-    val dialogueTopLevelNavigation = remember(navController) {
-        DialogueTopLevelNavigation(navController)
-    }
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-
-    val isConnecting = currentDestination.shouldShowConnecting && uiState is Connecting
+    val isConnecting = appState.shouldShowConnecting && uiState is Connecting
 
     DialogueTheme {
         DialogueBackground {
@@ -77,10 +63,10 @@ fun DialogueApp(
                 containerColor = Color.Transparent,
                 contentColor = MaterialTheme.colorScheme.onBackground,
                 bottomBar = {
-                    if (currentDestination.shouldShowBottomBar) {
+                    if (appState.shouldShowBottomBar) {
                         DialogueBottomBar(
-                            onNavigateToTopLevelDestination = dialogueTopLevelNavigation::navigateTo,
-                            currentDestination = currentDestination
+                            onNavigateToTopLevelDestination = appState::navigate,
+                            currentDestination = appState.currentDestination
                         )
                     }
                 },
@@ -95,7 +81,7 @@ fun DialogueApp(
                         )
                 ) {
                     DialogueNavHost(
-                        navController = navController,
+                        navController = appState.navController,
                         onExitChat = viewModel::onExitChat,
                         modifier = Modifier
                             .padding(padding)
@@ -162,14 +148,3 @@ private fun DialogueBottomBar(
         }
     }
 }
-
-private val NavDestination?.shouldShowBottomBar
-    get() = this?.route != null &&
-        route != RouterDestination.route &&
-        route != AuthDestination.route &&
-        route != ChatDestination.route
-
-private val NavDestination?.shouldShowConnecting
-    get() = this?.route != null &&
-        route != RouterDestination.route &&
-        route != AuthDestination.route
