@@ -38,6 +38,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import io.github.zohrevand.dialogue.R.string.connecting
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueBackground
+import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueNavigationBar
 import io.github.zohrevand.dialogue.core.systemdesign.theme.DialogueTheme
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
@@ -127,17 +128,13 @@ private fun DialogueBottomBar(
     // Wrap the navigation bar in a surface so the color behind the system
     // navigation is equal to the container color of the navigation bar.
     Surface(color = MaterialTheme.colorScheme.surface) {
-        NavigationBar(
+        DialogueNavigationBar(
             modifier = Modifier.windowInsetsPadding(
                 WindowInsets.safeDrawing.only(
                     WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
                 )
-            ),
-            containerColor = Color.White,
-            contentColor = Color.Black,
-            tonalElevation = 0.dp,
+            )
         ) {
-
             destinations.forEach { destination ->
                 val selected =
                     currentDestination?.hierarchy?.any { it.route == destination.route } == true
