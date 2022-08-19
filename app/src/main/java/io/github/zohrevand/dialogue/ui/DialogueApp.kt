@@ -82,6 +82,7 @@ fun DialogueApp(
                     DialogueNavHost(
                         navController = appState.navController,
                         onExitChat = viewModel::onExitChat,
+                        onBackClick = appState::onBackClick,
                         modifier = Modifier
                             .padding(padding)
                             .consumedWindowInsets(padding)

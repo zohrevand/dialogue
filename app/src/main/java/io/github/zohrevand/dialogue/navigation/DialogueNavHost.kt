@@ -19,7 +19,8 @@ import io.github.zohrevand.dialogue.feature.router.navigation.routerGraph
 fun DialogueNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    onExitChat: (String) -> Unit
+    onExitChat: (String) -> Unit,
+    onBackClick: () -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -51,9 +52,9 @@ fun DialogueNavHost(
             },
             nestedGraphs = {
                 chatGraph(
-                    onBackClick = { peerJid ->
-                        navController.popBackStack()
-                        onExitChat(peerJid)
+                    onBackClick = {
+                        onExitChat(it)
+                        onBackClick()
                     }
                 )
             }
