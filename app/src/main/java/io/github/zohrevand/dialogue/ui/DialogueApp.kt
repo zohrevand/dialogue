@@ -77,7 +77,7 @@ fun DialogueApp(
                 containerColor = Color.Transparent,
                 contentColor = MaterialTheme.colorScheme.onBackground,
                 bottomBar = {
-                    if (currentDestination.isBottomBarVisible) {
+                    if (currentDestination.shouldShowBottomBar) {
                         DialogueBottomBar(
                             onNavigateToTopLevelDestination = dialogueTopLevelNavigation::navigateTo,
                             currentDestination = currentDestination
@@ -163,7 +163,7 @@ private fun DialogueBottomBar(
     }
 }
 
-private val NavDestination?.isBottomBarVisible
+private val NavDestination?.shouldShowBottomBar
     get() = this?.route != null &&
         route != RouterDestination.route &&
         route != AuthDestination.route &&
