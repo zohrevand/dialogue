@@ -7,6 +7,9 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
+import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
+import io.github.zohrevand.dialogue.feature.router.navigation.RouterDestination
 
 @Composable
 fun rememberDialogueAppState(
@@ -24,4 +27,10 @@ class DialogueAppState(
     val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
+
+    val shouldShowBottomBar
+        @Composable get() = currentDestination?.route != null &&
+            currentDestination?.route != RouterDestination.route &&
+            currentDestination?.route != AuthDestination.route &&
+            currentDestination?.route != ChatDestination.route
 }
