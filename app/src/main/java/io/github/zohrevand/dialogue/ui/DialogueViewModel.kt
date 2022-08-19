@@ -35,21 +35,6 @@ class DialogueViewModel @Inject constructor(
         }
     }
 
-    fun onExitChat(contactId: String) {
-        viewModelScope.launch {
-            conversationsRepository.getConversation(peerJid = contactId).first()
-                ?.let { conversation ->
-                    conversationsRepository.updateConversation(
-                        conversation.copy(isChatOpen = false)
-                    )
-                }
-
-            sendingChatStatesRepository.updateSendingChatState(
-                SendingChatState(peerJid = contactId, chatState = Inactive)
-            )
-        }
-    }
-
     private suspend fun observeConnectionStatus() {
         preferencesRepository.getConnectionStatus().collect { connectionStatus ->
             if (connectionStatus.availability && connectionStatus.authenticated) {
@@ -59,6 +44,29 @@ class DialogueViewModel @Inject constructor(
                 _uiState.update { Connecting }
             }
         }
+    }
+
+    fun onExitChat(contactId: String) {
+        viewModelScope.launch {
+            resetConversation(contactId)
+            resetChatState(contactId)
+        }
+    }
+
+    private suspend fun resetConversation(contactId: String) {
+        conversationsRepository
+            .getConversation(peerJid = contactId)
+            .first()?.let { conversation ->
+                conversationsRepository.updateConversation(
+                    conversation.copy(isChatOpen = false)
+                )
+            }
+    }
+
+    private suspend fun resetChatState(contactId: String) {
+        sendingChatStatesRepository.updateSendingChatState(
+            SendingChatState(peerJid = contactId, chatState = Inactive)
+        )
     }
 }
 
