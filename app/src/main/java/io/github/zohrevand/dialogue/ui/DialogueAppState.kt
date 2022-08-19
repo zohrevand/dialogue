@@ -7,17 +7,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import io.github.zohrevand.dialogue.R.string
-import io.github.zohrevand.dialogue.core.navigation.DialogueNavigationDestination
 import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
 import io.github.zohrevand.dialogue.feature.contacts.navigation.ContactsDestination
 import io.github.zohrevand.dialogue.feature.conversations.navigation.ConversationsDestination
 import io.github.zohrevand.dialogue.feature.router.navigation.RouterDestination
+import io.github.zohrevand.dialogue.navigation.NavigationParameters
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
 
 @Composable
@@ -82,12 +81,11 @@ class DialogueAppState(
      * Regular destinations can have multiple copies in the back stack and state isn't saved nor
      * restored.
      *
-     * @param destination: The [DialogueNavigationDestination] the app needs to navigate to.
-     * @param route: Optional route to navigate to in case the destination contains arguments.
+     * @param parameters: The [NavigationParameters] the app needs to navigate to.
      */
-    fun navigate(destination: DialogueNavigationDestination, route: String? = null) {
-        if (destination is TopLevelDestination) {
-            navController.navigate(route ?: destination.route) {
+    fun navigate(parameters: NavigationParameters) {
+        if (parameters.destination is TopLevelDestination) {
+            navController.navigate(parameters.route ?: parameters.destination.route) {
                 // Pop up to the start destination of the graph to
                 // avoid building up a large stack of destinations
                 // on the back stack as users select items
@@ -101,7 +99,10 @@ class DialogueAppState(
                 restoreState = true
             }
         } else {
-            navController.navigate(route ?: destination.route)
+            navController.navigate(parameters.route ?: parameters.destination.route) {
+                // Custom navOptions to apply for this navigation
+                parameters.navOptions?.invoke(this)
+            }
         }
     }
 

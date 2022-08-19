@@ -40,6 +40,7 @@ import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueNavigati
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueNavigationBarItem
 import io.github.zohrevand.dialogue.core.systemdesign.theme.DialogueTheme
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
+import io.github.zohrevand.dialogue.navigation.NavigationParameters
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
 import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connecting
 
@@ -123,7 +124,7 @@ private fun Connecting(isConnecting: Boolean) {
 @Composable
 private fun DialogueBottomBar(
     destinations: List<TopLevelDestination>,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onNavigateToDestination: (NavigationParameters) -> Unit,
     currentDestination: NavDestination?
 ) {
     // Wrap the navigation bar in a surface so the color behind the system
@@ -141,7 +142,7 @@ private fun DialogueBottomBar(
                     currentDestination?.hierarchy?.any { it.route == destination.route } == true
                 DialogueNavigationBarItem(
                     selected = selected,
-                    onClick = { onNavigateToDestination(destination) },
+                    onClick = { onNavigateToDestination(NavigationParameters(destination)) },
                     label = { Text(stringResource(destination.iconTextId)) },
                     icon = { Icon(imageVector = destination.icon, contentDescription = null) }
                 )

@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import io.github.zohrevand.dialogue.core.navigation.DialogueNavigationDestination
 import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
 import io.github.zohrevand.dialogue.feature.auth.navigation.authGraph
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
@@ -18,7 +17,7 @@ import io.github.zohrevand.dialogue.feature.router.navigation.routerGraph
 @Composable
 fun DialogueNavHost(
     navController: NavHostController,
-    onNavigateToDestination: (DialogueNavigationDestination, String) -> Unit,
+    onNavigateToDestination: (NavigationParameters) -> Unit,
     onExitChat: (String) -> Unit,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -31,28 +30,32 @@ fun DialogueNavHost(
     ) {
         routerGraph(
             navigateToAuth = {
-                navController.navigate(AuthDestination.route) {
-                    popUpTo(RouterDestination.route) { inclusive = true }
-                }
+                onNavigateToDestination(
+                    NavigationParameters(destination = AuthDestination) {
+                        popUpTo(RouterDestination.route) { inclusive = true }
+                    }
+                )
             },
             navigateToConversations = {
-                navController.navigate(ConversationsDestination.route) {
-                    popUpTo(RouterDestination.route) { inclusive = true }
-                }
+                onNavigateToDestination(
+                    NavigationParameters(destination = ConversationsDestination) {
+                        popUpTo(RouterDestination.route) { inclusive = true }
+                    }
+                )
             }
         )
         authGraph(
             navigateToConversations = {
-                navController.navigate(ConversationsDestination.route) {
-                    popUpTo(AuthDestination.route) { inclusive = true }
-                }
+                onNavigateToDestination(
+                    NavigationParameters(destination = ConversationsDestination) {
+                        popUpTo(AuthDestination.route) { inclusive = true }
+                    }
+                )
             }
         )
         conversationsGraph(
             navigateToChat = {
-                onNavigateToDestination(
-                    ChatDestination, ChatDestination.createNavigationRoute(it)
-                )
+                onNavigateToDestination(createChatNavigationParameters(it))
             },
             nestedGraphs = {
                 chatGraph(
@@ -65,10 +68,14 @@ fun DialogueNavHost(
         )
         contactsGraph(
             navigateToChat = {
-                onNavigateToDestination(
-                    ChatDestination, ChatDestination.createNavigationRoute(it)
-                )
-            },
+                onNavigateToDestination(createChatNavigationParameters(it))
+            }
         )
     }
 }
+
+private fun createChatNavigationParameters(contactId: String): NavigationParameters =
+    NavigationParameters(
+        destination = ChatDestination,
+        route = ChatDestination.createNavigationRoute(contactId)
+    )
