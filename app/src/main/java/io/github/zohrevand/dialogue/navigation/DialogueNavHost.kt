@@ -17,7 +17,7 @@ import io.github.zohrevand.dialogue.feature.router.navigation.routerGraph
 
 @Composable
 fun DialogueNavHost(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
     onExitChat: (String) -> Unit,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
