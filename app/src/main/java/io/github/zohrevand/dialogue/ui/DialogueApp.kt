@@ -40,7 +40,6 @@ import io.github.zohrevand.dialogue.R.string.connecting
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueBackground
 import io.github.zohrevand.dialogue.core.systemdesign.theme.DialogueTheme
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
-import io.github.zohrevand.dialogue.navigation.TOP_LEVEL_DESTINATIONS
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
 import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connecting
 
@@ -64,6 +63,7 @@ fun DialogueApp(
                 bottomBar = {
                     if (appState.shouldShowBottomBar) {
                         DialogueBottomBar(
+                            destinations = appState.topLevelDestinations,
                             onNavigateToTopLevelDestination = appState::navigate,
                             currentDestination = appState.currentDestination
                         )
@@ -120,6 +120,7 @@ private fun Connecting(isConnecting: Boolean) {
 
 @Composable
 private fun DialogueBottomBar(
+    destinations: List<TopLevelDestination>,
     onNavigateToTopLevelDestination: (TopLevelDestination) -> Unit,
     currentDestination: NavDestination?
 ) {
@@ -135,7 +136,7 @@ private fun DialogueBottomBar(
             tonalElevation = 0.dp,
         ) {
 
-            TOP_LEVEL_DESTINATIONS.forEach { destination ->
+            destinations.forEach { destination ->
                 val selected =
                     currentDestination?.hierarchy?.any { it.route == destination.route } == true
                 NavigationBarItem(
