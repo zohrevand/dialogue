@@ -81,6 +81,7 @@ fun DialogueApp(
                 ) {
                     DialogueNavHost(
                         navController = appState.navController,
+                        onNavigateToDestination = appState::navigate,
                         onExitChat = viewModel::onExitChat,
                         onBackClick = appState::onBackClick,
                         modifier = Modifier
