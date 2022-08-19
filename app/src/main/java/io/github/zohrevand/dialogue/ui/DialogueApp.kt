@@ -69,7 +69,7 @@ fun DialogueApp(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val isConnecting = currentDestination.isConnectingDisplayable && uiState is Connecting
+    val isConnecting = currentDestination.shouldShowConnecting && uiState is Connecting
 
     DialogueTheme {
         DialogueBackground {
@@ -169,7 +169,7 @@ private val NavDestination?.shouldShowBottomBar
         route != AuthDestination.route &&
         route != ChatDestination.route
 
-private val NavDestination?.isConnectingDisplayable
+private val NavDestination?.shouldShowConnecting
     get() = this?.route != null &&
         route != RouterDestination.route &&
         route != AuthDestination.route
