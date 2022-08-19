@@ -64,7 +64,7 @@ fun DialogueApp(
                     if (appState.shouldShowBottomBar) {
                         DialogueBottomBar(
                             destinations = appState.topLevelDestinations,
-                            onNavigateToTopLevelDestination = appState::navigate,
+                            onNavigateToDestination = appState::navigate,
                             currentDestination = appState.currentDestination
                         )
                     }
@@ -121,7 +121,7 @@ private fun Connecting(isConnecting: Boolean) {
 @Composable
 private fun DialogueBottomBar(
     destinations: List<TopLevelDestination>,
-    onNavigateToTopLevelDestination: (TopLevelDestination) -> Unit,
+    onNavigateToDestination: (TopLevelDestination) -> Unit,
     currentDestination: NavDestination?
 ) {
     // Wrap the navigation bar in a surface so the color behind the system
@@ -139,7 +139,7 @@ private fun DialogueBottomBar(
                     currentDestination?.hierarchy?.any { it.route == destination.route } == true
                 NavigationBarItem(
                     selected = selected,
-                    onClick = { onNavigateToTopLevelDestination(destination) },
+                    onClick = { onNavigateToDestination(destination) },
                     label = { Text(stringResource(destination.iconTextId)) },
                     alwaysShowLabel = true,
                     icon = { Icon(imageVector = destination.icon, contentDescription = null) }
