@@ -17,14 +17,15 @@ import io.github.zohrevand.dialogue.feature.router.navigation.routerGraph
 
 @Composable
 fun DialogueNavHost(
-    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     onExitChat: (String) -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    startDestination: String = RouterDestination.route
 ) {
     NavHost(
         navController = navController,
-        startDestination = RouterDestination.route,
+        startDestination = startDestination,
         modifier = modifier,
     ) {
         routerGraph(
