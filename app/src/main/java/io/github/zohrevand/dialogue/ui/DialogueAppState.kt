@@ -47,9 +47,12 @@ class DialogueAppState(
         }
 
     val shouldShowConnecting: Boolean
-        @Composable get() = currentDestination?.route != null &&
-            currentDestination?.route != RouterDestination.route &&
-            currentDestination?.route != AuthDestination.route
+        @Composable get() {
+            val route = currentDestination?.route
+            return route != null &&
+                route != RouterDestination.route &&
+                route != AuthDestination.route
+        }
 
     /**
      * Top level destinations to be used in the BottomBar
