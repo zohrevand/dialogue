@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import io.github.zohrevand.dialogue.R
+import io.github.zohrevand.dialogue.core.navigation.DialogueNavigationDestination
 import io.github.zohrevand.dialogue.feature.contacts.navigation.ContactsDestination
 import io.github.zohrevand.dialogue.feature.conversations.navigation.ConversationsDestination
 
@@ -32,19 +33,22 @@ class DialogueTopLevelNavigation(private val navController: NavHostController) {
 }
 
 data class TopLevelDestination(
-    val route: String,
+    override val route: String,
+    override val destination: String,
     val icon: ImageVector,
     val iconTextId: Int
-)
+): DialogueNavigationDestination
 
 val TOP_LEVEL_DESTINATIONS = listOf(
     TopLevelDestination(
         route = ConversationsDestination.route,
+        destination = ConversationsDestination.destination,
         icon = Icons.Filled.Star,
         iconTextId = R.string.conversations
     ),
     TopLevelDestination(
         route = ContactsDestination.route,
+        destination = ContactsDestination.destination,
         icon = Icons.Filled.Person,
         iconTextId = R.string.contacts
     )
