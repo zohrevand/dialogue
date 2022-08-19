@@ -98,4 +98,8 @@ class DialogueAppState(
             navController.navigate(route ?: destination.route)
         }
     }
+
+    fun onBackClick() {
+        navController.popBackStack()
+    }
 }
