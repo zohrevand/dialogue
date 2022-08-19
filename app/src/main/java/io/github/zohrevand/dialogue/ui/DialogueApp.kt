@@ -36,6 +36,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import io.github.zohrevand.dialogue.R.string.connecting
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueBackground
 import io.github.zohrevand.dialogue.core.systemdesign.theme.DialogueTheme
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
@@ -105,7 +106,7 @@ private fun Connecting(isConnecting: Boolean) {
         Surface(color = MaterialTheme.colorScheme.surfaceVariant) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = "Connecting...",
+                    text = stringResource(connecting),
                     color = Color.White,
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier
