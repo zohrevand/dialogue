@@ -41,7 +41,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -223,8 +222,6 @@ private fun ChatInput(
         mutableStateOf(draftMessage)
     }
 
-    val focusManager = LocalFocusManager.current
-
     Surface(color = Color.DarkGray) {
         Row(
             modifier = Modifier
@@ -253,7 +250,6 @@ private fun ChatInput(
                 onClick = {
                     sendMessage(messageText)
                     setMessageText("")
-                    focusManager.clearFocus()
                 },
                 enabled = isSendEnabled
             ) {
