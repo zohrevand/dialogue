@@ -11,15 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import io.github.zohrevand.dialogue.core.systemdesign.util.ColorUtil
 
 @Composable
 fun ContactThumb(
     modifier: Modifier = Modifier,
-    firstLetter: String,
-    color: Color
+    firstLetter: String
 ) {
     Surface(
-        color = color,
+        color = ColorUtil.getThumbColor(firstLetter[0]),
         shape = CircleShape,
         modifier = modifier
     ) {
@@ -29,6 +29,7 @@ fun ContactThumb(
         ) {
             Text(
                 text = firstLetter,
+                color = Color.White,
                 style = MaterialTheme.typography.titleMedium
             )
         }

@@ -35,12 +35,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import io.github.zohrevand.dialogue.R.string.connecting
+import io.github.zohrevand.dialogue.core.navigation.NavigationParameters
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueBackground
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueNavigationBar
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueNavigationBarItem
 import io.github.zohrevand.dialogue.core.systemdesign.theme.DialogueTheme
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
-import io.github.zohrevand.dialogue.core.navigation.NavigationParameters
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
 import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connecting
 

@@ -56,55 +56,57 @@ fun DialogueOutlinedTextField(
 
     CompositionLocalProvider(LocalTextSelectionColors provides colors.selectionColors) {
         @OptIn(ExperimentalMaterial3Api::class)
-        (BasicTextField(
-        value = value,
-        modifier = if (label != null) {
-            modifier.padding(top = OutlinedTextFieldTopPadding)
-        } else {
-            modifier
-        }
-            .background(colors.containerColor(enabled).value, shape)
-            .defaultMinSize(
-                minWidth = TextFieldDefaults.MinWidth
-            ),
-        onValueChange = onValueChange,
-        enabled = enabled,
-        readOnly = readOnly,
-        textStyle = mergedTextStyle,
-        cursorBrush = SolidColor(colors.cursorColor(isError).value),
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        interactionSource = interactionSource,
-        singleLine = singleLine,
-        maxLines = maxLines,
-        decorationBox = @Composable { innerTextField ->
-            TextFieldDefaults.OutlinedTextFieldDecorationBox(
+        (
+            BasicTextField(
                 value = value,
-                visualTransformation = visualTransformation,
-                innerTextField = innerTextField,
-                placeholder = placeholder,
-                label = label,
-                leadingIcon = leadingIcon,
-                trailingIcon = trailingIcon,
-                singleLine = singleLine,
+                modifier = if (label != null) {
+                    modifier.padding(top = OutlinedTextFieldTopPadding)
+                } else {
+                    modifier
+                }
+                    .background(colors.containerColor(enabled).value, shape)
+                    .defaultMinSize(
+                        minWidth = TextFieldDefaults.MinWidth
+                    ),
+                onValueChange = onValueChange,
                 enabled = enabled,
-                isError = isError,
+                readOnly = readOnly,
+                textStyle = mergedTextStyle,
+                cursorBrush = SolidColor(colors.cursorColor(isError).value),
+                visualTransformation = visualTransformation,
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
                 interactionSource = interactionSource,
-                colors = colors,
-                contentPadding = contentPadding,
-                border = {
-                    TextFieldDefaults.BorderBox(
-                        enabled,
-                        isError,
-                        interactionSource,
-                        colors,
-                        shape
+                singleLine = singleLine,
+                maxLines = maxLines,
+                decorationBox = @Composable { innerTextField ->
+                    TextFieldDefaults.OutlinedTextFieldDecorationBox(
+                        value = value,
+                        visualTransformation = visualTransformation,
+                        innerTextField = innerTextField,
+                        placeholder = placeholder,
+                        label = label,
+                        leadingIcon = leadingIcon,
+                        trailingIcon = trailingIcon,
+                        singleLine = singleLine,
+                        enabled = enabled,
+                        isError = isError,
+                        interactionSource = interactionSource,
+                        colors = colors,
+                        contentPadding = contentPadding,
+                        border = {
+                            TextFieldDefaults.BorderBox(
+                                enabled,
+                                isError,
+                                interactionSource,
+                                colors,
+                                shape
+                            )
+                        }
                     )
                 }
             )
-        }
-    ))
+            )
     }
 }
 

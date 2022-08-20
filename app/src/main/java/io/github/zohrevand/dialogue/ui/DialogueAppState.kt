@@ -11,12 +11,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import io.github.zohrevand.dialogue.R.string
+import io.github.zohrevand.dialogue.core.navigation.NavigationParameters
 import io.github.zohrevand.dialogue.feature.auth.navigation.AuthDestination
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
 import io.github.zohrevand.dialogue.feature.contacts.navigation.ContactsDestination
 import io.github.zohrevand.dialogue.feature.conversations.navigation.ConversationsDestination
 import io.github.zohrevand.dialogue.feature.router.navigation.RouterDestination
-import io.github.zohrevand.dialogue.core.navigation.NavigationParameters
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
 
 @Composable

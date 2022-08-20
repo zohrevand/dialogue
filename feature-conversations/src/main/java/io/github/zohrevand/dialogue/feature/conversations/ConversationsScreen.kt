@@ -92,7 +92,6 @@ fun ConversationsScreen(
             contentPadding = PaddingValues(16.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .testTag("conversations")
                 .padding(innerPadding)
                 .consumedWindowInsets(innerPadding)
         ) {
@@ -115,6 +114,7 @@ private fun LazyListScope.conversations(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentSize()
+                        .testTag("conversations:loading")
                 )
             }
         }
@@ -142,10 +142,7 @@ private fun ConversationItem(
             .height(80.dp)
             .clickable { onConversationClick(conversation.peerJid) }
     ) {
-        ContactThumb(
-            firstLetter = conversation.firstLetter,
-            color = Color.Magenta
-        )
+        ContactThumb(firstLetter = conversation.firstLetter)
 
         ConversationText(
             conversation = conversation,
