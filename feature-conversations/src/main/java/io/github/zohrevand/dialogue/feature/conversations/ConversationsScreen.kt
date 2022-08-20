@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -171,7 +172,12 @@ private fun ConversationText(
         Text(text = conversation.peerJid)
 
         conversation.subtitle?.let {
-            Text(text = it, color = Color.Gray)
+            Text(
+                text = it.trim(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = Color.Gray
+            )
         }
     }
 }
