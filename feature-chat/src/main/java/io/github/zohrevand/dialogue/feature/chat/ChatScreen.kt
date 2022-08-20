@@ -240,7 +240,6 @@ private fun ChatInput(
                     onUserTyping(it)
                 },
                 placeholderTextId = message_label,
-                onDone = { focusManager.clearFocus() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 16.dp)

@@ -3,8 +3,6 @@ package io.github.zohrevand.dialogue.core.ui
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActionScope
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -23,15 +21,13 @@ fun ChatTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    @StringRes placeholderTextId: Int,
-    onDone: KeyboardActionScope.() -> Unit
+    @StringRes placeholderTextId: Int
 ) {
     DialogueOutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         placeholder = { Text(text = stringResource(placeholderTextId)) },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(onDone = onDone),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Default),
         maxLines = 4,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             containerColor = Color.Gray,
