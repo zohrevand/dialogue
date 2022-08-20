@@ -19,10 +19,10 @@ val Conversation.firstLetter: String
 val Conversation.subtitle: String?
     get() = when {
         draftMessage != null -> {
-            "Draft: $draftMessage"
+            "Draft: ${draftMessage.trim()}"
         }
         lastMessage != null && lastMessage.isMine -> {
-            "You: ${lastMessage.body}"
+            "You: ${lastMessage.body.trim()}"
         }
         else -> lastMessage?.body
     }

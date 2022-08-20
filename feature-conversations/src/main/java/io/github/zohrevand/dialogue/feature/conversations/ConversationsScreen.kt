@@ -173,7 +173,7 @@ private fun ConversationText(
 
         conversation.subtitle?.let {
             Text(
-                text = it.trim(),
+                text = it,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = Color.Gray
