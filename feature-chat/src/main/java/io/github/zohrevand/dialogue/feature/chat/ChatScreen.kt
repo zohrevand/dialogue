@@ -229,43 +229,45 @@ private fun ChatInput(
 
     val focusManager = LocalFocusManager.current
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .navigationBarsPadding()
-            .imePadding(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        TextField(
-            value = messageText,
-            onValueChange = {
-                setMessageText(it)
-                onUserTyping(it)
-            },
-            placeholder = { Text(text = stringResource(message_label)) },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+    Surface(color = Color.DarkGray) {
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
-            maxLines = 4
-        )
-
-        val isSendEnabled = messageText.isNotBlank()
-
-        IconButton(
-            onClick = {
-                sendMessage(messageText)
-                setMessageText("")
-                focusManager.clearFocus()
-            },
-            enabled = isSendEnabled
+                .navigationBarsPadding()
+                .imePadding(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = Filled.Send,
-                contentDescription = stringResource(send),
-                tint = if (isSendEnabled) Color.Blue else Color.LightGray
+            TextField(
+                value = messageText,
+                onValueChange = {
+                    setMessageText(it)
+                    onUserTyping(it)
+                },
+                placeholder = { Text(text = stringResource(message_label)) },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                maxLines = 4
             )
+
+            val isSendEnabled = messageText.isNotBlank()
+
+            IconButton(
+                onClick = {
+                    sendMessage(messageText)
+                    setMessageText("")
+                    focusManager.clearFocus()
+                },
+                enabled = isSendEnabled
+            ) {
+                Icon(
+                    imageVector = Filled.Send,
+                    contentDescription = stringResource(send),
+                    tint = if (isSendEnabled) Color.Blue else Color.LightGray
+                )
+            }
         }
     }
 }
