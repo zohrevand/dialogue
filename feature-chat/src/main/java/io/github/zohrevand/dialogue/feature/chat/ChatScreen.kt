@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.ArrowBack
@@ -34,6 +35,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -85,6 +87,21 @@ fun ChatScreen(
     onBackClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val scrollState = rememberLazyListState()
+
+    LaunchedEffect(uiState) {
+        if (uiState is ChatUiState.Success) {
+            // Reset scroll if the last message is mine or if the user
+            // did not change the list scroll and first message is visible
+            // (the reason for less than or equal to 1 is sometimes the
+            // first item is peer user's chat state description)
+            val isLastMessageMine = uiState.messages.isNotEmpty() && uiState.messages[0].isMine
+            if (isLastMessageMine || scrollState.firstVisibleItemIndex <= 1) {
+                scrollState.animateScrollToItem(0)
+            }
+        }
+    }
+
     DialogueGradientBackground {
         Scaffold(
             topBar = {
@@ -116,6 +133,7 @@ fun ChatScreen(
             ) {
                 LazyColumn(
                     reverseLayout = true,
+                    state = scrollState,
                     verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
                     contentPadding = PaddingValues(all = 16.dp),
                     modifier = Modifier
