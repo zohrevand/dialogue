@@ -44,7 +44,6 @@ fun DialogueBackground(
     }
 }
 
-
 /**
  * A gradient background for select screens. Uses [LocalBackgroundTheme] to set the gradient colors
  * of a [Box].

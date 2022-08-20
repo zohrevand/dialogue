@@ -125,7 +125,7 @@ private fun LazyListScope.contacts(
     uiState: ContactsUiState,
     navigateToChat: (String) -> Unit,
 ) {
-    when(uiState) {
+    when (uiState) {
         ContactsUiState.Loading -> {
             item {
                 DialogueLoadingWheel(

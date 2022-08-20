@@ -13,5 +13,4 @@ data class TopLevelDestination(
     override val destination: String,
     val icon: ImageVector,
     val iconTextId: Int
-): DialogueNavigationDestination
-
+) : DialogueNavigationDestination
