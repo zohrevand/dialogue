@@ -159,10 +159,7 @@ private fun ContactItem(
             .height(80.dp)
             .clickable { onContactClick(contact.jid) }
     ) {
-        ContactThumb(
-            firstLetter = contact.firstLetter,
-            color = Color.Cyan
-        )
+        ContactThumb(firstLetter = contact.firstLetter)
 
         Text(text = contact.jid)
     }

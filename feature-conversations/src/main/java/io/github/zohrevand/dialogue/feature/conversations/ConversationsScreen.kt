@@ -142,10 +142,7 @@ private fun ConversationItem(
             .height(80.dp)
             .clickable { onConversationClick(conversation.peerJid) }
     ) {
-        ContactThumb(
-            firstLetter = conversation.firstLetter,
-            color = Color.Magenta
-        )
+        ContactThumb(firstLetter = conversation.firstLetter)
 
         ConversationText(
             conversation = conversation,
