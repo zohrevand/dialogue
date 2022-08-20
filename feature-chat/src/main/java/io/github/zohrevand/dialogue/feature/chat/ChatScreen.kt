@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumedWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -221,12 +222,16 @@ private fun ChatInput(
         uiState.conversation.draftMessage ?: ""
     else ""
 
-    val (messageText, setMessageText) = rememberSaveable(draftMessage) { mutableStateOf(draftMessage) }
+    val (messageText, setMessageText) = rememberSaveable(draftMessage) {
+        mutableStateOf(draftMessage)
+    }
 
     val focusManager = LocalFocusManager.current
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.navigationBars),
         verticalAlignment = Alignment.CenterVertically
     ) {
         TextField(
