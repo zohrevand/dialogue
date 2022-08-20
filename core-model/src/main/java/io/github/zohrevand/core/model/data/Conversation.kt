@@ -22,7 +22,7 @@ val Conversation.subtitle: String?
             "Draft: $draftMessage"
         }
         lastMessage != null && lastMessage.isMine -> {
-            "You: $lastMessage"
+            "You: ${lastMessage.body}"
         }
         else -> lastMessage?.body
     }
