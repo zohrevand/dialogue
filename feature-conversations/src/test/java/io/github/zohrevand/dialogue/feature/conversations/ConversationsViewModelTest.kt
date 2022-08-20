@@ -2,6 +2,8 @@ package io.github.zohrevand.dialogue.feature.conversations
 
 import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus.Started
+import io.github.zohrevand.core.model.data.LastMessage
+import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.dialogue.core.testing.repository.TestConversationsRepository
 import io.github.zohrevand.dialogue.core.testing.repository.TestLastMessagesRepository
 import io.github.zohrevand.dialogue.core.testing.util.MainDispatcherRule
@@ -42,6 +44,7 @@ class ConversationsViewModelTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uiState.collect() }
 
         conversationsRepository.sendConversations(testConversations)
+        lastMessagesRepository.updateLastMessage(testLastMessage)
 
         val item = viewModel.uiState.value
         Assert.assertTrue(item is ConversationsUiState.Success)
@@ -57,8 +60,24 @@ class ConversationsViewModelTest {
 
 private const val CONVERSATIONS_1_PEER_JID = "hasan@dialogue.im"
 private const val CONVERSATIONS_2_PEER_JID = "zohrevand@dialogue.im"
+private const val MESSAGE_TEXT = "This is the message"
+
+private val testLastMessage = LastMessage(
+    peerJid = CONVERSATIONS_1_PEER_JID,
+    lastMessage = Message.create(
+        text = MESSAGE_TEXT,
+        peerJid = CONVERSATIONS_1_PEER_JID
+    )
+)
 
 private val testConversations = listOf(
-    Conversation(peerJid = CONVERSATIONS_1_PEER_JID, status = Started),
-    Conversation(peerJid = CONVERSATIONS_2_PEER_JID, status = Started)
+    Conversation(
+        peerJid = CONVERSATIONS_1_PEER_JID,
+        status = Started,
+        lastMessage = testLastMessage.lastMessage
+    ),
+    Conversation(
+        peerJid = CONVERSATIONS_2_PEER_JID,
+        status = Started
+    )
 )
