@@ -35,6 +35,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -246,10 +247,19 @@ private fun ChatInput(
                 placeholder = { Text(text = stringResource(message_label)) },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                maxLines = 4,
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.Gray,
+                    focusedBorderColor = Color.DarkGray,
+                    unfocusedBorderColor = Color.Transparent,
+                    cursorColor = Color.DarkGray
+                ),
+                shape = RoundedCornerShape(24.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f),
-                maxLines = 4
+                    .padding(vertical = 16.dp)
+                    .padding(start = 16.dp)
+                    .weight(1f)
             )
 
             val isSendEnabled = messageText.isNotBlank()
