@@ -24,5 +24,5 @@ val Conversation.subtitle: String?
         lastMessage != null && lastMessage.isMine -> {
             "You: ${lastMessage.body.trim()}"
         }
-        else -> lastMessage?.body
+        else -> lastMessage?.body?.trim()
     }
