@@ -14,7 +14,7 @@ class ConversationsScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun conversations_whenConversationsIsLoading_isNotShow() {
+    fun loadingWheel_whenConversationsIsLoading_isShow() {
         composeTestRule.setContent {
             ConversationsScreen(
                 uiState = ConversationsUiState.Loading,
@@ -23,12 +23,12 @@ class ConversationsScreenTest {
         }
 
         composeTestRule
-            .onNodeWithTag("conversations")
-            .assertDoesNotExist()
+            .onNodeWithTag("conversations:loading")
+            .assertExists()
     }
 
     @Test
-    fun conversations_whenSuccess_isShown() {
+    fun loadingWheel_whenSuccess_isNotShown() {
         composeTestRule.setContent {
             ConversationsScreen(
                 uiState = ConversationsUiState.Success(testConversations),
@@ -37,8 +37,8 @@ class ConversationsScreenTest {
         }
 
         composeTestRule
-            .onNodeWithTag("conversations")
-            .assertExists()
+            .onNodeWithTag("conversations:loading")
+            .assertDoesNotExist()
     }
 }
 

@@ -92,7 +92,6 @@ fun ConversationsScreen(
             contentPadding = PaddingValues(16.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .testTag("conversations")
                 .padding(innerPadding)
                 .consumedWindowInsets(innerPadding)
         ) {
@@ -115,6 +114,7 @@ private fun LazyListScope.conversations(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentSize()
+                        .testTag("conversations:loading")
                 )
             }
         }
