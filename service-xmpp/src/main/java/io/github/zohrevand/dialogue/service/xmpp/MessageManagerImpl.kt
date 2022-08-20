@@ -16,13 +16,21 @@ import io.github.zohrevand.dialogue.service.xmpp.model.asConversation
 import io.github.zohrevand.dialogue.service.xmpp.model.asExternalEnum
 import io.github.zohrevand.dialogue.service.xmpp.model.asExternalModel
 import io.github.zohrevand.dialogue.service.xmpp.model.asSmackEnum
+import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.jivesoftware.smack.chat2.Chat
 import org.jivesoftware.smack.chat2.ChatManager
 import org.jivesoftware.smack.chat2.IncomingChatMessageListener
 import org.jivesoftware.smack.chat2.OutgoingChatMessageListener
+import org.jivesoftware.smack.packet.Message as SmackMessage
 import org.jivesoftware.smack.packet.MessageBuilder
 import org.jivesoftware.smack.packet.Stanza
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
+import org.jivesoftware.smackx.chatstates.ChatState as SmackChatState
 import org.jivesoftware.smackx.chatstates.ChatStateListener
 import org.jivesoftware.smackx.chatstates.ChatStateManager
 import org.jivesoftware.smackx.receipts.DeliveryReceiptManager
@@ -31,14 +39,6 @@ import org.jivesoftware.smackx.receipts.ReceiptReceivedListener
 import org.jxmpp.jid.EntityBareJid
 import org.jxmpp.jid.Jid
 import org.jxmpp.jid.impl.JidCreate
-import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import org.jivesoftware.smack.packet.Message as SmackMessage
-import org.jivesoftware.smackx.chatstates.ChatState as SmackChatState
 
 private const val TAG = "MessagesManagerImpl"
 
