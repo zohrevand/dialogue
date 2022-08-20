@@ -3,6 +3,7 @@ package io.github.zohrevand.dialogue.feature.conversations
 import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.dialogue.core.testing.repository.TestConversationsRepository
+import io.github.zohrevand.dialogue.core.testing.repository.TestLastMessagesRepository
 import io.github.zohrevand.dialogue.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
@@ -20,12 +21,14 @@ class ConversationsViewModelTest {
     val dispatcherRule = MainDispatcherRule()
 
     private val conversationsRepository = TestConversationsRepository()
+    private val lastMessagesRepository = TestLastMessagesRepository()
     private lateinit var viewModel: ConversationsViewModel
 
     @Before
     fun setup() {
         viewModel = ConversationsViewModel(
-            conversationsRepository = conversationsRepository
+            conversationsRepository = conversationsRepository,
+            lastMessagesRepository = lastMessagesRepository
         )
     }
 
