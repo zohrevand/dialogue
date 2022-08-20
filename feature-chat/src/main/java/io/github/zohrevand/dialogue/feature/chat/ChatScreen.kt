@@ -22,8 +22,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
@@ -34,8 +32,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,7 +43,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -59,6 +54,7 @@ import io.github.zohrevand.core.model.data.peerLocalPart
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueGradientBackground
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
+import io.github.zohrevand.dialogue.core.ui.ChatTextField
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
 import io.github.zohrevand.dialogue.feature.chat.R.string.message_label
 import io.github.zohrevand.dialogue.feature.chat.R.string.send
@@ -213,7 +209,6 @@ private fun ChatState(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ChatInput(
     uiState: ChatUiState,
@@ -238,23 +233,14 @@ private fun ChatInput(
                 .imePadding(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TextField(
+            ChatTextField(
                 value = messageText,
                 onValueChange = {
                     setMessageText(it)
                     onUserTyping(it)
                 },
-                placeholder = { Text(text = stringResource(message_label)) },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                maxLines = 4,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color.Gray,
-                    focusedBorderColor = Color.DarkGray,
-                    unfocusedBorderColor = Color.Transparent,
-                    cursorColor = Color.DarkGray
-                ),
-                shape = RoundedCornerShape(24.dp),
+                placeholderTextId = message_label,
+                onDone = { focusManager.clearFocus() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 16.dp)
