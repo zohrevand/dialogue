@@ -61,7 +61,7 @@ class ChatViewModel @Inject constructor(
             if (conversation != null) {
                 Success(contactId, conversation, messages)
             } else {
-                conversationsRepository.updateConversation(
+                conversationsRepository.addConversation(
                     Conversation(
                         peerJid = contactId,
                         status = Started,
