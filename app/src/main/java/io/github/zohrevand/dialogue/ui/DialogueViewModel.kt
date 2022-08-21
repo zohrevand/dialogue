@@ -54,13 +54,10 @@ class DialogueViewModel @Inject constructor(
     }
 
     private suspend fun resetConversation(contactId: String) {
-        conversationsRepository
-            .getConversation(peerJid = contactId)
-            .first()?.let { conversation ->
-                conversationsRepository.updateConversation(
-                    conversation.copy(isChatOpen = false)
-                )
-            }
+        conversationsRepository.updateConversation(
+            peerJid = contactId,
+            isChatOpen = false
+        )
     }
 
     private suspend fun resetChatState(contactId: String) {
