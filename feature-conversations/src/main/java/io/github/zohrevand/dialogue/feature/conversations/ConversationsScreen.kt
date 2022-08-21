@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -89,7 +88,6 @@ fun ConversationsScreen(
         modifier = modifier
     ) { innerPadding ->
         LazyColumn(
-            contentPadding = PaddingValues(16.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
@@ -141,6 +139,7 @@ private fun ConversationItem(
         modifier = Modifier
             .height(80.dp)
             .clickable { onConversationClick(conversation.peerJid) }
+            .padding(horizontal = 16.dp)
     ) {
         ContactThumb(firstLetter = conversation.firstLetter)
 
