@@ -80,7 +80,7 @@ class ChatViewModel @Inject constructor(
     fun sendMessage(text: String) {
         currentChatState.cancelSendingPausedState()
         viewModelScope.launch {
-            messagesRepository.updateMessage(
+            messagesRepository.addMessage(
                 Message.create(text, contactId)
             )
 
