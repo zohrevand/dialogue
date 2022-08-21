@@ -1,7 +1,6 @@
 package io.github.zohrevand.dialogue.service.xmpp
 
 import android.util.Log
-import io.github.zohrevand.core.model.data.ChatState
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.MessageStatus.Sent
 import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
@@ -125,26 +124,10 @@ class MessageManagerImpl @Inject constructor(
     ) {
         Log.d(TAG, "IncomingListener - from: $from, message: $message, chat: $chat")
 
-        // TODO: make these database interactions transactional
         scope.launch {
-            val peerJid = from.toString()
-            val messageId = messagesRepository.addMessage(message.asExternalModel())
-            val conversation = conversationsRepository.getConversation(peerJid).first()
-
-            if (conversation == null) {
-                conversationsRepository.addConversation(from.asConversation())
-            }
-
-            val unreadMessagesCount =
-                if (conversation == null) 1
-                else if (conversation.isChatOpen) 0
-                else conversation.unreadMessagesCount + 1
-
-            conversationsRepository.updateConversation(
-                peerJid = peerJid,
-                unreadMessagesCount = unreadMessagesCount,
-                chatState = ChatState.Active,
-                lastMessageId = messageId
+            messagesRepository.handleIncomingMessage(
+                message = message.asExternalModel(),
+                maybeNewConversation = from.asConversation()
             )
         }
     }
