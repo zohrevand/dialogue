@@ -3,7 +3,6 @@ package io.github.zohrevand.dialogue.feature.contacts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -95,10 +94,9 @@ fun ContactsScreen(
             }
         },
         containerColor = Color.Transparent,
-        modifier = modifier
+        modifier = modifier.padding(bottom = NavigationBarsHeight)
     ) { innerPadding ->
         LazyColumn(
-            contentPadding = PaddingValues(bottom = NavigationBarsHeight),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)

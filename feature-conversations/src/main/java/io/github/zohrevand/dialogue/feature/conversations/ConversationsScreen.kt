@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -87,10 +86,9 @@ fun ConversationsScreen(
             )
         },
         containerColor = Color.Transparent,
-        modifier = modifier
+        modifier = modifier.padding(bottom = NavigationBarsHeight)
     ) { innerPadding ->
         LazyColumn(
-            contentPadding = PaddingValues(bottom = NavigationBarsHeight),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
