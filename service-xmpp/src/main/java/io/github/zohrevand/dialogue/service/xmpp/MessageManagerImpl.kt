@@ -2,7 +2,6 @@ package io.github.zohrevand.dialogue.service.xmpp
 
 import android.util.Log
 import io.github.zohrevand.core.model.data.Message
-import io.github.zohrevand.core.model.data.MessageStatus.Sent
 import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
 import io.github.zohrevand.core.model.data.SendingChatState
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
@@ -132,6 +131,9 @@ class MessageManagerImpl @Inject constructor(
         }
     }
 
+    // TODO: This indicates that Smack have been tried to send the message and
+    //  actually this does not mean that server received the message.
+    //  Use proper mechanism to determine the message received by server
     private fun handleOutgoingMessage(
         to: EntityBareJid,
         messageBuilder: MessageBuilder,
@@ -139,17 +141,8 @@ class MessageManagerImpl @Inject constructor(
     ) {
         Log.d(TAG, "OutgoingListener - to: $to, messageBuilder: $messageBuilder, chat: $chat")
 
-        // TODO: make these database interactions transactional
         scope.launch {
-            val message = messagesRepository.getMessageByStanzaId(messageBuilder.stanzaId).first()
-            requireNotNull(message) { "Message must not be null" }
-
-            messagesRepository.updateMessage(message.copy(status = Sent))
-
-            conversationsRepository.updateConversation(
-                peerJid = to.toString(),
-                lastMessageId = message.id!!
-            )
+            messagesRepository.handleOutgoingMessage(messageBuilder.stanzaId)
         }
     }
 
