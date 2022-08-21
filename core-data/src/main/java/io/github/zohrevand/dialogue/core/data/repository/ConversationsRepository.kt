@@ -24,11 +24,11 @@ interface ConversationsRepository {
 
     suspend fun updateConversation(
         peerJid: String,
-        lastMessageId: Long
+        unreadMessagesCount: Int,
+        isChatOpen: Boolean
     )
 
-    suspend fun updateConversation(
-        peerJid: String,
-        chatState: ChatState
-    )
+    suspend fun updateConversation(peerJid: String, lastMessageId: Long)
+
+    suspend fun updateConversation(peerJid: String, chatState: ChatState)
 }

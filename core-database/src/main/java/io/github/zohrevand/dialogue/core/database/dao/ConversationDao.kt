@@ -69,6 +69,21 @@ interface ConversationDao {
     @Query(
         """
             UPDATE conversations
+            SET 
+            unread_messages_count = :unreadMessagesCount,
+            is_chat_open = :isChatOpen
+            WHERE peer_jid = :peerJid
+        """
+    )
+    suspend fun update(
+        peerJid: String,
+        unreadMessagesCount: Int,
+        isChatOpen: Boolean
+    )
+
+    @Query(
+        """
+            UPDATE conversations
             SET last_message_id = :lastMessageId
             WHERE peer_jid = :peerJid
         """

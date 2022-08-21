@@ -40,6 +40,16 @@ class OfflineFirstConversationsRepository @Inject constructor(
         lastMessageId = lastMessageId
     )
 
+    override suspend fun updateConversation(
+        peerJid: String,
+        unreadMessagesCount: Int,
+        isChatOpen: Boolean
+    ) = conversationDao.update(
+        peerJid = peerJid,
+        unreadMessagesCount = unreadMessagesCount,
+        isChatOpen = isChatOpen
+    )
+
     override suspend fun updateConversation(peerJid: String, lastMessageId: Long) =
         conversationDao.update(peerJid = peerJid, lastMessageId = lastMessageId)
 
