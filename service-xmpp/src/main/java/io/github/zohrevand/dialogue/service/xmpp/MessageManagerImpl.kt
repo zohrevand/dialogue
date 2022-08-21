@@ -179,12 +179,10 @@ class MessageManagerImpl @Inject constructor(
 
         scope.launch {
             val peerJid = chat.xmppAddressOfChatPartner.toString()
-            val conversation = conversationsRepository.getConversation(peerJid).first()
-            conversation?.let {
-                conversationsRepository.updateConversation(
-                    it.copy(chatState = state.asExternalEnum())
-                )
-            }
+            conversationsRepository.updateConversation(
+                peerJid = peerJid,
+                chatState = state.asExternalEnum()
+            )
         }
     }
 
