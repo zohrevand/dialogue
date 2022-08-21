@@ -255,7 +255,7 @@ private fun ChatInput(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp)
+                    .padding(vertical = 12.dp)
                     .padding(start = 16.dp)
                     .weight(1f)
             )
