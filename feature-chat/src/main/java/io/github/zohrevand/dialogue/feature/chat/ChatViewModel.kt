@@ -24,7 +24,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -48,8 +47,8 @@ class ChatViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            openChat()
             sendChatState(Active)
-            updateConversation()
         }
     }
 
@@ -61,7 +60,7 @@ class ChatViewModel @Inject constructor(
             if (conversation != null) {
                 Success(contactId, conversation, messages)
             } else {
-                conversationsRepository.updateConversation(
+                conversationsRepository.addConversation(
                     Conversation(
                         peerJid = contactId,
                         status = Started,
@@ -80,7 +79,7 @@ class ChatViewModel @Inject constructor(
     fun sendMessage(text: String) {
         currentChatState.cancelSendingPausedState()
         viewModelScope.launch {
-            messagesRepository.updateMessage(
+            messagesRepository.addMessage(
                 Message.create(text, contactId)
             )
 
@@ -89,8 +88,6 @@ class ChatViewModel @Inject constructor(
     }
 
     fun userTyping(messageText: String) {
-        updateDraft(messageText)
-
         currentChatState.cancelSendingPausedState()
         val sendingPausedStateJob = viewModelScope.launch {
             delay(3_000)
@@ -98,10 +95,12 @@ class ChatViewModel @Inject constructor(
         }
         currentChatState = currentChatState.copy(sendingPausedStateJob = sendingPausedStateJob)
 
-        if (currentChatState.shouldSendComposing()) {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            if (currentChatState.shouldSendComposing()) {
                 sendChatState(Composing)
             }
+
+            updateDraft(messageText)
         }
     }
 
@@ -112,24 +111,20 @@ class ChatViewModel @Inject constructor(
         )
     }
 
-    private suspend fun updateConversation() {
-        conversation.first()?.let {
-            conversationsRepository.updateConversation(
-                it.copy(
-                    unreadMessagesCount = 0,
-                    isChatOpen = true
-                )
-            )
-        }
+    private suspend fun openChat() {
+        conversationsRepository.updateConversation(
+            peerJid = contactId,
+            unreadMessagesCount = 0,
+            isChatOpen = true
+        )
     }
 
-    private fun updateDraft(messageText: String?) {
+    private suspend fun updateDraft(messageText: String?) {
         val updatedDraft = if (messageText?.isNotBlank() == true) messageText else null
-        viewModelScope.launch {
-            conversation.first()?.let {
-                conversationsRepository.updateConversation(it.copy(draftMessage = updatedDraft))
-            }
-        }
+        conversationsRepository.updateConversation(
+            peerJid = contactId,
+            draftMessage = updatedDraft
+        )
     }
 }
 

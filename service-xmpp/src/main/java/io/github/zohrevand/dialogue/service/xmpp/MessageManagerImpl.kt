@@ -2,13 +2,11 @@ package io.github.zohrevand.dialogue.service.xmpp
 
 import android.util.Log
 import io.github.zohrevand.core.model.data.ChatState
-import io.github.zohrevand.core.model.data.LastMessage
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.MessageStatus.Sent
 import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
 import io.github.zohrevand.core.model.data.SendingChatState
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
-import io.github.zohrevand.dialogue.core.data.repository.LastMessagesRepository
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
 import io.github.zohrevand.dialogue.service.xmpp.collector.ChatStateCollector
 import io.github.zohrevand.dialogue.service.xmpp.collector.MessagesCollector
@@ -46,8 +44,7 @@ class MessageManagerImpl @Inject constructor(
     private val messagesCollector: MessagesCollector,
     private val chatStateCollector: ChatStateCollector,
     private val messagesRepository: MessagesRepository,
-    private val conversationsRepository: ConversationsRepository,
-    private val lastMessagesRepository: LastMessagesRepository
+    private val conversationsRepository: ConversationsRepository
 ) : MessageManager {
 
     private val scope = CoroutineScope(SupervisorJob())
@@ -128,28 +125,27 @@ class MessageManagerImpl @Inject constructor(
     ) {
         Log.d(TAG, "IncomingListener - from: $from, message: $message, chat: $chat")
 
+        // TODO: make these database interactions transactional
         scope.launch {
-            val conversation = conversationsRepository.getConversation(from.toString()).first()
-                ?: from.asConversation()
+            val peerJid = from.toString()
+            val messageId = messagesRepository.addMessage(message.asExternalModel())
+            val conversation = conversationsRepository.getConversation(peerJid).first()
 
-            messagesRepository.updateMessage(message.asExternalModel())
+            if (conversation == null) {
+                conversationsRepository.addConversation(from.asConversation())
+            }
 
-            val lastMessage = messagesRepository.getMessageByStanzaId(message.stanzaId).first()
             val unreadMessagesCount =
-                if (conversation.isChatOpen) 0 else conversation.unreadMessagesCount + 1
+                if (conversation == null) 1
+                else if (conversation.isChatOpen) 0
+                else conversation.unreadMessagesCount + 1
 
             conversationsRepository.updateConversation(
-                conversation.copy(
-                    unreadMessagesCount = unreadMessagesCount,
-                    chatState = ChatState.Active
-                )
+                peerJid = peerJid,
+                unreadMessagesCount = unreadMessagesCount,
+                chatState = ChatState.Active,
+                lastMessageId = messageId
             )
-
-            lastMessage?.let {
-                lastMessagesRepository.updateLastMessage(
-                    LastMessage(peerJid = conversation.peerJid, lastMessage = lastMessage)
-                )
-            }
         }
     }
 
@@ -160,16 +156,16 @@ class MessageManagerImpl @Inject constructor(
     ) {
         Log.d(TAG, "OutgoingListener - to: $to, messageBuilder: $messageBuilder, chat: $chat")
 
+        // TODO: make these database interactions transactional
         scope.launch {
-            // TODO: if user has multiple clients this will return null because stanzaId
-            //  does not exist for other clients
             val message = messagesRepository.getMessageByStanzaId(messageBuilder.stanzaId).first()
             requireNotNull(message) { "Message must not be null" }
 
             messagesRepository.updateMessage(message.copy(status = Sent))
 
-            lastMessagesRepository.updateLastMessage(
-                LastMessage(peerJid = message.peerJid, lastMessage = message)
+            conversationsRepository.updateConversation(
+                peerJid = to.toString(),
+                lastMessageId = message.id!!
             )
         }
     }
@@ -183,12 +179,10 @@ class MessageManagerImpl @Inject constructor(
 
         scope.launch {
             val peerJid = chat.xmppAddressOfChatPartner.toString()
-            val conversation = conversationsRepository.getConversation(peerJid).first()
-            conversation?.let {
-                conversationsRepository.updateConversation(
-                    it.copy(chatState = state.asExternalEnum())
-                )
-            }
+            conversationsRepository.updateConversation(
+                peerJid = peerJid,
+                chatState = state.asExternalEnum()
+            )
         }
     }
 

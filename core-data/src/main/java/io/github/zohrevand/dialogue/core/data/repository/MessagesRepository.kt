@@ -18,6 +18,8 @@ interface MessagesRepository {
 
     fun getMessagesStream(status: MessageStatus): Flow<List<Message>>
 
+    suspend fun addMessage(message: Message): Long
+
     suspend fun updateMessage(message: Message)
 
     suspend fun updateMessages(messages: List<Message>)

@@ -76,6 +76,12 @@ interface MessageDao {
     suspend fun upsert(messageEntities: List<MessageEntity>)
 
     /**
+     * Inserts [messageEntity] into the db if it doesn't exist, and ignores if it exists
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(messageEntity: MessageEntity): Long
+
+    /**
      * Deletes row in the db matching the specified [id]
      */
     @Query(
