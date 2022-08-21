@@ -65,4 +65,16 @@ interface ConversationDao {
         chatState: ChatState,
         lastMessageId: Long
     )
+
+    @Query(
+        """
+            UPDATE conversations
+            SET last_message_id = :lastMessageId
+            WHERE peer_jid = :peerJid
+        """
+    )
+    suspend fun update(
+        peerJid: String,
+        lastMessageId: Long
+    )
 }
