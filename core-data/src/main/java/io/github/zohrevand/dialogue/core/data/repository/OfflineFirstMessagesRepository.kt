@@ -58,4 +58,7 @@ class OfflineFirstMessagesRepository @Inject constructor(
         message.asEntity(),
         maybeNewConversation.asEntity()
     )
+
+    override suspend fun handleOutgoingMessage(stanzaId: String) =
+        messageTransaction.handleOutgoingMessage(stanzaId)
 }

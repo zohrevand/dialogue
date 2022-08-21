@@ -28,4 +28,6 @@ interface MessagesRepository {
     suspend fun deleteMessage(id: String)
 
     suspend fun handleIncomingMessage(message: Message, maybeNewConversation: Conversation)
+
+    suspend fun handleOutgoingMessage(stanzaId: String)
 }
