@@ -3,7 +3,6 @@ package io.github.zohrevand.dialogue.feature.contacts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -97,7 +96,6 @@ fun ContactsScreen(
         modifier = modifier
     ) { innerPadding ->
         LazyColumn(
-            contentPadding = PaddingValues(16.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
@@ -158,9 +156,13 @@ private fun ContactItem(
         modifier = Modifier
             .height(80.dp)
             .clickable { onContactClick(contact.jid) }
+            .padding(horizontal = 16.dp)
     ) {
         ContactThumb(firstLetter = contact.firstLetter)
 
-        Text(text = contact.jid)
+        Text(
+            text = contact.jid,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
