@@ -9,4 +9,6 @@ interface MessageTransaction {
         messageEntity: MessageEntity,
         maybeNewConversationEntity: ConversationEntity
     )
+
+    suspend fun handleOutgoingMessage(stanzaId: String)
 }

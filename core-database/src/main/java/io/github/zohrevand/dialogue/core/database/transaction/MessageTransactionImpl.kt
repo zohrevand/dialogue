@@ -2,6 +2,7 @@ package io.github.zohrevand.dialogue.core.database.transaction
 
 import androidx.room.withTransaction
 import io.github.zohrevand.core.model.data.ChatState
+import io.github.zohrevand.core.model.data.MessageStatus.Sent
 import io.github.zohrevand.dialogue.core.database.DialogueDatabase
 import io.github.zohrevand.dialogue.core.database.model.ConversationEntity
 import io.github.zohrevand.dialogue.core.database.model.MessageEntity
@@ -43,6 +44,23 @@ class MessageTransactionImpl @Inject constructor(
                 unreadMessagesCount = unreadMessagesCount,
                 chatState = ChatState.Active,
                 lastMessageId = messageId
+            )
+        }
+    }
+
+    override suspend fun handleOutgoingMessage(stanzaId: String) = mutex.withLock {
+        database.withTransaction {
+            val conversationDao = database.conversationDao()
+            val messageDao = database.messageDao()
+
+            val message = messageDao.getMessageEntityByStanzaId(stanzaId).first()
+            checkNotNull(message) { "Message should not be null" }
+
+            messageDao.upsert(message.copy(status = Sent))
+
+            conversationDao.update(
+                peerJid = message.peerJid,
+                lastMessageId = message.id
             )
         }
     }
