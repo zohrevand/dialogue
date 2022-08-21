@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -87,6 +88,8 @@ fun ChatScreen(
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberLazyListState()
+    val focusManager = LocalFocusManager.current
+    val keyboardState by keyboardAsState()
 
     LaunchedEffect(uiState) {
         if (uiState is ChatUiState.Success) {
@@ -98,6 +101,12 @@ fun ChatScreen(
             if (isLastMessageMine || scrollState.firstVisibleItemIndex <= 1) {
                 scrollState.animateScrollToItem(0)
             }
+        }
+    }
+
+    LaunchedEffect(key1 = keyboardState) {
+        if (keyboardState == KeyboardState.Closed) {
+            focusManager.clearFocus()
         }
     }
 
