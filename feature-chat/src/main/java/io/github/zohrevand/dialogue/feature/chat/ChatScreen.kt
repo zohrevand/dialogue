@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.feature.chat
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -43,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -154,6 +156,13 @@ fun ChatScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .weight(1f)
+                        .pointerInput(Unit) {
+                            detectTapGestures {
+                                if (keyboardState == Opened) {
+                                    focusManager.clearFocus()
+                                }
+                            }
+                        }
                 ) {
                     messages(uiState = uiState)
                 }
