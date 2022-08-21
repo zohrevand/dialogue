@@ -1,6 +1,9 @@
 package io.github.zohrevand.dialogue.core.systemdesign.component
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -8,6 +11,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -79,6 +83,7 @@ fun DialogueNavigationBar(
  * Dialogue navigation default values.
  */
 object DialogueNavigationDefaults {
+    val NavigationBarHeight = 80.dp
     val NavigationContainerColor = Color.Transparent
     @Composable
     fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
@@ -87,3 +92,8 @@ object DialogueNavigationDefaults {
     @Composable
     fun navigationIndicatorColor() = MaterialTheme.colorScheme.primaryContainer
 }
+
+val NavigationBarsHeight: Dp
+    @Composable
+    get() = DialogueNavigationDefaults.NavigationBarHeight +
+        WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
