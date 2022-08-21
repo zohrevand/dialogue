@@ -22,9 +22,6 @@ class OfflineFirstConversationsRepository @Inject constructor(
         conversationDao.getConversationEntitiesStream(status)
             .map { it.map(PopulatedConversation::asExternalModel) }
 
-    override suspend fun updateConversation(conversation: Conversation) =
-        conversationDao.upsert(conversation.asEntity())
-
     override suspend fun addConversation(conversation: Conversation): Long =
         conversationDao.insert(conversation.asEntity())
 

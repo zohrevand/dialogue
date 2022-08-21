@@ -15,8 +15,6 @@ interface ConversationsRepository {
 
     fun getConversationsStream(status: ConversationStatus): Flow<List<Conversation>>
 
-    suspend fun updateConversation(conversation: Conversation)
-
     suspend fun addConversation(conversation: Conversation): Long
 
     suspend fun updateConversation(

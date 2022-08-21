@@ -23,9 +23,6 @@ class TestConversationsRepository : ConversationsRepository {
     override fun getConversationsStream(status: ConversationStatus): Flow<List<Conversation>> =
         conversationsFlow.map { conversations -> conversations.filter { it.status == status } }
 
-    override suspend fun updateConversation(conversation: Conversation) {
-        conversationsFlow.tryEmit(listOf(conversation))
-    }
 
     override suspend fun addConversation(conversation: Conversation): Long {
         throw NotImplementedError("Unused in tests")

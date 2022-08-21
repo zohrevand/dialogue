@@ -40,12 +40,6 @@ interface ConversationDao {
     fun getConversationEntitiesStream(status: ConversationStatus): Flow<List<PopulatedConversation>>
 
     /**
-     * Inserts [conversationEntity] into the db if it doesn't exist, and update if it do
-     */
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(conversationEntity: ConversationEntity)
-
-    /**
      * Inserts [conversationEntity] into the db if it doesn't exist, and ignores if it exists
      */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
