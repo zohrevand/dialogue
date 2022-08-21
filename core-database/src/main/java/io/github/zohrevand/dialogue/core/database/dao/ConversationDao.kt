@@ -43,6 +43,12 @@ interface ConversationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(conversationEntity: ConversationEntity)
 
+    /**
+     * Inserts [conversationEntity] into the db if it doesn't exist, and ignore if it exists
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(conversationEntity: ConversationEntity): Long
+
     @Query(
         """
             UPDATE conversations

@@ -14,6 +14,8 @@ interface ConversationsRepository {
 
     suspend fun updateConversation(conversation: Conversation)
 
+    suspend fun addConversation(conversation: Conversation): Long
+
     suspend fun updateConversation(
         peerJid: String,
         unreadMessagesCount: Int,

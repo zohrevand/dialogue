@@ -27,6 +27,10 @@ class TestConversationsRepository : ConversationsRepository {
         conversationsFlow.tryEmit(listOf(conversation))
     }
 
+    override suspend fun addConversation(conversation: Conversation): Long {
+        throw NotImplementedError("Unused in tests")
+    }
+
     override suspend fun updateConversation(
         peerJid: String,
         unreadMessagesCount: Int,
