@@ -24,7 +24,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -89,8 +88,6 @@ class ChatViewModel @Inject constructor(
     }
 
     fun userTyping(messageText: String) {
-        updateDraft(messageText)
-
         currentChatState.cancelSendingPausedState()
         val sendingPausedStateJob = viewModelScope.launch {
             delay(3_000)
@@ -98,10 +95,12 @@ class ChatViewModel @Inject constructor(
         }
         currentChatState = currentChatState.copy(sendingPausedStateJob = sendingPausedStateJob)
 
-        if (currentChatState.shouldSendComposing()) {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            if (currentChatState.shouldSendComposing()) {
                 sendChatState(Composing)
             }
+
+            updateDraft(messageText)
         }
     }
 
@@ -120,13 +119,12 @@ class ChatViewModel @Inject constructor(
         )
     }
 
-    private fun updateDraft(messageText: String?) {
+    private suspend fun updateDraft(messageText: String?) {
         val updatedDraft = if (messageText?.isNotBlank() == true) messageText else null
-        viewModelScope.launch {
-            conversation.first()?.let {
-                conversationsRepository.updateConversation(it.copy(draftMessage = updatedDraft))
-            }
-        }
+        conversationsRepository.updateConversation(
+            peerJid = contactId,
+            draftMessage = updatedDraft
+        )
     }
 }
 
