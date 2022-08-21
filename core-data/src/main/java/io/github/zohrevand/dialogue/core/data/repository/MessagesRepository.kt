@@ -1,5 +1,6 @@
 package io.github.zohrevand.dialogue.core.data.repository
 
+import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.MessageStatus
 import kotlinx.coroutines.flow.Flow
@@ -25,4 +26,8 @@ interface MessagesRepository {
     suspend fun updateMessages(messages: List<Message>)
 
     suspend fun deleteMessage(id: String)
+
+    suspend fun handleIncomingMessage(message: Message, maybeNewConversation: Conversation)
+
+    suspend fun handleOutgoingMessage(stanzaId: String)
 }
