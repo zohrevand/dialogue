@@ -36,6 +36,9 @@ class OfflineFirstMessagesRepository @Inject constructor(
         messageDao.getMessageEntitiesStream(status)
             .map { it.map(MessageEntity::asExternalModel) }
 
+    override suspend fun addMessage(message: Message): Long =
+        messageDao.insert(message.asEntity())
+
     override suspend fun updateMessage(message: Message) =
         messageDao.upsert(message.asEntity())
 
