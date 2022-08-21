@@ -57,6 +57,7 @@ import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueGradient
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
 import io.github.zohrevand.dialogue.core.ui.ChatTextField
+import io.github.zohrevand.dialogue.feature.chat.KeyboardState.Opened
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
 import io.github.zohrevand.dialogue.feature.chat.R.string.send
 
@@ -121,7 +122,13 @@ fun ChatScreen(
                     },
                     navigationIcon = Filled.ArrowBack,
                     navigationIconContentDescription = stringResource(back),
-                    onNavigationClick = { onBackClick(uiState.contactId) },
+                    onNavigationClick = {
+                        if (keyboardState == Opened) {
+                            focusManager.clearFocus()
+                        } else {
+                            onBackClick(uiState.contactId)
+                        }
+                    },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = Color.Transparent
                     ),
