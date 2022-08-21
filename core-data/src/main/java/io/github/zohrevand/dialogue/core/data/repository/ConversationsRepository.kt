@@ -5,6 +5,10 @@ import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * There are multiple update methods to handle various concurrent updates
+ * from different parts of application
+ */
 interface ConversationsRepository {
 
     fun getConversation(peerJid: String): Flow<Conversation?>
