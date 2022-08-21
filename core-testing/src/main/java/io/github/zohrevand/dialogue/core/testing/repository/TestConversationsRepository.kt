@@ -56,6 +56,10 @@ class TestConversationsRepository : ConversationsRepository {
         throw NotImplementedError("Unused in tests")
     }
 
+    override suspend fun updateConversation(peerJid: String, draftMessage: String?) {
+        throw NotImplementedError("Unused in tests")
+    }
+
     /**
      * A test-only API to allow controlling the list of conversations from tests.
      */
