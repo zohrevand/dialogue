@@ -1,5 +1,6 @@
 package io.github.zohrevand.dialogue.core.testing.repository
 
+import io.github.zohrevand.core.model.data.ChatState
 import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
@@ -24,6 +25,15 @@ class TestConversationsRepository : ConversationsRepository {
 
     override suspend fun updateConversation(conversation: Conversation) {
         conversationsFlow.tryEmit(listOf(conversation))
+    }
+
+    override suspend fun updateConversation(
+        peerJid: String,
+        unreadMessagesCount: Int,
+        chatState: ChatState,
+        lastMessageId: Long
+    ) {
+        throw NotImplementedError("Unused in tests")
     }
 
     /**

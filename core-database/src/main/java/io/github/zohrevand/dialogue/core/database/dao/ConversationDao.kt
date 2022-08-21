@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import io.github.zohrevand.core.model.data.ChatState
 import io.github.zohrevand.core.model.data.ConversationStatus
 import io.github.zohrevand.dialogue.core.database.model.ConversationEntity
 import io.github.zohrevand.dialogue.core.database.model.PopulatedConversation
@@ -41,4 +42,21 @@ interface ConversationDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(conversationEntity: ConversationEntity)
+
+    @Query(
+        """
+            UPDATE conversations
+            SET
+            unread_messages_count = :unreadMessagesCount,
+            chat_state = :chatState,
+            last_message_id = :lastMessageId
+            WHERE peer_jid = :peerJid
+        """
+    )
+    suspend fun update(
+        peerJid: String,
+        unreadMessagesCount: Int,
+        chatState: ChatState,
+        lastMessageId: Long
+    )
 }

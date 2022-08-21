@@ -1,5 +1,6 @@
 package io.github.zohrevand.dialogue.core.data.repository
 
+import io.github.zohrevand.core.model.data.ChatState
 import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus
 import io.github.zohrevand.dialogue.core.data.model.asEntity
@@ -23,4 +24,16 @@ class OfflineFirstConversationsRepository @Inject constructor(
 
     override suspend fun updateConversation(conversation: Conversation) =
         conversationDao.upsert(conversation.asEntity())
+
+    override suspend fun updateConversation(
+        peerJid: String,
+        unreadMessagesCount: Int,
+        chatState: ChatState,
+        lastMessageId: Long
+    ) = conversationDao.update(
+        peerJid = peerJid,
+        unreadMessagesCount = unreadMessagesCount,
+        chatState = chatState,
+        lastMessageId = lastMessageId
+    )
 }
