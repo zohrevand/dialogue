@@ -113,14 +113,11 @@ class ChatViewModel @Inject constructor(
     }
 
     private suspend fun updateConversation() {
-        conversation.first()?.let {
-            conversationsRepository.updateConversation(
-                it.copy(
-                    unreadMessagesCount = 0,
-                    isChatOpen = true
-                )
-            )
-        }
+        conversationsRepository.updateConversation(
+            peerJid = contactId,
+            unreadMessagesCount = 0,
+            isChatOpen = true
+        )
     }
 
     private fun updateDraft(messageText: String?) {
