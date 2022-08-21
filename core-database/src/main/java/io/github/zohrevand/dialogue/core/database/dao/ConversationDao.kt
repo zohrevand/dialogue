@@ -44,7 +44,7 @@ interface ConversationDao {
     suspend fun upsert(conversationEntity: ConversationEntity)
 
     /**
-     * Inserts [conversationEntity] into the db if it doesn't exist, and ignore if it exists
+     * Inserts [conversationEntity] into the db if it doesn't exist, and ignores if it exists
      */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(conversationEntity: ConversationEntity): Long
