@@ -11,9 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -67,8 +71,14 @@ private fun AddContactContent(
     contact: String,
     setContact: (String) -> Unit,
     contactHasError: Boolean,
-    setContactHasError: (Boolean) -> Unit
+    setContactHasError: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ) {
+    val focusRequester = remember { FocusRequester() }
+    LocalView.current.viewTreeObserver.addOnWindowFocusChangeListener {
+        if (it) focusRequester.requestFocus()
+    }
+
     Column {
         OutlinedTextField(
             value = contact,
@@ -78,7 +88,9 @@ private fun AddContactContent(
             },
             label = { Text(text = stringResource(string.new_contact)) },
             isError = contactHasError,
-            modifier = Modifier.testTag("newContactTextField")
+            modifier = modifier
+                .testTag("newContactTextField")
+                .focusRequester(focusRequester)
         )
         AnimatedVisibility(visible = contactHasError) {
             Text(
