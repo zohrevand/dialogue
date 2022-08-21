@@ -48,8 +48,8 @@ class ChatViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            openChat()
             sendChatState(Active)
-            updateConversation()
         }
     }
 
@@ -112,7 +112,7 @@ class ChatViewModel @Inject constructor(
         )
     }
 
-    private suspend fun updateConversation() {
+    private suspend fun openChat() {
         conversationsRepository.updateConversation(
             peerJid = contactId,
             unreadMessagesCount = 0,
