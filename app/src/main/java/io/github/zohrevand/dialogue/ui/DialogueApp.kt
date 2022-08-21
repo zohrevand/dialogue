@@ -61,15 +61,6 @@ fun DialogueApp(
             Scaffold(
                 containerColor = Color.Transparent,
                 contentColor = MaterialTheme.colorScheme.onBackground,
-                bottomBar = {
-                    if (appState.shouldShowBottomBar) {
-                        DialogueBottomBar(
-                            destinations = appState.topLevelDestinations,
-                            onNavigateToDestination = appState::navigate,
-                            currentDestination = appState.currentDestination
-                        )
-                    }
-                },
             ) { padding ->
                 Box(
                     Modifier
@@ -89,6 +80,23 @@ fun DialogueApp(
                             .padding(padding)
                             .consumedWindowInsets(padding)
                     )
+
+                    // Declare bottom bar here instead of Scaffold bottomBar to avoid
+                    // ChatInput layout of ChatScreen to jump when navigating back.
+                    // Also wrap it inside AnimatedVisibility in order to conform to
+                    // navigation transition
+                    AnimatedVisibility(
+                        visible = appState.shouldShowBottomBar,
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                        modifier = Modifier.align(Alignment.BottomCenter)
+                    ) {
+                        DialogueBottomBar(
+                            destinations = appState.topLevelDestinations,
+                            onNavigateToDestination = appState::navigate,
+                            currentDestination = appState.currentDestination,
+                        )
+                    }
 
                     if (appState.shouldShowConnecting) {
                         Connecting(uiState is Connecting)
