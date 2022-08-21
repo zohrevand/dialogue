@@ -3,6 +3,7 @@ package io.github.zohrevand.dialogue.feature.contacts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -44,6 +45,7 @@ import io.github.zohrevand.core.model.data.firstLetter
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueDivider
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
+import io.github.zohrevand.dialogue.core.systemdesign.component.NavigationBarsHeight
 import io.github.zohrevand.dialogue.core.ui.ContactThumb
 import io.github.zohrevand.dialogue.feature.contacts.R.string.add
 import io.github.zohrevand.dialogue.feature.contacts.R.string.contacts_title
@@ -96,6 +98,7 @@ fun ContactsScreen(
         modifier = modifier
     ) { innerPadding ->
         LazyColumn(
+            contentPadding = PaddingValues(bottom = NavigationBarsHeight),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)

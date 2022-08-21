@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -46,6 +47,7 @@ import io.github.zohrevand.core.model.data.subtitle
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueDivider
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
+import io.github.zohrevand.dialogue.core.systemdesign.component.NavigationBarsHeight
 import io.github.zohrevand.dialogue.core.ui.ContactThumb
 import io.github.zohrevand.dialogue.feature.conversations.R.string.conversations_title
 
@@ -88,6 +90,7 @@ fun ConversationsScreen(
         modifier = modifier
     ) { innerPadding ->
         LazyColumn(
+            contentPadding = PaddingValues(bottom = NavigationBarsHeight),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
