@@ -37,4 +37,6 @@ interface ConversationsRepository {
     suspend fun updateConversation(peerJid: String, chatState: ChatState)
 
     suspend fun updateConversation(peerJid: String, draftMessage: String?)
+
+    suspend fun updateConversation(peerJid: String, isChatOpen: Boolean)
 }

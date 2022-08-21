@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * DAO for [ConversationEntity] access
+ * There are multiple update methods to handle various concurrent updates
+ * from different parts of application
  */
 @Dao
 interface ConversationDao {
@@ -115,5 +117,17 @@ interface ConversationDao {
     suspend fun update(
         peerJid: String,
         draftMessage: String?
+    )
+
+    @Query(
+        """
+            UPDATE conversations
+            SET is_chat_open = :isChatOpen
+            WHERE peer_jid = :peerJid
+        """
+    )
+    suspend fun update(
+        peerJid: String,
+        isChatOpen: Boolean
     )
 }

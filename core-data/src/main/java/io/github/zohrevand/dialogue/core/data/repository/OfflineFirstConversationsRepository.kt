@@ -58,4 +58,7 @@ class OfflineFirstConversationsRepository @Inject constructor(
 
     override suspend fun updateConversation(peerJid: String, draftMessage: String?) =
         conversationDao.update(peerJid = peerJid, draftMessage = draftMessage)
+
+    override suspend fun updateConversation(peerJid: String, isChatOpen: Boolean) =
+        conversationDao.update(peerJid = peerJid, isChatOpen = isChatOpen)
 }
