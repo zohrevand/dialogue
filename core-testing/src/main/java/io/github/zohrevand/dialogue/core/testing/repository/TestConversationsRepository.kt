@@ -40,10 +40,11 @@ class TestConversationsRepository : ConversationsRepository {
         throw NotImplementedError("Unused in tests")
     }
 
-    override suspend fun updateConversation(
-        peerJid: String,
-        lastMessageId: Long
-    ) {
+    override suspend fun updateConversation(peerJid: String, lastMessageId: Long) {
+        throw NotImplementedError("Unused in tests")
+    }
+
+    override suspend fun updateConversation(peerJid: String, chatState: ChatState) {
         throw NotImplementedError("Unused in tests")
     }
 

@@ -26,4 +26,9 @@ interface ConversationsRepository {
         peerJid: String,
         lastMessageId: Long
     )
+
+    suspend fun updateConversation(
+        peerJid: String,
+        chatState: ChatState
+    )
 }

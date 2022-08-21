@@ -42,4 +42,7 @@ class OfflineFirstConversationsRepository @Inject constructor(
 
     override suspend fun updateConversation(peerJid: String, lastMessageId: Long) =
         conversationDao.update(peerJid = peerJid, lastMessageId = lastMessageId)
+
+    override suspend fun updateConversation(peerJid: String, chatState: ChatState) =
+        conversationDao.update(peerJid = peerJid, chatState = chatState)
 }
