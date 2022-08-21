@@ -1,9 +1,7 @@
 package io.github.zohrevand.core.model.data
 
-import io.github.zohrevand.core.model.data.MessageStatus.Sent
-import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
-import io.github.zohrevand.core.model.data.MessageStatus.SentDisplayed
-import io.github.zohrevand.core.model.data.MessageStatus.SentFailed
+import io.github.zohrevand.core.model.data.MessageStatus.Received
+import io.github.zohrevand.core.model.data.MessageStatus.ReceivedDisplayed
 import io.github.zohrevand.core.model.data.MessageStatus.ShouldSend
 import java.util.UUID
 import kotlinx.datetime.Clock
@@ -29,7 +27,4 @@ data class Message(
 }
 
 val Message.isMine: Boolean
-    get() = status == Sent ||
-        status == SentFailed ||
-        status == SentDelivered ||
-        status == SentDisplayed
+    get() = status != Received && status != ReceivedDisplayed
