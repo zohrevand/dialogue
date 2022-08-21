@@ -57,7 +57,6 @@ import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingW
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
 import io.github.zohrevand.dialogue.core.ui.ChatTextField
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
-import io.github.zohrevand.dialogue.feature.chat.R.string.message_label
 import io.github.zohrevand.dialogue.feature.chat.R.string.send
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -240,7 +239,7 @@ private fun ChatInput(
         mutableStateOf(draftMessage)
     }
 
-    Surface(color = Color.DarkGray) {
+    Surface(color = MaterialTheme.colorScheme.surface) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -254,7 +253,6 @@ private fun ChatInput(
                     setMessageText(it)
                     onUserTyping(it)
                 },
-                placeholderTextId = message_label,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 16.dp)
