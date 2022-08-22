@@ -19,7 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons.Filled
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -90,7 +90,7 @@ fun ContactsScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { isDialogVisible = true }) {
-                Icon(imageVector = Filled.Add, contentDescription = stringResource(id = add))
+                Icon(imageVector = Filled.PersonAdd, contentDescription = stringResource(add))
             }
         },
         containerColor = Color.Transparent,
