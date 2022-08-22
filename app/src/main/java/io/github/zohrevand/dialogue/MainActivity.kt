@@ -1,11 +1,9 @@
 package io.github.zohrevand.dialogue
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -67,7 +65,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             val systemUiController = rememberSystemUiController()
             val darkTheme = themeConfig.shouldUseDarkTheme
-            val androidTheme = themeConfig.shouldUseAndroidTheme
 
             // Update the dark content of the system bars to match the theme
             DisposableEffect(systemUiController, darkTheme) {
@@ -77,8 +74,7 @@ class MainActivity : ComponentActivity() {
 
             DialogueTheme(
                 darkTheme = darkTheme,
-                dynamicColor = supportsDynamicTheming() && androidTheme,
-                androidTheme = !supportsDynamicTheming() && androidTheme
+                androidTheme = themeConfig.shouldUseAndroidTheme
             ) {
                 DialogueApp()
             }
@@ -103,6 +99,3 @@ private val ThemeConfig?.shouldUseDarkTheme: Boolean
         null, System -> isSystemInDarkTheme()
         else -> darkConfig == DarkConfig.Dark
     }
-
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
-private fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S

@@ -1,6 +1,7 @@
 package io.github.zohrevand.dialogue.core.systemdesign.theme
 
 import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -156,16 +157,16 @@ val DarkAndroidBackgroundTheme = BackgroundTheme(color = Color.Black)
  * The default theme color scheme is used by default.
  *
  * @param darkTheme Whether the theme should use a dark color scheme (follows system by default).
- * @param dynamicColor Whether the theme should use a dynamic color scheme (Android 12+ only).
  * @param androidTheme Whether the theme should use the Android theme color scheme.
  */
 @Composable
 fun DialogueTheme(
     darkTheme: Boolean = false,
-    dynamicColor: Boolean = false,
     androidTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {
+    val dynamicColor = supportsDynamicTheming() && androidTheme
+
     val colorScheme = when {
         dynamicColor -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -213,3 +214,6 @@ fun DialogueTheme(
         )
     }
 }
+
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
+private fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
