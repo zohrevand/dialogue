@@ -2,9 +2,11 @@ package io.github.zohrevand.dialogue.core.data.repository
 
 import io.github.zohrevand.core.model.data.Account
 import io.github.zohrevand.core.model.data.ConnectionStatus
+import io.github.zohrevand.core.model.data.ThemeConfig
 import io.github.zohrevand.dialogue.core.data.model.asPreferences
 import io.github.zohrevand.dialogue.core.datastore.DialoguePreferencesDataSource
 import io.github.zohrevand.dialogue.core.datastore.PreferencesAccount
+import io.github.zohrevand.dialogue.core.datastore.PreferencesThemeConfig
 import io.github.zohrevand.dialogue.core.datastore.asExternalModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -25,4 +27,10 @@ class OfflineFirstPreferencesRepository @Inject constructor(
 
     override suspend fun updateAccount(account: Account) =
         preferencesDataSource.updateAccount(account.asPreferences())
+
+    override fun getThemeConfig(): Flow<ThemeConfig> =
+        preferencesDataSource.getThemeConfig().map(PreferencesThemeConfig::asExternalModel)
+
+    override suspend fun updateThemeConfig(themeConfig: ThemeConfig) =
+        preferencesDataSource.updateThemeConfig(themeConfig.asPreferences())
 }
