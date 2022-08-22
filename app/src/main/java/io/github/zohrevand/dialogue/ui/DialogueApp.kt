@@ -39,10 +39,9 @@ import io.github.zohrevand.dialogue.core.navigation.NavigationParameters
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueBackground
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueNavigationBar
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueNavigationBarItem
-import io.github.zohrevand.dialogue.core.systemdesign.theme.DialogueTheme
 import io.github.zohrevand.dialogue.navigation.DialogueNavHost
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
-import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connecting
+import io.github.zohrevand.dialogue.ui.ConnectionStatusUiState.Connecting
 
 @OptIn(
     ExperimentalMaterial3Api::class,
@@ -54,53 +53,51 @@ fun DialogueApp(
     appState: DialogueAppState = rememberDialogueAppState(),
     viewModel: DialogueViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.connectionStatusUiState.collectAsStateWithLifecycle()
 
-    DialogueTheme {
-        DialogueBackground {
-            Scaffold(
-                containerColor = Color.Transparent,
-                contentColor = MaterialTheme.colorScheme.onBackground,
-            ) { padding ->
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .windowInsetsPadding(
-                            WindowInsets.safeDrawing.only(
-                                WindowInsetsSides.Horizontal
-                            )
+    DialogueBackground {
+        Scaffold(
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.onBackground,
+        ) { padding ->
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .windowInsetsPadding(
+                        WindowInsets.safeDrawing.only(
+                            WindowInsetsSides.Horizontal
                         )
-                ) {
-                    DialogueNavHost(
-                        navController = appState.navController,
-                        onNavigateToDestination = appState::navigate,
-                        onExitChat = viewModel::onExitChat,
-                        onBackClick = appState::onBackClick,
-                        modifier = Modifier
-                            .padding(padding)
-                            .consumedWindowInsets(padding)
                     )
+            ) {
+                DialogueNavHost(
+                    navController = appState.navController,
+                    onNavigateToDestination = appState::navigate,
+                    onExitChat = viewModel::onExitChat,
+                    onBackClick = appState::onBackClick,
+                    modifier = Modifier
+                        .padding(padding)
+                        .consumedWindowInsets(padding)
+                )
 
-                    // Declare bottom bar here instead of Scaffold bottomBar to avoid
-                    // ChatInput layout of ChatScreen to jump when navigating back.
-                    // Also wrap it inside AnimatedVisibility in order to conform to
-                    // navigation transition
-                    AnimatedVisibility(
-                        visible = appState.shouldShowBottomBar,
-                        enter = fadeIn(),
-                        exit = fadeOut(),
-                        modifier = Modifier.align(Alignment.BottomCenter)
-                    ) {
-                        DialogueBottomBar(
-                            destinations = appState.topLevelDestinations,
-                            onNavigateToDestination = appState::navigate,
-                            currentDestination = appState.currentDestination,
-                        )
-                    }
+                // Declare bottom bar here instead of Scaffold bottomBar to avoid
+                // ChatInput layout of ChatScreen to jump when navigating back.
+                // Also wrap it inside AnimatedVisibility in order to conform to
+                // navigation transition
+                AnimatedVisibility(
+                    visible = appState.shouldShowBottomBar,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                ) {
+                    DialogueBottomBar(
+                        destinations = appState.topLevelDestinations,
+                        onNavigateToDestination = appState::navigate,
+                        currentDestination = appState.currentDestination,
+                    )
+                }
 
-                    if (appState.shouldShowConnecting) {
-                        Connecting(uiState is Connecting)
-                    }
+                if (appState.shouldShowConnecting) {
+                    Connecting(uiState is Connecting)
                 }
             }
         }
