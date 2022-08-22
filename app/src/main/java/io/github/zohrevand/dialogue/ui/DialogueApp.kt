@@ -118,7 +118,7 @@ private fun Connecting(isConnecting: Boolean) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = stringResource(connecting),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier
                         .padding(vertical = 4.dp)
