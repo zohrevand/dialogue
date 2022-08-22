@@ -28,4 +28,18 @@ message UserPreferences {
   string accountDomainPart = 5;
   string accountPassword = 6;
   AccountStatus accountStatus = 7;
+
+  enum ThemeBranding {
+    Default = 0;
+    Android = 1;
+  }
+
+  enum DarkConfig {
+    System = 0;
+    Light = 1;
+    Dark = 2;
+  }
+
+  ThemeBranding themeBranding = 8;
+  DarkConfig darkConfig = 9;
 }
