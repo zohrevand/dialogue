@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.zohrevand.core.model.data.ChatState.Inactive
 import io.github.zohrevand.core.model.data.SendingChatState
+import io.github.zohrevand.core.model.data.ThemeConfig
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import io.github.zohrevand.dialogue.core.data.repository.SendingChatStatesRepository
@@ -41,6 +42,17 @@ class DialogueViewModel @Inject constructor(
                 initialValue = Idle
             )
 
+    val themeUiState: StateFlow<ThemeUiState> =
+        preferencesRepository.getThemeConfig()
+            .map { themeConfig ->
+                ThemeUiState.Success(themeConfig)
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = ThemeUiState.Loading
+            )
+
     fun onExitChat(contactId: String) {
         viewModelScope.launch {
             closeConversation(contactId)
@@ -68,4 +80,10 @@ sealed interface ConnectionStatusUiState {
     object Connected : ConnectionStatusUiState
 
     object Connecting : ConnectionStatusUiState
+}
+
+sealed interface ThemeUiState {
+    object Loading : ThemeUiState
+
+    data class Success(val themeConfig: ThemeConfig) : ThemeUiState
 }

@@ -1,7 +1,6 @@
 package io.github.zohrevand.dialogue.core.systemdesign.theme
 
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -162,7 +161,7 @@ val DarkAndroidBackgroundTheme = BackgroundTheme(color = Color.Black)
  */
 @Composable
 fun DialogueTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,
     dynamicColor: Boolean = false,
     androidTheme: Boolean = false,
     content: @Composable () -> Unit
