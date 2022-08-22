@@ -10,7 +10,7 @@ object SettingsDestination : DialogueNavigationDestination {
     override val destination = "settings_destination"
 }
 
-fun NavGraphBuilder.routerSettings() {
+fun NavGraphBuilder.settingsGraph() {
     composable(
         route = SettingsDestination.route,
     ) {
