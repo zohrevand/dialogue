@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
@@ -50,7 +51,7 @@ import io.github.zohrevand.dialogue.ui.ConnectionStatusUiState.Connecting
 @Composable
 fun DialogueApp(
     appState: DialogueAppState = rememberDialogueAppState(),
-    viewModel: DialogueViewModel
+    viewModel: DialogueViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.connectionStatusUiState.collectAsStateWithLifecycle()
 
