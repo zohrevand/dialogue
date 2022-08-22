@@ -14,6 +14,7 @@ import io.github.zohrevand.dialogue.feature.conversations.navigation.Conversatio
 import io.github.zohrevand.dialogue.feature.conversations.navigation.conversationsGraph
 import io.github.zohrevand.dialogue.feature.router.navigation.RouterDestination
 import io.github.zohrevand.dialogue.feature.router.navigation.routerGraph
+import io.github.zohrevand.dialogue.feature.settings.navigation.settingsGraph
 
 @Composable
 fun DialogueNavHost(
@@ -75,5 +76,6 @@ fun DialogueNavHost(
                 onNavigateToDestination(createNavigationParameters(it))
             }
         )
+        settingsGraph()
     }
 }

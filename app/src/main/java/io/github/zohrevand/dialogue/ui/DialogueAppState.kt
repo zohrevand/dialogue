@@ -3,6 +3,7 @@ package io.github.zohrevand.dialogue.ui
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Contacts
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -17,6 +18,7 @@ import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
 import io.github.zohrevand.dialogue.feature.contacts.navigation.ContactsDestination
 import io.github.zohrevand.dialogue.feature.conversations.navigation.ConversationsDestination
 import io.github.zohrevand.dialogue.feature.router.navigation.RouterDestination
+import io.github.zohrevand.dialogue.feature.settings.navigation.SettingsDestination
 import io.github.zohrevand.dialogue.navigation.TopLevelDestination
 
 @Composable
@@ -68,6 +70,12 @@ class DialogueAppState(
             destination = ContactsDestination.destination,
             icon = Filled.Contacts,
             iconTextId = string.contacts
+        ),
+        TopLevelDestination(
+            route = SettingsDestination.route,
+            destination = SettingsDestination.destination,
+            icon = Filled.Settings,
+            iconTextId = string.settings
         )
     )
 
