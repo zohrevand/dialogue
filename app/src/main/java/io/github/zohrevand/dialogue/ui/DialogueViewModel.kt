@@ -8,9 +8,9 @@ import io.github.zohrevand.core.model.data.SendingChatState
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import io.github.zohrevand.dialogue.core.data.repository.SendingChatStatesRepository
-import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connected
-import io.github.zohrevand.dialogue.ui.ConnectionUiState.Connecting
-import io.github.zohrevand.dialogue.ui.ConnectionUiState.Idle
+import io.github.zohrevand.dialogue.ui.ConnectionStatusUiState.Connected
+import io.github.zohrevand.dialogue.ui.ConnectionStatusUiState.Connecting
+import io.github.zohrevand.dialogue.ui.ConnectionStatusUiState.Idle
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +25,7 @@ class DialogueViewModel @Inject constructor(
     private val sendingChatStatesRepository: SendingChatStatesRepository
 ) : ViewModel() {
 
-    val uiState: StateFlow<ConnectionUiState> =
+    val connectionStatusUiState: StateFlow<ConnectionStatusUiState> =
         preferencesRepository.getConnectionStatus()
             .map { connectionStatus ->
                 if (connectionStatus.availability && connectionStatus.authenticated) {
@@ -62,10 +62,10 @@ class DialogueViewModel @Inject constructor(
     }
 }
 
-sealed interface ConnectionUiState {
-    object Idle : ConnectionUiState
+sealed interface ConnectionStatusUiState {
+    object Idle : ConnectionStatusUiState
 
-    object Connected : ConnectionUiState
+    object Connected : ConnectionStatusUiState
 
-    object Connecting : ConnectionUiState
+    object Connecting : ConnectionStatusUiState
 }
