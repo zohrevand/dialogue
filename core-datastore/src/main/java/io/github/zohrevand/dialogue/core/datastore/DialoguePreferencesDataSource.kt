@@ -64,4 +64,28 @@ class DialoguePreferencesDataSource @Inject constructor(
             Log.e("DialoguePreferences", "Failed to update user preferences", ioException)
         }
     }
+
+    fun getThemeConfig(): Flow<PreferencesThemeConfig> = userPreferences.data
+        .map {
+            PreferencesThemeConfig(
+                themeBranding = it.themeBranding,
+                darkConfig = it.darkConfig
+            )
+        }
+
+    /**
+     * Update the [PreferencesThemeConfig].
+     */
+    suspend fun updateThemeConfig(themeConfig: PreferencesThemeConfig) {
+        try {
+            userPreferences.updateData { currentPreferences ->
+                currentPreferences.copy {
+                    themeBranding = themeConfig.themeBranding
+                    darkConfig = themeConfig.darkConfig
+                }
+            }
+        } catch (ioException: IOException) {
+            Log.e("DialoguePreferences", "Failed to update user preferences", ioException)
+        }
+    }
 }
