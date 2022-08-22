@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 class DialoguePreferencesDataSource @Inject constructor(
@@ -18,6 +19,7 @@ class DialoguePreferencesDataSource @Inject constructor(
                 authenticated = it.connectionAuthenticated
             )
         }
+        .distinctUntilChanged()
 
     /**
      * Update the [PreferencesConnectionStatus].
@@ -45,6 +47,7 @@ class DialoguePreferencesDataSource @Inject constructor(
                 status = it.accountStatus
             )
         }
+        .distinctUntilChanged()
 
     /**
      * Update the [PreferencesAccount].
@@ -72,6 +75,7 @@ class DialoguePreferencesDataSource @Inject constructor(
                 darkConfig = it.darkConfig
             )
         }
+        .distinctUntilChanged()
 
     /**
      * Update the [PreferencesThemeConfig].

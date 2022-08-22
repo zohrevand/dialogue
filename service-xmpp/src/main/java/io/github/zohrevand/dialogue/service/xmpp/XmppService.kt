@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.IBinder
+import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import io.github.zohrevand.dialogue.service.xmpp.collector.AccountsCollector
@@ -51,6 +52,7 @@ class XmppService : Service() {
 
     private suspend fun observeConnectionStatus() {
         preferencesRepository.getConnectionStatus().collect { connectionStatus ->
+            Log.d("Collector", "Collecting connectionStatus: $connectionStatus")
             if (connectionStatus.availability && connectionStatus.authenticated) {
                 startForeground()
             } else {
