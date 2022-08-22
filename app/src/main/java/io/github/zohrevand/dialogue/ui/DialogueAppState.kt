@@ -1,8 +1,8 @@
 package io.github.zohrevand.dialogue.ui
 
 import androidx.compose.material.icons.Icons.Filled
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.filled.Contacts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -60,13 +60,13 @@ class DialogueAppState(
         TopLevelDestination(
             route = ConversationsDestination.route,
             destination = ConversationsDestination.destination,
-            icon = Filled.Star,
+            icon = Filled.Chat,
             iconTextId = string.conversations
         ),
         TopLevelDestination(
             route = ContactsDestination.route,
             destination = ContactsDestination.destination,
-            icon = Filled.Person,
+            icon = Filled.Contacts,
             iconTextId = string.contacts
         )
     )
