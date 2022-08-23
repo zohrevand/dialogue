@@ -3,6 +3,7 @@ package io.github.zohrevand.dialogue.feature.chat
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
@@ -100,7 +101,9 @@ fun ChatScreen(
             // did not change the list scroll and first message is visible
             // (the reason for less than or equal to 1 is sometimes the
             // first item is peer user's chat state description)
-            val isLastMessageMine = uiState.messages.isNotEmpty() && uiState.messages[0].isMine
+            // TODO: Fix this considering the result messages is a map of messages by sendTime
+            val isLastMessageMine =
+                uiState.messagesBySendTime.isNotEmpty() /*&& uiState.messages[0].isMine*/
             if (isLastMessageMine || scrollState.firstVisibleItemIndex <= 1) {
                 scrollState.animateScrollToItem(0)
             }
@@ -197,10 +200,31 @@ private fun LazyListScope.messages(uiState: ChatUiState) {
             }
         }
         is ChatUiState.Success -> {
-            items(uiState.messages, key = { it.stanzaId }) { message ->
-                MessageItem(message = message)
+            uiState.messagesBySendTime.forEach { (sendTime, messages) ->
+                items(messages, key = { it.id ?: 0 }) { message ->
+                    MessageItem(message = message)
+                }
+
+                item(key = sendTime) {
+                    MessageTime(sendTime)
+                }
             }
         }
+    }
+}
+
+@Composable
+fun MessageTime(
+    sendTime: String,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.fillMaxWidth()) {
+        Text(
+            text = sendTime,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.align(Alignment.Center)
+        )
     }
 }
 
