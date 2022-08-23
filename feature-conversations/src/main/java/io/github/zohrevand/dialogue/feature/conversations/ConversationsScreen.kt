@@ -42,6 +42,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.firstLetter
+import io.github.zohrevand.core.model.data.sendTimeFormatted
 import io.github.zohrevand.core.model.data.subtitle
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueDivider
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
@@ -150,10 +151,6 @@ private fun ConversationItem(
                 .fillMaxWidth()
                 .weight(1f)
         )
-
-        if (conversation.unreadMessagesCount > 0) {
-            MessagesCount(conversation = conversation)
-        }
     }
 }
 
@@ -166,33 +163,59 @@ private fun ConversationText(
         verticalArrangement = Arrangement.spacedBy(4.dp),
         modifier = modifier
     ) {
-        Text(text = conversation.peerJid)
-
-        conversation.subtitle?.let {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text(
-                text = it,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                color = Color.Gray
+                text = conversation.peerJid,
+                style = MaterialTheme.typography.bodyLarge
             )
+            conversation.lastMessage?.let {
+                Text(
+                    text = it.sendTimeFormatted,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            conversation.subtitle?.let {
+                Text(
+                    text = it,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    style = MaterialTheme.typography.bodyMedium,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
+                )
+            }
+            if (conversation.unreadMessagesCount > 0) {
+                MessagesCount(conversation.unreadMessagesCount)
+            }
         }
     }
 }
 
 @Composable
 private fun MessagesCount(
-    conversation: Conversation
+    unreadMessagesCount: Int
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .size(32.dp)
+            .size(24.dp)
             .clip(CircleShape)
-            .background(Color(0xFF4CAF50))
+            .background(MaterialTheme.colorScheme.tertiaryContainer)
     ) {
         Text(
-            text = conversation.unreadMessagesCount.toString(),
-            style = MaterialTheme.typography.titleMedium
+            text = unreadMessagesCount.toString(),
+            style = MaterialTheme.typography.labelMedium
         )
     }
 }
