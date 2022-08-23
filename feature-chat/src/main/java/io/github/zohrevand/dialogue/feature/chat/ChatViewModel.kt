@@ -12,7 +12,6 @@ import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.SendingChatState
-import io.github.zohrevand.core.model.data.sendTimeFormatted
 import io.github.zohrevand.core.model.data.sendTimeLocalDate
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
