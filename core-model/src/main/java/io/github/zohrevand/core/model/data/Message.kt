@@ -9,9 +9,12 @@ import java.util.UUID
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.toJavaInstant
+import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toLocalDateTime
 
 data class Message(
@@ -37,47 +40,52 @@ val Message.isMine: Boolean
     get() = status != Received && status != ReceivedDisplayed
 
 val Message.sendTimeFormatted: String
-    get() {
-        val zoneId = ZoneId.systemDefault()
-        val timeZone = TimeZone.currentSystemDefault()
-        val today = Clock.System.now().toLocalDateTime(timeZone).date
-        val yesterday = today.minus(1, DateTimeUnit.DAY)
-        val sendTimeLocalDateTime = sendTime.toLocalDateTime(timeZone)
-        val sendTimeLocalDate = sendTimeLocalDateTime.date
-
-        if (today == sendTimeLocalDate) {
-            return "${sendTimeLocalDateTime.hour}:${sendTimeLocalDateTime.minute}"
-        } else if (yesterday == sendTimeLocalDate) {
-            return "Yesterday"
-        }
-
-        return DateTimeFormatter.ofPattern("M/d/yyyy")
-            .withZone(zoneId).format(sendTime.toJavaInstant())
+    get() = if (sendTime.isToday) {
+        sendTime.localTime
+    } else if (sendTime.isYesterday) {
+        "Yesterday"
+    } else {
+        sendTime.dateFormatted
     }
 
-val Instant.localDateFormatted: String
-    get() {
-        val zoneId = ZoneId.systemDefault()
-        val timeZone = TimeZone.currentSystemDefault()
-        val today = Clock.System.now().toLocalDateTime(timeZone).date
-        val yesterday = today.minus(1, DateTimeUnit.DAY)
-        val sendTimeLocalDateTime = this.toLocalDateTime(timeZone)
-        val sendTimeLocalDate = sendTimeLocalDateTime.date
-
-        if (today == sendTimeLocalDate) {
-            return "Today"
-        } else if (yesterday == sendTimeLocalDate) {
-            return "Yesterday"
-        }
-
-        return DateTimeFormatter.ofPattern("M/d/yyyy")
-            .withZone(zoneId).format(this.toJavaInstant())
+val LocalDate.formatted: String
+    get() = if (this == today) {
+        "Today"
+    } else if (this == yesterday) {
+        "Yesterday"
+    } else {
+        dateFormatted
     }
+
+private val today: LocalDate
+    get() = Clock.System.now().toLocalDateTime(currentSystemTimeZone).date
+
+private val currentSystemTimeZone: TimeZone
+    get() = TimeZone.currentSystemDefault()
+
+private val yesterday: LocalDate
+    get() = today.minus(1, DateTimeUnit.DAY)
+
+private val Instant.isToday: Boolean
+    get() = localDate == today
+
+private val Instant.isYesterday: Boolean
+    get() = localDate == yesterday
 
 val Instant.localTime: String
-    get() {
-        val timeZone = TimeZone.currentSystemDefault()
-        val sendTimeLocalDateTime = this.toLocalDateTime(timeZone)
+    get() = "${localDateTime.hour}:${localDateTime.minute}"
 
-        return "${sendTimeLocalDateTime.hour}:${sendTimeLocalDateTime.minute}"
-    }
+val Instant.localDate: LocalDate
+    get() = localDateTime.date
+
+private val Instant.localDateTime: LocalDateTime
+    get() = toLocalDateTime(TimeZone.currentSystemDefault())
+
+private val Instant.dateFormatted: String
+    get() = DateTimeFormatter
+        .ofPattern("M/d/yyyy")
+        .withZone(ZoneId.systemDefault())
+        .format(this.toJavaInstant())
+
+private val LocalDate.dateFormatted: String
+    get() = toJavaLocalDate().format(DateTimeFormatter.ofPattern("M/d/yyyy"))

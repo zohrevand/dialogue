@@ -12,11 +12,12 @@ import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.SendingChatState
-import io.github.zohrevand.core.model.data.sendTimeLocalDate
+import io.github.zohrevand.core.model.data.localDate
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
 import io.github.zohrevand.dialogue.core.data.repository.SendingChatStatesRepository
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
+import java.util.Comparator
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
@@ -58,7 +60,8 @@ class ChatViewModel @Inject constructor(
         ) { conversation, messages ->
             if (conversation != null) {
                 val messagesBySendTime =
-                    messages.groupBy { it.sendTimeLocalDate }.toSortedMap()
+                    messages.groupBy { it.sendTime.localDate }
+                        .toSortedMap(Comparator.reverseOrder())
 
                 ChatUiState.Success(contactId, conversation, messagesBySendTime)
             } else {
@@ -145,7 +148,7 @@ sealed class ChatUiState(val contactId: String) {
     class Success(
         contactId: String,
         val conversation: Conversation,
-        val messagesBySendTime: Map<String, List<Message>>
+        val messagesBySendTime: Map<LocalDate, List<Message>>
     ) : ChatUiState(contactId)
 
     class Loading(contactId: String) : ChatUiState(contactId)

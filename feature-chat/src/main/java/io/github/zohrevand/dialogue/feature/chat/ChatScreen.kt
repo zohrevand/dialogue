@@ -54,6 +54,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.Message
+import io.github.zohrevand.core.model.data.formatted
 import io.github.zohrevand.core.model.data.isMine
 import io.github.zohrevand.core.model.data.peerLocalPart
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueGradientBackground
@@ -63,6 +64,7 @@ import io.github.zohrevand.dialogue.core.ui.ChatTextField
 import io.github.zohrevand.dialogue.feature.chat.KeyboardState.Opened
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
 import io.github.zohrevand.dialogue.feature.chat.R.string.send
+import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -205,7 +207,7 @@ private fun LazyListScope.messages(uiState: ChatUiState) {
                     MessageItem(message = message)
                 }
 
-                item(key = sendTime) {
+                item {
                     MessageTime(sendTime)
                 }
             }
@@ -215,12 +217,12 @@ private fun LazyListScope.messages(uiState: ChatUiState) {
 
 @Composable
 fun MessageTime(
-    sendTime: String,
+    sendTime: LocalDate,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxWidth()) {
         Text(
-            text = sendTime,
+            text = sendTime.formatted,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.align(Alignment.Center)
