@@ -55,13 +55,13 @@ val Message.sendTimeFormatted: String
             .withZone(zoneId).format(sendTime.toJavaInstant())
     }
 
-val Message.sendTimeLocalDate: String
+val Instant.localDateFormatted: String
     get() {
         val zoneId = ZoneId.systemDefault()
         val timeZone = TimeZone.currentSystemDefault()
         val today = Clock.System.now().toLocalDateTime(timeZone).date
         val yesterday = today.minus(1, DateTimeUnit.DAY)
-        val sendTimeLocalDateTime = sendTime.toLocalDateTime(timeZone)
+        val sendTimeLocalDateTime = this.toLocalDateTime(timeZone)
         val sendTimeLocalDate = sendTimeLocalDateTime.date
 
         if (today == sendTimeLocalDate) {
@@ -71,7 +71,7 @@ val Message.sendTimeLocalDate: String
         }
 
         return DateTimeFormatter.ofPattern("M/d/yyyy")
-            .withZone(zoneId).format(sendTime.toJavaInstant())
+            .withZone(zoneId).format(this.toJavaInstant())
     }
 
 val Instant.localTime: String
