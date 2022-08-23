@@ -73,3 +73,11 @@ val Message.sendTimeLocalDate: String
         return DateTimeFormatter.ofPattern("M/d/yyyy")
             .withZone(zoneId).format(sendTime.toJavaInstant())
     }
+
+val Message.sendTimeLocalTime: String
+    get() {
+        val timeZone = TimeZone.currentSystemDefault()
+        val sendTimeLocalDateTime = sendTime.toLocalDateTime(timeZone)
+
+        return "${sendTimeLocalDateTime.hour}:${sendTimeLocalDateTime.minute}"
+    }
