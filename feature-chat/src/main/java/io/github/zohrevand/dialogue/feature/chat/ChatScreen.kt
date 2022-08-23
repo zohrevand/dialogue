@@ -43,6 +43,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
@@ -56,6 +57,7 @@ import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.formatted
 import io.github.zohrevand.core.model.data.isMine
+import io.github.zohrevand.core.model.data.localTime
 import io.github.zohrevand.core.model.data.peerLocalPart
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueGradientBackground
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
@@ -223,7 +225,6 @@ fun MessageTime(
     Box(modifier = modifier.fillMaxWidth()) {
         Text(
             text = sendTime.formatted,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.align(Alignment.Center)
         )
@@ -245,11 +246,22 @@ private fun MessageItem(
             color = style.containerColor,
             shape = style.shape
         ) {
-            Text(
-                text = message.body,
-                color = style.contentColor,
-                modifier = Modifier.padding(16.dp)
-            )
+            Column {
+                Text(
+                    text = message.body,
+                    color = style.contentColor,
+                    modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                )
+                Text(
+                    text = message.sendTime.localTime,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
+                        .alpha(0.6f)
+                        .align(Alignment.End)
+                        .padding(horizontal = 16.dp)
+                        .padding(vertical = 8.dp)
+                )
+            }
         }
         Text(
             text = message.status.name,
@@ -330,21 +342,22 @@ private fun ChatInput(
     }
 }
 
+@Composable
 private fun getMessageStyle(isMine: Boolean): MessageStyle {
     return if (isMine) {
         MessageStyle(
             alignment = Alignment.CenterStart,
             horizontalAlignment = Alignment.Start,
-            containerColor = Color(0xFF3F51B5),
-            contentColor = Color.White,
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary,
             shape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
         )
     } else {
         MessageStyle(
             alignment = Alignment.CenterEnd,
             horizontalAlignment = Alignment.End,
-            containerColor = Color(0xFFC5CAE9),
-            contentColor = Color.Black,
+            containerColor = MaterialTheme.colorScheme.tertiary,
+            contentColor = MaterialTheme.colorScheme.onTertiary,
             shape = RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
         )
     }
