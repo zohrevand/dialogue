@@ -15,8 +15,6 @@ import io.github.zohrevand.core.model.data.SendingChatState
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
 import io.github.zohrevand.dialogue.core.data.repository.SendingChatStatesRepository
-import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Loading
-import io.github.zohrevand.dialogue.feature.chat.ChatUiState.Success
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
 import javax.inject.Inject
 import kotlinx.coroutines.Job
@@ -58,7 +56,7 @@ class ChatViewModel @Inject constructor(
             messages
         ) { conversation, messages ->
             if (conversation != null) {
-                Success(contactId, conversation, messages)
+                ChatUiState.Success(contactId, conversation, messages)
             } else {
                 conversationsRepository.addConversation(
                     Conversation(
@@ -67,13 +65,13 @@ class ChatViewModel @Inject constructor(
                         isChatOpen = true
                     )
                 )
-                Loading(contactId)
+                ChatUiState.Loading(contactId)
             }
         }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = Loading(contactId)
+                initialValue = ChatUiState.Loading(contactId)
             )
 
     fun sendMessage(text: String) {
@@ -149,5 +147,5 @@ sealed class ChatUiState(val contactId: String) {
     class Loading(contactId: String) : ChatUiState(contactId)
 }
 
-val Success.shouldShowChatState: Boolean
+val ChatUiState.Success.shouldShowChatState: Boolean
     get() = conversation.chatState == Composing || conversation.chatState == Paused
