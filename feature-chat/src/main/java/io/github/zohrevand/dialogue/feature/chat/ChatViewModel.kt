@@ -13,6 +13,7 @@ import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.SendingChatState
 import io.github.zohrevand.core.model.data.sendTimeFormatted
+import io.github.zohrevand.core.model.data.sendTimeLocalDate
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
 import io.github.zohrevand.dialogue.core.data.repository.SendingChatStatesRepository
@@ -58,7 +59,7 @@ class ChatViewModel @Inject constructor(
         ) { conversation, messages ->
             if (conversation != null) {
                 val messagesBySendTime =
-                    messages.groupBy { it.sendTimeFormatted }.toSortedMap()
+                    messages.groupBy { it.sendTimeLocalDate }.toSortedMap()
 
                 ChatUiState.Success(contactId, conversation, messagesBySendTime)
             } else {
