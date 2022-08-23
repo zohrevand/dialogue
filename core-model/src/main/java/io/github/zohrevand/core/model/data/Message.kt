@@ -74,10 +74,10 @@ val Message.sendTimeLocalDate: String
             .withZone(zoneId).format(sendTime.toJavaInstant())
     }
 
-val Message.sendTimeLocalTime: String
+val Instant.localTime: String
     get() {
         val timeZone = TimeZone.currentSystemDefault()
-        val sendTimeLocalDateTime = sendTime.toLocalDateTime(timeZone)
+        val sendTimeLocalDateTime = this.toLocalDateTime(timeZone)
 
         return "${sendTimeLocalDateTime.hour}:${sendTimeLocalDateTime.minute}"
     }
