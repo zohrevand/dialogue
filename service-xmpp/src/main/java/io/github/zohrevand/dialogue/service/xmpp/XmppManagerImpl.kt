@@ -55,7 +55,6 @@ class XmppManagerImpl @Inject constructor(
         xmppConnection = account.login(
             configurationBuilder = ::getConfiguration,
             connectionBuilder = ::XMPPTCPConnection,
-            reconnectionManager = ::configureReconnectionManager,
             connectionListener = ::addConnectionListener,
             successHandler = { account.connectionSuccessHandler(it) },
             failureHandler = { account.connectionFailureHandler(it) }
@@ -69,7 +68,6 @@ class XmppManagerImpl @Inject constructor(
     private suspend fun Account.login(
         configurationBuilder: (Account) -> XMPPTCPConnectionConfiguration,
         connectionBuilder: (XMPPTCPConnectionConfiguration) -> XMPPTCPConnection,
-        reconnectionManager: (XMPPTCPConnection) -> Unit,
         connectionListener: (XMPPTCPConnection) -> Unit,
         successHandler: suspend Account.(XMPPTCPConnection) -> XMPPTCPConnection,
         failureHandler: suspend Account.(Throwable?) -> Unit
@@ -78,7 +76,6 @@ class XmppManagerImpl @Inject constructor(
         val configuration = configurationBuilder(this)
         val connection = connectionBuilder(configuration)
 
-        reconnectionManager(connection)
         connectionListener(connection)
 
         val result = connection.connectAndLogin()
@@ -112,10 +109,13 @@ class XmppManagerImpl @Inject constructor(
         connection: XMPPTCPConnection
     ): XMPPTCPConnection {
         val status = if (connection.isAuthenticated) {
+            configureReconnectionManager(connection)
+
             withContext(ioDispatcher) {
                 rosterManager.initialize(connection)
                 messageManager.initialize(connection)
             }
+
             Online
         } else {
             Unauthorized
