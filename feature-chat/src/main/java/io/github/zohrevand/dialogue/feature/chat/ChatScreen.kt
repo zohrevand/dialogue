@@ -55,6 +55,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.Message
+import io.github.zohrevand.core.model.data.firstLetter
 import io.github.zohrevand.core.model.data.isMine
 import io.github.zohrevand.core.model.data.peerLocalPart
 import io.github.zohrevand.dialogue.core.common.utils.formatted
@@ -63,8 +64,10 @@ import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueGradient
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
 import io.github.zohrevand.dialogue.core.ui.ChatTextField
+import io.github.zohrevand.dialogue.core.ui.ContactThumb
 import io.github.zohrevand.dialogue.feature.chat.KeyboardState.Opened
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
+import io.github.zohrevand.dialogue.feature.chat.R.string.chat
 import io.github.zohrevand.dialogue.feature.chat.R.string.send
 import kotlinx.datetime.LocalDate
 
@@ -124,11 +127,8 @@ fun ChatScreen(
         Scaffold(
             topBar = {
                 DialogueTopAppBar(
-                    title = {
-                        if (uiState is ChatUiState.Success) {
-                            Text(text = uiState.conversation.peerJid)
-                        }
-                    },
+                    title = { TopAppBarTitle(uiState = uiState) },
+                    centeredTitle = false,
                     navigationIcon = Filled.ArrowBack,
                     navigationIconContentDescription = stringResource(back),
                     onNavigationClick = {
@@ -190,6 +190,31 @@ fun ChatScreen(
     BackHandler {
         onBackClick(uiState.contactId)
     }
+}
+
+@Composable
+private fun TopAppBarTitle(uiState: ChatUiState) {
+    when (uiState) {
+        is ChatUiState.Loading -> {
+            Text(text = stringResource(chat))
+        }
+        is ChatUiState.Success -> {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ContactThumb(
+                    firstLetter = uiState.conversation.firstLetter,
+                    smallShape = true
+                )
+                Text(
+                    text = uiState.conversation.peerLocalPart,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+        }
+    }
+
 }
 
 private fun LazyListScope.messages(uiState: ChatUiState) {
