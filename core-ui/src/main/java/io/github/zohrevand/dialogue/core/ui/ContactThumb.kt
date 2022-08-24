@@ -16,7 +16,8 @@ import io.github.zohrevand.dialogue.core.systemdesign.util.ColorUtil
 @Composable
 fun ContactThumb(
     modifier: Modifier = Modifier,
-    firstLetter: String
+    firstLetter: String,
+    smallShape: Boolean = false
 ) {
     Surface(
         color = ColorUtil.getThumbColor(firstLetter[0]),
@@ -25,7 +26,7 @@ fun ContactThumb(
     ) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.size(56.dp)
+            modifier = Modifier.size(if (smallShape) 42.dp else 56.dp)
         ) {
             Text(
                 text = firstLetter,
