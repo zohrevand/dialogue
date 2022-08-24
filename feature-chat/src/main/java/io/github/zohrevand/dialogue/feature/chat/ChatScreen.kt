@@ -114,7 +114,7 @@ fun ChatScreen(
         }
     }
 
-    LaunchedEffect(key1 = keyboardState) {
+    LaunchedEffect(keyboardState) {
         if (keyboardState == KeyboardState.Closed) {
             focusManager.clearFocus()
         }
