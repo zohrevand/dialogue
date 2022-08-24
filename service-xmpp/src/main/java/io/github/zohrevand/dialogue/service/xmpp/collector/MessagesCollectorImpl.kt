@@ -13,7 +13,7 @@ class MessagesCollectorImpl @Inject constructor(
     override suspend fun collectShouldSendMessages(sendMessages: suspend (List<Message>) -> Unit) {
         messagesRepository.getMessagesStream(status = MessageStatus.ShouldSend)
             .collect { messages ->
-                val updatedMessages = messages.map { it.copy(status = Sending) }
+                val updatedMessages = messages.map { it.withStatus(status = Sending) }
                 messagesRepository.updateMessages(updatedMessages)
                 sendMessages(updatedMessages)
             }

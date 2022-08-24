@@ -180,7 +180,7 @@ class MessageManagerImpl @Inject constructor(
             //  does not exist for other clients
             val message = messagesRepository.getMessageByStanzaId(receiptId).first()
             message?.let {
-                messagesRepository.updateMessage(it.copy(status = SentDelivered))
+                messagesRepository.updateMessage(it.withStatus(status = SentDelivered))
             }
         }
     }
