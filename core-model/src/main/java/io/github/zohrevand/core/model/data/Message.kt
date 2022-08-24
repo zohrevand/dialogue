@@ -33,11 +33,7 @@ class Message private constructor(
                 status = ShouldSend
             )
 
-        fun createReceivedMessage(
-            stanzaId: String,
-            text: String,
-            peerJid: String
-        ): Message =
+        fun createReceivedMessage(stanzaId: String, text: String, peerJid: String): Message =
             Message(
                 stanzaId = stanzaId,
                 peerJid = peerJid,
