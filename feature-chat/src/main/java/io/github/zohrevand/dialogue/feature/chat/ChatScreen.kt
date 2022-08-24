@@ -360,7 +360,9 @@ private fun ChatInput(
                 Icon(
                     imageVector = Filled.Send,
                     contentDescription = stringResource(send),
-                    tint = if (isSendEnabled) Color.Blue else Color.LightGray
+                    tint = MaterialTheme.colorScheme.primary.copy(
+                        alpha = if (isSendEnabled) 1f else 0.4f
+                    )
                 )
             }
         }
