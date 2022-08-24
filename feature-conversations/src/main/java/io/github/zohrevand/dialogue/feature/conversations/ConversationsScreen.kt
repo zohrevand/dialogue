@@ -42,8 +42,8 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.core.model.data.firstLetter
-import io.github.zohrevand.core.model.data.sendTimeFormatted
 import io.github.zohrevand.core.model.data.subtitle
+import io.github.zohrevand.dialogue.core.common.utils.formatted
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueDivider
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
@@ -174,7 +174,7 @@ private fun ConversationText(
             )
             conversation.lastMessage?.let {
                 Text(
-                    text = it.sendTimeFormatted,
+                    text = it.sendTime.formatted,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                     style = MaterialTheme.typography.bodySmall
                 )

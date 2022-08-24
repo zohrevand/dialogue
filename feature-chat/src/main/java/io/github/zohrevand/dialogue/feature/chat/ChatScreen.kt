@@ -55,10 +55,10 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.Message
-import io.github.zohrevand.core.model.data.formatted
 import io.github.zohrevand.core.model.data.isMine
-import io.github.zohrevand.core.model.data.localTime
 import io.github.zohrevand.core.model.data.peerLocalPart
+import io.github.zohrevand.dialogue.core.common.utils.formatted
+import io.github.zohrevand.dialogue.core.common.utils.localTime
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueGradientBackground
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
