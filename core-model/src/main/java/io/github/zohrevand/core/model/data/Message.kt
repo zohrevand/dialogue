@@ -15,6 +15,10 @@ class Message(
     val sendTime: Instant = Clock.System.now(),
     val status: MessageStatus
 ) {
+    // This message is sent by logged-in account
+    val isMine: Boolean
+        get() = status != Received && status != ReceivedDisplayed
+
     fun withStatus(status: MessageStatus) = Message(
         id = this.id,
         stanzaId = this.stanzaId,
@@ -42,6 +46,3 @@ class Message(
             )
     }
 }
-
-val Message.isMine: Boolean
-    get() = status != Received && status != ReceivedDisplayed
