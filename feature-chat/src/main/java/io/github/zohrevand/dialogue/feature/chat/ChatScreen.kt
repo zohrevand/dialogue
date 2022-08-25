@@ -217,13 +217,13 @@ private fun LazyListScope.messages(uiState: ChatUiState) {
             }
         }
         is ChatUiState.Success -> {
-            uiState.messagesBySendTime.forEach { (sendTime, messages) ->
+            uiState.messagesBySendTime.forEach { (sendTimeDay, messages) ->
                 items(messages, key = { it.id ?: 0 }) { message ->
                     MessageItem(message = message)
                 }
 
                 item {
-                    MessageTime(sendTime)
+                    MessageDay(sendTimeDay)
                 }
             }
         }
@@ -231,7 +231,7 @@ private fun LazyListScope.messages(uiState: ChatUiState) {
 }
 
 @Composable
-fun MessageTime(
+fun MessageDay(
     sendTime: LocalDate,
     modifier: Modifier = Modifier
 ) {
