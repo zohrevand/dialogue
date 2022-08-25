@@ -15,10 +15,11 @@ class Message(
     val sendTime: Instant = Clock.System.now(),
     val status: MessageStatus
 ) {
-    // This message is sent by logged-in account
+    // This message has been sent by current logged-in account
     val isMine: Boolean
         get() = status != Received && status != ReceivedDisplayed
 
+    // Change status of the message by creating a new instance
     fun withStatus(status: MessageStatus) = Message(
         id = this.id,
         stanzaId = this.stanzaId,
