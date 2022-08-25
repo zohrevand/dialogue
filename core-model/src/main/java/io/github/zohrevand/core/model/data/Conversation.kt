@@ -11,6 +11,23 @@ data class Conversation(
     val chatState: ChatState = ChatState.Idle,
     val isChatOpen: Boolean = false
 ) {
+    val peerLocalPart: String
+        get() = peerJid.substringBefore("@")
+
+    val firstLetter: String
+        get() = peerJid.take(1).uppercase()
+
+    val subtitle: String?
+        get() = when {
+            draftMessage != null -> {
+                "Draft: ${draftMessage.trim()}"
+            }
+            lastMessage != null && lastMessage.isMine -> {
+                "You: ${lastMessage.body.trim()}"
+            }
+            else -> lastMessage?.body?.trim()
+        }
+
     companion object {
         fun createNewConversation(peerJid: String) =
             Conversation(
@@ -20,20 +37,3 @@ data class Conversation(
             )
     }
 }
-
-val Conversation.peerLocalPart: String
-    get() = peerJid.substringBefore("@")
-
-val Conversation.firstLetter: String
-    get() = peerJid.take(1).uppercase()
-
-val Conversation.subtitle: String?
-    get() = when {
-        draftMessage != null -> {
-            "Draft: ${draftMessage.trim()}"
-        }
-        lastMessage != null && lastMessage.isMine -> {
-            "You: ${lastMessage.body.trim()}"
-        }
-        else -> lastMessage?.body?.trim()
-    }
