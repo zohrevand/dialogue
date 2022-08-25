@@ -7,7 +7,7 @@ import java.util.UUID
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
-class Message(
+data class Message(
     val id: Long? = null,
     val stanzaId: String,
     val peerJid: String,
@@ -20,14 +20,7 @@ class Message(
         get() = status != Received && status != ReceivedDisplayed
 
     // Change status of the message by creating a new instance
-    fun withStatus(status: MessageStatus) = Message(
-        id = this.id,
-        stanzaId = this.stanzaId,
-        peerJid = this.peerJid,
-        body = this.body,
-        sendTime = this.sendTime,
-        status = status
-    )
+    fun withStatus(status: MessageStatus) = copy(status = status)
 
     companion object {
         fun createNewMessage(text: String, peerJid: String): Message =
