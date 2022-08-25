@@ -3,7 +3,6 @@ package io.github.zohrevand.dialogue.feature.router
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.zohrevand.core.model.data.alreadyLoggedIn
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import io.github.zohrevand.dialogue.feature.router.RouterUiState.AuthRequired
 import io.github.zohrevand.dialogue.feature.router.RouterUiState.Loading

@@ -55,9 +55,6 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.Message
-import io.github.zohrevand.core.model.data.firstLetter
-import io.github.zohrevand.core.model.data.isMine
-import io.github.zohrevand.core.model.data.peerLocalPart
 import io.github.zohrevand.dialogue.core.common.utils.formatted
 import io.github.zohrevand.dialogue.core.common.utils.localTime
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueGradientBackground
@@ -103,7 +100,7 @@ fun ChatScreen(
     val keyboardState by keyboardAsState()
 
     // TODO: Check for specific new message's event to scroll down
-    LaunchedEffect(uiState) {
+    LaunchedEffect(uiState.javaClass) {
         if (uiState is ChatUiState.Success) {
             scrollState.animateScrollToItem(0)
         }
@@ -206,7 +203,6 @@ private fun TopAppBarTitle(uiState: ChatUiState) {
             }
         }
     }
-
 }
 
 private fun LazyListScope.messages(uiState: ChatUiState) {

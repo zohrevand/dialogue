@@ -40,7 +40,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.Contact
-import io.github.zohrevand.core.model.data.firstLetter
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueDivider
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar

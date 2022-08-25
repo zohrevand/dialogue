@@ -6,7 +6,6 @@ import io.github.zohrevand.core.model.data.AccountStatus.Online
 import io.github.zohrevand.core.model.data.AccountStatus.ServerNotFound
 import io.github.zohrevand.core.model.data.AccountStatus.Unauthorized
 import io.github.zohrevand.core.model.data.ConnectionStatus
-import io.github.zohrevand.core.model.data.alreadyLoggedIn
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
