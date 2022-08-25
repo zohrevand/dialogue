@@ -1,5 +1,7 @@
 package io.github.zohrevand.core.model.data
 
+import io.github.zohrevand.core.model.data.ConversationStatus.Started
+
 data class Conversation(
     val peerJid: String,
     val status: ConversationStatus,
@@ -8,7 +10,16 @@ data class Conversation(
     val unreadMessagesCount: Int = 0,
     val chatState: ChatState = ChatState.Idle,
     val isChatOpen: Boolean = false
-)
+) {
+    companion object {
+        fun createNewConversation(peerJid: String) =
+            Conversation(
+                peerJid = peerJid,
+                status = Started,
+                isChatOpen = true
+            )
+    }
+}
 
 val Conversation.peerLocalPart: String
     get() = peerJid.substringBefore("@")

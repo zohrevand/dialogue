@@ -9,7 +9,6 @@ import io.github.zohrevand.core.model.data.ChatState.Active
 import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.ChatState.Paused
 import io.github.zohrevand.core.model.data.Conversation
-import io.github.zohrevand.core.model.data.ConversationStatus.Started
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.SendingChatState
 import io.github.zohrevand.dialogue.core.common.utils.localDate
@@ -17,7 +16,6 @@ import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import io.github.zohrevand.dialogue.core.data.repository.MessagesRepository
 import io.github.zohrevand.dialogue.core.data.repository.SendingChatStatesRepository
 import io.github.zohrevand.dialogue.feature.chat.navigation.ChatDestination
-import java.util.Comparator
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -66,11 +64,7 @@ class ChatViewModel @Inject constructor(
                 ChatUiState.Success(contactId, conversation, messagesBySendTime)
             } else {
                 conversationsRepository.addConversation(
-                    Conversation(
-                        peerJid = contactId,
-                        status = Started,
-                        isChatOpen = true
-                    )
+                    Conversation.createNewConversation(peerJid = contactId)
                 )
                 ChatUiState.Loading(contactId)
             }
