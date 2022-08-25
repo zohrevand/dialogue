@@ -12,6 +12,9 @@ data class Contact(
      */
     val shouldAddToRoster: Boolean
 ) {
+    val firstLetter: String
+        get() = jid.take(1).uppercase()
+
     companion object {
         fun create(jid: String): Contact =
             Contact(
@@ -22,6 +25,3 @@ data class Contact(
             )
     }
 }
-
-val Contact.firstLetter: String
-    get() = jid.take(1).uppercase()
