@@ -102,18 +102,10 @@ fun ChatScreen(
     val focusManager = LocalFocusManager.current
     val keyboardState by keyboardAsState()
 
+    // TODO: Check for specific new message's event to scroll down
     LaunchedEffect(uiState) {
         if (uiState is ChatUiState.Success) {
-            // Reset scroll if the last message is mine or if the user
-            // did not change the list scroll and first message is visible
-            // (the reason for less than or equal to 1 is sometimes the
-            // first item is peer user's chat state description)
-            // TODO: Fix this considering the result messages is a map of messages by sendTime
-            val isLastMessageMine =
-                uiState.messagesBySendTime.isNotEmpty() /*&& uiState.messages[0].isMine*/
-            if (isLastMessageMine || scrollState.firstVisibleItemIndex <= 1) {
-                scrollState.animateScrollToItem(0)
-            }
+            scrollState.animateScrollToItem(0)
         }
     }
 
@@ -275,7 +267,7 @@ private fun MessageItem(
                 Text(
                     text = message.body,
                     color = style.contentColor,
-                    modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                    modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)
                 )
                 Text(
                     text = message.sendTime.localTime,
