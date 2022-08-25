@@ -99,9 +99,9 @@ fun ChatScreen(
     val focusManager = LocalFocusManager.current
     val keyboardState by keyboardAsState()
 
-    // TODO: Check for specific new message's event to scroll down
-    LaunchedEffect(uiState.javaClass) {
-        if (uiState is ChatUiState.Success) {
+    // Check for new message and scroll down to start of messages
+    if (uiState is ChatUiState.Success) {
+        LaunchedEffect(uiState.messagesBySendTime.values.flatten().size) {
             scrollState.animateScrollToItem(0)
         }
     }
