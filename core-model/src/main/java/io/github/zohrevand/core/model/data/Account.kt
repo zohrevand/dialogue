@@ -12,6 +12,11 @@ data class Account(
     val password: String,
     val status: AccountStatus
 ) {
+    val alreadyLoggedIn: Boolean
+        get() = status == Online ||
+            status == Disabled ||
+            status == Offline
+
     companion object {
         fun create(jid: String, password: String): Account {
             val (localPart, domainPart) = jid.localPartDomainPart
@@ -25,11 +30,6 @@ data class Account(
         }
     }
 }
-
-val Account.alreadyLoggedIn: Boolean
-    get() = status == Online ||
-        status == Disabled ||
-        status == Offline
 
 // TODO: consider jid comprises only local part and domain part for now
 private val String.localPartDomainPart: Pair<String, String>
