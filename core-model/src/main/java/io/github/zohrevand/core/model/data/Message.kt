@@ -7,7 +7,7 @@ import java.util.UUID
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
-class Message private constructor(
+class Message(
     val id: Long? = null,
     val stanzaId: String,
     val peerJid: String,
