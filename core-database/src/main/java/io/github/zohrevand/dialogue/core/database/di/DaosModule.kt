@@ -7,7 +7,6 @@ import dagger.hilt.components.SingletonComponent
 import io.github.zohrevand.dialogue.core.database.DialogueDatabase
 import io.github.zohrevand.dialogue.core.database.dao.ContactDao
 import io.github.zohrevand.dialogue.core.database.dao.ConversationDao
-import io.github.zohrevand.dialogue.core.database.dao.LastMessageDao
 import io.github.zohrevand.dialogue.core.database.dao.MessageDao
 import io.github.zohrevand.dialogue.core.database.dao.SendingChatStateDao
 
@@ -34,9 +33,4 @@ object DaosModule {
     fun providesSendingChatStateDao(
         database: DialogueDatabase,
     ): SendingChatStateDao = database.sendingChatStateDao()
-
-    @Provides
-    fun providesLastMessageDao(
-        database: DialogueDatabase,
-    ): LastMessageDao = database.lastMessageDao()
 }
