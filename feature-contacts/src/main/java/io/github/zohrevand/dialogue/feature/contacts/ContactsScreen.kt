@@ -73,7 +73,7 @@ fun ContactsScreen(
     navigateToChat: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isDialogVisible by rememberSaveable { mutableStateOf(false) }
+    var isAddContactDialogVisible by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -88,7 +88,7 @@ fun ContactsScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { isDialogVisible = true }) {
+            FloatingActionButton(onClick = { isAddContactDialogVisible = true }) {
                 Icon(imageVector = Filled.PersonAdd, contentDescription = stringResource(add))
             }
         },
@@ -107,13 +107,13 @@ fun ContactsScreen(
             )
         }
 
-        if (isDialogVisible) {
+        if (isAddContactDialogVisible) {
             AddContactDialog(
                 addContact = {
                     addContact(it)
-                    isDialogVisible = false
+                    isAddContactDialogVisible = false
                 },
-                onDismissRequest = { isDialogVisible = false }
+                onDismissRequest = { isAddContactDialogVisible = false }
             )
         }
     }
