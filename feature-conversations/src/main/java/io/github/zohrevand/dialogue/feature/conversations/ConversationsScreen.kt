@@ -143,7 +143,7 @@ private fun ConversationItem(
     ) {
         ContactThumb(firstLetter = conversation.firstLetter)
 
-        ConversationText(
+        ConversationContent(
             conversation = conversation,
             modifier = Modifier
                 .fillMaxWidth()
@@ -153,7 +153,7 @@ private fun ConversationItem(
 }
 
 @Composable
-private fun ConversationText(
+private fun ConversationContent(
     modifier: Modifier = Modifier,
     conversation: Conversation
 ) {
