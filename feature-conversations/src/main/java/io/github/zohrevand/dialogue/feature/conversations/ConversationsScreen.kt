@@ -167,7 +167,7 @@ private fun ConversationText(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = conversation.peerJid,
+                text = conversation.peerLocalPart,
                 style = MaterialTheme.typography.bodyLarge
             )
             conversation.lastMessage?.let {
