@@ -252,8 +252,8 @@ private fun MessageItem(
 ) {
     val style = getMessageStyle(message.isMine)
 
-    Column(
-        horizontalAlignment = style.horizontalAlignment,
+    Box(
+        contentAlignment = style.alignment,
         modifier = modifier.fillMaxWidth()
     ) {
         Surface(
@@ -382,14 +382,12 @@ private fun getMessageStyle(isMine: Boolean): MessageStyle {
     return if (isMine) {
         MessageStyle(
             alignment = Alignment.CenterStart,
-            horizontalAlignment = Alignment.Start,
             containerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f),
             shape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
         )
     } else {
         MessageStyle(
             alignment = Alignment.CenterEnd,
-            horizontalAlignment = Alignment.End,
             containerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
             shape = RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
         )
@@ -398,7 +396,6 @@ private fun getMessageStyle(isMine: Boolean): MessageStyle {
 
 private data class MessageStyle(
     val alignment: Alignment,
-    val horizontalAlignment: Alignment.Horizontal,
     val containerColor: Color,
     val shape: Shape
 )
