@@ -383,13 +383,13 @@ private fun getMessageStyle(isMine: Boolean): MessageStyle {
         MessageStyle(
             alignment = Alignment.CenterEnd,
             containerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f),
-            shape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
+            shape = RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
         )
     } else {
         MessageStyle(
             alignment = Alignment.CenterStart,
             containerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
-            shape = RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
+            shape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
         )
     }
 }
