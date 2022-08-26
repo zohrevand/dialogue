@@ -363,16 +363,16 @@ private fun getMessageStyle(isMine: Boolean): MessageStyle {
         MessageStyle(
             alignment = Alignment.CenterStart,
             horizontalAlignment = Alignment.Start,
-            containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary,
+            containerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f),
+            contentColor = MaterialTheme.colorScheme.onSurface,
             shape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
         )
     } else {
         MessageStyle(
             alignment = Alignment.CenterEnd,
             horizontalAlignment = Alignment.End,
-            containerColor = MaterialTheme.colorScheme.tertiary,
-            contentColor = MaterialTheme.colorScheme.onTertiary,
+            containerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
+            contentColor = MaterialTheme.colorScheme.onSurface,
             shape = RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
         )
     }
