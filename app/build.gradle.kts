@@ -61,6 +61,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.accompanist.systemuicontroller)
 
+    // TODO: remove after generating fake data
+    implementation(libs.kotlinx.datetime)
+
     api(libs.androidx.hilt.navigation.compose)
     api(libs.androidx.navigation.compose)
 
