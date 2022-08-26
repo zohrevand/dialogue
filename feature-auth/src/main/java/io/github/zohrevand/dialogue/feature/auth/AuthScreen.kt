@@ -2,6 +2,7 @@ package io.github.zohrevand.dialogue.feature.auth
 
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +14,7 @@ import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -46,8 +47,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.dialogue.core.common.utils.isValidJid
-import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Error
-import io.github.zohrevand.dialogue.feature.auth.AuthUiState.Loading
 import io.github.zohrevand.dialogue.feature.auth.R.string
 import io.github.zohrevand.dialogue.feature.auth.R.string.hide_password
 import io.github.zohrevand.dialogue.feature.auth.R.string.show_password
@@ -69,7 +68,6 @@ fun AuthRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuthScreen(
     uiState: AuthUiState,
@@ -80,8 +78,8 @@ fun AuthScreen(
     val (jid, setJid) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
 
-    var jidError by remember { mutableStateOf(false) }
-    var passwordError by remember { mutableStateOf(false) }
+    var jidHasError by remember { mutableStateOf(false) }
+    var passwordHasError by remember { mutableStateOf(false) }
 
     var passwordVisible by remember { mutableStateOf(false) }
 
@@ -99,121 +97,170 @@ fun AuthScreen(
             // Workaround for safeContentPadding not affecting horizontal paddings
             // for api lower that 32
             .padding(if (VERSION.SDK_INT < VERSION_CODES.S_V2) 32.dp else 0.dp)
+            // For layout to scroll when ime is displayed
             .safeContentPadding(),
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
     ) {
         Text(text = stringResource(string.login_title))
 
-        if (uiState is Error) {
-            Text(text = uiState.message, color = Color.Red)
+        if (uiState is AuthUiState.Error) {
+            GeneralError(uiState.message)
         }
 
-        Column {
-            OutlinedTextField(
-                value = jid,
-                onValueChange = {
-                    setJid(it)
-                    jidError = false
-                },
-                label = { Text(text = stringResource(string.jabber_id)) },
-                singleLine = true,
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                ),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                isError = jidError,
-                modifier = modifier.fillMaxWidth()
-            )
-            if (jidError) {
-                Text(
-                    text = stringResource(string.error_jabber_id_not_valid),
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.labelSmall,
-                    modifier = Modifier.padding(start = 16.dp)
+        InputField(
+            value = jid,
+            onValueChange = {
+                setJid(it)
+                jidHasError = false
+            },
+            labelRes = string.jabber_id,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Down) }
+            ),
+            jidHasError = jidHasError,
+            errorRes = string.error_jabber_id_not_valid,
+            modifier = modifier.fillMaxWidth()
+        )
+
+        InputField(
+            value = password,
+            onValueChange = {
+                setPassword(it)
+                passwordHasError = false
+            },
+            labelRes = string.password,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = { focusManager.clearFocus() }
+            ),
+            visualTransformation = if (passwordVisible)
+                VisualTransformation.None
+            else PasswordVisualTransformation(),
+            trailingIcon = {
+                VisibilityIcon(
+                    passwordVisible = passwordVisible,
+                    onPasswordVisibilityChange = { passwordVisible = it }
                 )
-            }
-        }
+            },
+            jidHasError = passwordHasError,
+            errorRes = string.error_password_not_valid,
+            modifier = modifier.fillMaxWidth()
+        )
 
-        Column {
-            OutlinedTextField(
-                value = password,
-                onValueChange = {
-                    setPassword(it)
-                    passwordError = false
-                },
-                label = { Text(text = stringResource(string.password)) },
-                singleLine = true,
-                keyboardActions = KeyboardActions(
-                    onDone = { focusManager.clearFocus() }
-                ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Done
-                ),
-                visualTransformation = if (passwordVisible)
-                    VisualTransformation.None
-                else PasswordVisualTransformation(),
-                isError = passwordError,
-                trailingIcon = {
-                    val image = if (passwordVisible)
-                        Icons.Filled.Visibility
-                    else Icons.Filled.VisibilityOff
-
-                    val descriptionResId = if (passwordVisible) hide_password else show_password
-
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(
-                            imageVector = image,
-                            contentDescription = stringResource(descriptionResId)
-                        )
-                    }
-                },
-                modifier = modifier.fillMaxWidth()
-            )
-            if (passwordError) {
-                Text(
-                    text = stringResource(string.error_password_not_valid),
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.labelSmall,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
-        }
-
-        Button(
+        LoginButton(
+            uiState = uiState,
             onClick = {
-                jidError = !jid.isValidJid
-                passwordError = password.isEmpty()
-                if (!jidError && !passwordError) {
+                jidHasError = !jid.isValidJid
+                passwordHasError = password.isEmpty()
+                if (!jidHasError && !passwordHasError) {
                     onLoginClick(jid, password)
                     focusManager.clearFocus()
                 }
             },
-            enabled = uiState != Loading,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Blue,
-                disabledContainerColor = Color.Blue,
-                contentColor = Color.White,
-                disabledContentColor = Color.White
-            ),
-            modifier = modifier
-                .fillMaxWidth()
-                .heightIn(min = 50.dp)
-        ) {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = stringResource(string.login).uppercase(),
-                    modifier = Modifier.align(Alignment.Center)
+            enabled = uiState != AuthUiState.Loading,
+        )
+    }
+}
+
+@Composable
+private fun GeneralError(errorMessage: String) {
+    Text(text = errorMessage, color = Color.Red)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun InputField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    @StringRes labelRes: Int,
+    jidHasError: Boolean,
+    @StringRes errorRes: Int,
+    keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    trailingIcon: @Composable (() -> Unit)? = null,
+) {
+    Column {
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            label = { Text(text = stringResource(labelRes)) },
+            singleLine = true,
+            keyboardActions = keyboardActions,
+            keyboardOptions = keyboardOptions,
+            visualTransformation = visualTransformation,
+            trailingIcon = trailingIcon,
+            isError = jidHasError,
+            modifier = modifier.fillMaxWidth()
+        )
+        if (jidHasError) {
+            Text(
+                text = stringResource(errorRes),
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.labelSmall,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun VisibilityIcon(
+    passwordVisible: Boolean,
+    onPasswordVisibilityChange: (Boolean) -> Unit
+) {
+    val image = if (passwordVisible)
+        Filled.Visibility
+    else Filled.VisibilityOff
+
+    val descriptionResId = if (passwordVisible) hide_password else show_password
+
+    IconButton(onClick = { onPasswordVisibilityChange(!passwordVisible) }) {
+        Icon(
+            imageVector = image,
+            contentDescription = stringResource(descriptionResId)
+        )
+    }
+}
+
+@Composable
+fun LoginButton(
+    uiState: AuthUiState,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    enabled: Boolean
+) {
+    Button(
+        onClick = onClick,
+        enabled = enabled,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.secondary,
+            disabledContainerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary,
+            disabledContentColor = MaterialTheme.colorScheme.onSecondary
+        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = 50.dp)
+    ) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = stringResource(string.login).uppercase(),
+                modifier = Modifier.align(Alignment.Center)
+            )
+            if (uiState == AuthUiState.Loading) {
+                CircularProgressIndicator(
+                    color = Color.White,
+                    strokeWidth = 2.dp,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .align(Alignment.CenterEnd)
                 )
-                if (uiState == Loading) {
-                    CircularProgressIndicator(
-                        color = Color.White,
-                        strokeWidth = 2.dp,
-                        modifier = Modifier
-                            .size(24.dp)
-                            .align(Alignment.CenterEnd)
-                    )
-                }
             }
         }
     }
