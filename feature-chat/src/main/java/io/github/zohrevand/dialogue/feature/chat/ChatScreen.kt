@@ -57,7 +57,6 @@ import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.dialogue.core.common.utils.formatted
 import io.github.zohrevand.dialogue.core.common.utils.localTime
-import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueGradientBackground
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBar
 import io.github.zohrevand.dialogue.core.ui.ChatTextField
@@ -112,65 +111,63 @@ fun ChatScreen(
         }
     }
 
-    DialogueGradientBackground {
-        Scaffold(
-            topBar = {
-                DialogueTopAppBar(
-                    title = { TopAppBarTitle(uiState = uiState) },
-                    centeredTitle = false,
-                    navigationIcon = Filled.ArrowBack,
-                    navigationIconContentDescription = stringResource(back),
-                    onNavigationClick = {
-                        if (keyboardState == Opened) {
-                            focusManager.clearFocus()
-                        } else {
-                            onBackClick(uiState.contactId)
-                        }
-                    },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent
-                    ),
-                    modifier = Modifier.windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
-                    )
+    Scaffold(
+        topBar = {
+            DialogueTopAppBar(
+                title = { TopAppBarTitle(uiState = uiState) },
+                centeredTitle = false,
+                navigationIcon = Filled.ArrowBack,
+                navigationIconContentDescription = stringResource(back),
+                onNavigationClick = {
+                    if (keyboardState == Opened) {
+                        focusManager.clearFocus()
+                    } else {
+                        onBackClick(uiState.contactId)
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
+                ),
+                modifier = Modifier.windowInsetsPadding(
+                    WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
                 )
-            },
-            containerColor = Color.Transparent,
-            modifier = modifier
-        ) { innerPadding ->
-            Column(
+            )
+        },
+        containerColor = Color.Transparent,
+        modifier = modifier
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding)
+                .consumedWindowInsets(innerPadding)
+        ) {
+            LazyColumn(
+                reverseLayout = true,
+                state = scrollState,
+                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
+                contentPadding = PaddingValues(all = 16.dp),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(innerPadding)
-                    .consumedWindowInsets(innerPadding)
-            ) {
-                LazyColumn(
-                    reverseLayout = true,
-                    state = scrollState,
-                    verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
-                    contentPadding = PaddingValues(all = 16.dp),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(1f)
-                        .pointerInput(Unit) {
-                            detectTapGestures {
-                                if (keyboardState == Opened) {
-                                    focusManager.clearFocus()
-                                }
+                    .fillMaxSize()
+                    .weight(1f)
+                    .pointerInput(Unit) {
+                        detectTapGestures {
+                            if (keyboardState == Opened) {
+                                focusManager.clearFocus()
                             }
                         }
-                ) {
-                    messages(uiState = uiState)
-                }
-
-                ChatState(uiState = uiState)
-
-                ChatInput(
-                    uiState = uiState,
-                    onUserTyping = onUserTyping,
-                    sendMessage = sendMessage
-                )
+                    }
+            ) {
+                messages(uiState = uiState)
             }
+
+            ChatState(uiState = uiState)
+
+            ChatInput(
+                uiState = uiState,
+                onUserTyping = onUserTyping,
+                sendMessage = sendMessage
+            )
         }
     }
 
