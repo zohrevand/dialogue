@@ -2,7 +2,6 @@ package io.github.zohrevand.dialogue.core.testing.repository
 
 import io.github.zohrevand.core.model.data.ChatState
 import io.github.zohrevand.core.model.data.Conversation
-import io.github.zohrevand.core.model.data.ConversationStatus
 import io.github.zohrevand.dialogue.core.data.repository.ConversationsRepository
 import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.flow.Flow
@@ -20,8 +19,7 @@ class TestConversationsRepository : ConversationsRepository {
     override fun getConversation(peerJid: String): Flow<Conversation?> =
         conversationsFlow.map { conversations -> conversations.find { it.peerJid == peerJid } }
 
-    override fun getConversationsStream(status: ConversationStatus): Flow<List<Conversation>> =
-        conversationsFlow.map { conversations -> conversations.filter { it.status == status } }
+    override fun getConversationsStream(): Flow<List<Conversation>> = conversationsFlow
 
     override suspend fun addConversation(conversation: Conversation): Long {
         throw NotImplementedError("Unused in tests")

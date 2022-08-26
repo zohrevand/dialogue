@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import io.github.zohrevand.core.model.data.ChatState
-import io.github.zohrevand.core.model.data.ConversationStatus
 import io.github.zohrevand.dialogue.core.database.model.ConversationEntity
 import io.github.zohrevand.dialogue.core.database.model.PopulatedConversation
 import kotlinx.coroutines.flow.Flow
@@ -28,16 +27,15 @@ interface ConversationDao {
     fun getConversationEntity(peerJid: String): Flow<PopulatedConversation?>
 
     /**
-     * Get conversations stream based on conversation status
+     * Get conversations stream
      */
     @Transaction
     @Query(
         value = """
         SELECT * FROM conversations
-        WHERE status == :status
     """
     )
-    fun getConversationEntitiesStream(status: ConversationStatus): Flow<List<PopulatedConversation>>
+    fun getConversationEntitiesStream(): Flow<List<PopulatedConversation>>
 
     /**
      * Inserts [conversationEntity] into the db if it doesn't exist, and ignores if it exists

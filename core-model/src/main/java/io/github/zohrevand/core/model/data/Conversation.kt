@@ -1,10 +1,7 @@
 package io.github.zohrevand.core.model.data
 
-import io.github.zohrevand.core.model.data.ConversationStatus.Started
-
 data class Conversation(
     val peerJid: String,
-    val status: ConversationStatus,
     val draftMessage: String? = null,
     val lastMessage: Message? = null,
     val unreadMessagesCount: Int = 0,
@@ -32,7 +29,6 @@ data class Conversation(
         fun createNewConversation(peerJid: String) =
             Conversation(
                 peerJid = peerJid,
-                status = Started,
                 isChatOpen = true
             )
     }

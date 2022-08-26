@@ -19,7 +19,6 @@ data class PopulatedConversation(
 
 fun PopulatedConversation.asExternalModel() = Conversation(
     peerJid = entity.peerJid,
-    status = entity.status,
     draftMessage = entity.draftMessage,
     lastMessage = lastMessage?.asExternalModel(),
     unreadMessagesCount = entity.unreadMessagesCount,
