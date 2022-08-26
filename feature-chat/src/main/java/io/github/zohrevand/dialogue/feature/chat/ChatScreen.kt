@@ -5,7 +5,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -46,7 +45,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.Modifier.Companion
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -59,7 +57,6 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.Message
-import io.github.zohrevand.core.model.data.MessageStatus
 import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
 import io.github.zohrevand.dialogue.core.common.utils.formatted
 import io.github.zohrevand.dialogue.core.common.utils.localTime
@@ -264,10 +261,7 @@ private fun MessageItem(
             shape = style.shape
         ) {
             Column(modifier = modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
-                Text(
-                    text = message.body,
-                    color = style.contentColor,
-                )
+                MessageBody(message, style.contentColor)
                 MessageSubtitle(
                     message = message,
                     modifier = Modifier
@@ -277,6 +271,17 @@ private fun MessageItem(
             }
         }
     }
+}
+
+@Composable
+private fun MessageBody(
+    message: Message,
+    contentColor: Color
+) {
+    Text(
+        text = message.body,
+        color = contentColor,
+    )
 }
 
 @Composable
