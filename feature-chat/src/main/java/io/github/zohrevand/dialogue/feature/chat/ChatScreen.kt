@@ -5,6 +5,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -45,6 +46,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Modifier.Companion
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -58,6 +60,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.Message
 import io.github.zohrevand.core.model.data.MessageStatus
+import io.github.zohrevand.core.model.data.MessageStatus.SentDelivered
 import io.github.zohrevand.dialogue.core.common.utils.formatted
 import io.github.zohrevand.dialogue.core.common.utils.localTime
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
@@ -65,6 +68,7 @@ import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueTopAppBa
 import io.github.zohrevand.dialogue.core.ui.ChatTextField
 import io.github.zohrevand.dialogue.core.ui.ContactThumb
 import io.github.zohrevand.dialogue.feature.chat.KeyboardState.Opened
+import io.github.zohrevand.dialogue.feature.chat.R.string
 import io.github.zohrevand.dialogue.feature.chat.R.string.back
 import io.github.zohrevand.dialogue.feature.chat.R.string.chat
 import io.github.zohrevand.dialogue.feature.chat.R.string.send
@@ -264,28 +268,39 @@ private fun MessageItem(
                     text = message.body,
                     color = style.contentColor,
                 )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(2.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                MessageSubtitle(
+                    message = message,
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(top = 8.dp)
-                ) {
-                    Text(
-                        text = message.sendTime.localTime,
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.alpha(0.4f)
-                    )
-                    if (message.status == MessageStatus.SentDelivered) {
-                        Icon(
-                            imageVector = Filled.Check,
-                            contentDescription = stringResource(R.string.delivered),
-                            tint = Color.Blue.copy(alpha = 0.5f),
-                            modifier = Modifier.size(16.dp)
-                        )
-                    }
-                }
+                )
             }
+        }
+    }
+}
+
+@Composable
+private fun MessageSubtitle(
+    message: Message,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        Text(
+            text = message.sendTime.localTime,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.alpha(0.4f)
+        )
+        if (message.status == SentDelivered) {
+            Icon(
+                imageVector = Filled.Check,
+                contentDescription = stringResource(string.delivered),
+                tint = Color.Blue.copy(alpha = 0.5f),
+                modifier = Modifier.size(16.dp)
+            )
         }
     }
 }
