@@ -297,7 +297,7 @@ private fun MessageSubtitle(
             Icon(
                 imageVector = Filled.Check,
                 contentDescription = stringResource(string.delivered),
-                tint = Color.Blue.copy(alpha = 0.5f),
+                tint = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier.size(16.dp)
             )
         }
@@ -382,13 +382,13 @@ private fun getMessageStyle(isMine: Boolean): MessageStyle {
     return if (isMine) {
         MessageStyle(
             alignment = Alignment.CenterEnd,
-            containerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f),
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
             shape = RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
         )
     } else {
         MessageStyle(
             alignment = Alignment.CenterStart,
-            containerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
             shape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
         )
     }
