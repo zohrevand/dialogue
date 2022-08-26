@@ -381,13 +381,13 @@ private fun ChatInput(
 private fun getMessageStyle(isMine: Boolean): MessageStyle {
     return if (isMine) {
         MessageStyle(
-            alignment = Alignment.CenterStart,
+            alignment = Alignment.CenterEnd,
             containerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f),
             shape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
         )
     } else {
         MessageStyle(
-            alignment = Alignment.CenterEnd,
+            alignment = Alignment.CenterStart,
             containerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
             shape = RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
         )
