@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,6 +28,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -55,6 +57,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.zohrevand.core.model.data.ChatState.Composing
 import io.github.zohrevand.core.model.data.Message
+import io.github.zohrevand.core.model.data.MessageStatus
 import io.github.zohrevand.dialogue.core.common.utils.formatted
 import io.github.zohrevand.dialogue.core.common.utils.localTime
 import io.github.zohrevand.dialogue.core.systemdesign.component.DialogueLoadingWheel
@@ -256,28 +259,34 @@ private fun MessageItem(
             color = style.containerColor,
             shape = style.shape
         ) {
-            Column {
+            Column(modifier = modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
                 Text(
                     text = message.body,
                     color = style.contentColor,
-                    modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)
                 )
-                Text(
-                    text = message.sendTime.localTime,
-                    style = MaterialTheme.typography.bodySmall,
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(2.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .alpha(0.6f)
                         .align(Alignment.End)
-                        .padding(horizontal = 16.dp)
-                        .padding(vertical = 8.dp)
-                )
+                        .padding(top = 8.dp)
+                ) {
+                    Text(
+                        text = message.sendTime.localTime,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.alpha(0.4f)
+                    )
+                    if (message.status == MessageStatus.SentDelivered) {
+                        Icon(
+                            imageVector = Filled.Check,
+                            contentDescription = stringResource(R.string.delivered),
+                            tint = Color.Blue.copy(alpha = 0.5f),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
             }
         }
-        Text(
-            text = message.status.name,
-            style = MaterialTheme.typography.bodySmall,
-            color = Color.LightGray
-        )
     }
 }
 
