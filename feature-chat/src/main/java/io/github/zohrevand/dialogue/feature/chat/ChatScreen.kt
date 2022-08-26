@@ -261,7 +261,7 @@ private fun MessageItem(
             shape = style.shape
         ) {
             Column(modifier = modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
-                MessageBody(message, style.contentColor)
+                MessageBody(message)
                 MessageSubtitle(
                     message = message,
                     modifier = Modifier
@@ -274,14 +274,8 @@ private fun MessageItem(
 }
 
 @Composable
-private fun MessageBody(
-    message: Message,
-    contentColor: Color
-) {
-    Text(
-        text = message.body,
-        color = contentColor,
-    )
+private fun MessageBody(message: Message) {
+    Text(text = message.body)
 }
 
 @Composable
@@ -390,7 +384,6 @@ private fun getMessageStyle(isMine: Boolean): MessageStyle {
             alignment = Alignment.CenterStart,
             horizontalAlignment = Alignment.Start,
             containerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f),
-            contentColor = MaterialTheme.colorScheme.onSurface,
             shape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
         )
     } else {
@@ -398,7 +391,6 @@ private fun getMessageStyle(isMine: Boolean): MessageStyle {
             alignment = Alignment.CenterEnd,
             horizontalAlignment = Alignment.End,
             containerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
-            contentColor = MaterialTheme.colorScheme.onSurface,
             shape = RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
         )
     }
@@ -408,6 +400,5 @@ private data class MessageStyle(
     val alignment: Alignment,
     val horizontalAlignment: Alignment.Horizontal,
     val containerColor: Color,
-    val contentColor: Color,
     val shape: Shape
 )
