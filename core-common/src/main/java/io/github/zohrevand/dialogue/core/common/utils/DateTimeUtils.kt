@@ -28,7 +28,7 @@ val LocalDate.formatted: String
     }
 
 val Instant.localTime: String
-    get() = "${localDateTime.hour}:${localDateTime.minute}"
+    get() = "${localDateTime.hour.twoDigit}:${localDateTime.minute.twoDigit}"
 
 val Instant.localDate: LocalDate
     get() = localDateTime.date
@@ -50,3 +50,6 @@ private val yesterday: LocalDate
 
 private val dateTimeFormatter: DateTimeFormatter
     get() = DateTimeFormatter.ofPattern("M/d/yyyy")
+
+private val Int.twoDigit
+    get() = if (this < 10) "0$this" else "$this"
