@@ -3,15 +3,15 @@ package io.github.zohrevand.dialogue.feature.conversations
 import io.github.zohrevand.core.model.data.Conversation
 import io.github.zohrevand.dialogue.core.testing.repository.TestConversationsRepository
 import io.github.zohrevand.dialogue.core.testing.util.MainDispatcherRule
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 
 class ConversationsViewModelTest {
 
