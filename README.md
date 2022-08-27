@@ -1,4 +1,6 @@
-# Dialogue - Android XMPP client application
+# Dialogue App
+
+Dialogue is an Android XMPP/Jabber chat client using [Smack](https://github.com/igniterealtime/Smack) and built entirely with Kotlin and Jetpack Compose.
 
 ## 📷 Screenshots
 
