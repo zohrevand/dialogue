@@ -2,10 +2,7 @@ package io.github.zohrevand.dialogue.service.xmpp
 
 import android.app.Service
 import android.content.Intent
-import android.os.Build.VERSION
-import android.os.Build.VERSION_CODES
 import android.os.IBinder
-import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.zohrevand.dialogue.core.data.repository.PreferencesRepository
 import io.github.zohrevand.dialogue.service.xmpp.collector.AccountsCollector
@@ -34,13 +31,10 @@ class XmppService : Service() {
     lateinit var notificationManager: NotificationManager
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        startForeground()
 
         scope.launch {
             xmppManager.initialize()
-        }
-
-        scope.launch {
-            observeConnectionStatus()
         }
 
         scope.launch {
@@ -48,23 +42,6 @@ class XmppService : Service() {
         }
 
         return super.onStartCommand(intent, flags, startId)
-    }
-
-    private suspend fun observeConnectionStatus() {
-        preferencesRepository.getConnectionStatus().collect { connectionStatus ->
-            Log.d("Collector", "Collecting connectionStatus: $connectionStatus")
-            if (connectionStatus.availability && connectionStatus.authenticated) {
-                startForeground()
-            } else {
-                @Suppress("DEPRECATION")
-                if (VERSION.SDK_INT >= VERSION_CODES.N) {
-                    stopForeground(STOP_FOREGROUND_REMOVE)
-                } else {
-                    // TODO: this still warns about deprecation although deprecated on API level 33
-                    stopForeground(true)
-                }
-            }
-        }
     }
 
     private suspend fun observeAccountsStream() {
@@ -77,7 +54,7 @@ class XmppService : Service() {
     private fun startForeground() {
         val notification = notificationManager.getNotification(
             title = "Dialogue Xmpp Service",
-            text = "You are connected"
+            text = "Xmpp service is running"
         )
         startForeground(1000, notification)
     }

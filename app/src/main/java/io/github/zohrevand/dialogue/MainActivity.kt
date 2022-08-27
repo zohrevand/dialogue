@@ -10,6 +10,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle.State.STARTED
@@ -56,7 +57,8 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        startService(Intent(this, XmppService::class.java))
+        // Start XmppService as a foreground service
+        ContextCompat.startForegroundService(this, Intent(this, XmppService::class.java))
 
         // Turn off the decor fitting system windows, which allows us to handle insets,
         // including IME animations
