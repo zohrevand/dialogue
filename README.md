@@ -17,4 +17,4 @@ Dialogue is an Android XMPP/Jabber chat client using [Smack](https://github.com/
 
 ### How do I login to Dialogue?
 
-You can login to Dialogue with your favorite standard XMPP server credentials. I personally use [jix.im](https://jix.im) to create XMPP accounts.
+You can login to Dialogue with your favorite standard XMPP server credentials. I personally use [jix.im](https://jix.im) to create free XMPP accounts.
