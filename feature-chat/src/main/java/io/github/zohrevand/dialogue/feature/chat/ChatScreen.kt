@@ -165,8 +165,6 @@ fun ChatScreen(
                 messages(uiState = uiState)
             }
 
-            ChatState(uiState = uiState)
-
             ChatInput(
                 uiState = uiState,
                 onUserTyping = onUserTyping,
@@ -218,6 +216,9 @@ private fun LazyListScope.messages(uiState: ChatUiState) {
             }
         }
         is ChatUiState.Success -> {
+            item {
+                ChatState(uiState = uiState)
+            }
             uiState.messagesBySendTime.forEach { (sendTimeDay, messages) ->
                 items(messages, key = { it.id ?: 0 }) { message ->
                     MessageItem(message = message)
@@ -306,9 +307,9 @@ private fun MessageSubtitle(
 
 @Composable
 private fun ChatState(
-    uiState: ChatUiState
+    uiState: ChatUiState.Success
 ) {
-    if (uiState is ChatUiState.Success && uiState.shouldShowChatState) {
+    if (uiState.shouldShowChatState) {
         val postfixText =
             if (uiState.conversation.chatState == Composing) "is typing..."
             else "stopped typing."
