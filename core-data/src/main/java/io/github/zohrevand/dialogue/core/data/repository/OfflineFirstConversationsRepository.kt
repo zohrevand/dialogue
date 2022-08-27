@@ -19,7 +19,10 @@ class OfflineFirstConversationsRepository @Inject constructor(
 
     override fun getConversationsStream(): Flow<List<Conversation>> =
         conversationDao.getConversationEntitiesStream()
-            .map { it.map(PopulatedConversation::asExternalModel) }
+            .map { populatedConversations ->
+                populatedConversations.map(PopulatedConversation::asExternalModel)
+                .sortedByDescending { it.lastMessage?.sendTime }
+            }
 
     override suspend fun addConversation(conversation: Conversation): Long =
         conversationDao.insert(conversation.asEntity())
