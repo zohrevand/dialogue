@@ -5,12 +5,12 @@ Dialogue is an Android XMPP/Jabber chat client using [Smack](https://github.com/
 ## 📷 Screenshots
 
 <p align="center">
-<img src="screenshots/screenshot1.png" alt="drawing" width="270" />
-<img src="screenshots/screenshot2.png" alt="drawing" width="270" />
-<img src="screenshots/screenshot3.png" alt="drawing" width="270" />
-<img src="screenshots/screenshot4.png" alt="drawing" width="270" />
-<img src="screenshots/screenshot5.png" alt="drawing" width="270" />
-<img src="screenshots/screenshot6.png" alt="drawing" width="270" />
+<img src="screenshots/screenshot01.png" alt="drawing" width="270" />
+<img src="screenshots/screenshot02.png" alt="drawing" width="270" />
+<img src="screenshots/screenshot03.png" alt="drawing" width="270" />
+<img src="screenshots/screenshot04.png" alt="drawing" width="270" />
+<img src="screenshots/screenshot05.png" alt="drawing" width="270" />
+<img src="screenshots/screenshot06.png" alt="drawing" width="270" />
 </p>
 
 ## FAQ
